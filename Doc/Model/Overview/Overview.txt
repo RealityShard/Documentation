@@ -1,0 +1,6 @@
+
+The server system consists of 3 major elements:
+
+	- the clients that are connected to the RShard(s)
+	- the actual server level (the shards)
+	- the data level, which may be a database server
