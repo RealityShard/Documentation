@@ -1,0 +1,24 @@
+
+From overview to context:
+	A client is connected two one or more servers from the server level.
+	A server may (!) be connected to one or more other servers, and/or a database server
+	from the data level.
+
+An example:
+	In GuildWars 1, the client maintains more than only one connection.
+	It loads new content from a file server, which is no real part of the actual server
+	cluster.
+	It authorizes at the Auth Server, which then redirects it to a valid Game/Map Server.
+	We expect each server of the cluster to maintain a connection to a database,
+	and we also expect the auth server to manage the game servers.
+	There should be more than one auth server, so that may be a cluster as well.
+	(devided in regions?)
+
+Back to the more general version:
+	The following interfaces may exist, and require some regard:
+		- Client <-1--<>--n-> Server 	(note that this one must be very carefully defineable:
+						 e.g. does GW1 have a very special protocol)
+		- Server <-m--<>--m-> Server	(note that servers may have different roles
+						 in that case, we may need either a more general interface,
+						 or several different interfaces)
+		- Server <-k--<>--l-> DataBase	(there may be several databases connected to several servers)
