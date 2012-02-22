@@ -1,0 +1,32 @@
+
+Note that names used here may differ to the ones chose in more detailed
+diagrams. (Especially "Server" "Module"<->"Plugin")
+
+R:Shard internals overview:
+    (1) The actual server (formerly known as ServerEngine)
+    (2) The role specific modules
+
+The (2) should be project specific and loaded like a plugin.
+
+    Note:
+    We already got that kind of system working with GWLPR,
+    but i wasnt aware of the fact that those plugins tend
+    to get very complex.
+    Also, it does make a lot more sense to load the plugins
+    into the server instead of the other way round.
+
+Think of this system as of the structure of a CPU:
+
+The server controls what is happening in general (CU)
+(like socket stuff and update loops)
+The modules are invoked by the main thread and do their work (ALU).
+The difference is, that those extensions have their own internal 
+structure, with own CU's and stuff.
+
+Consequentially we need a smart standart interface between Server and Plugins.
+
+Perspective:
+As the Server does all the low level work of Network communication,
+it seems reasonable to let it translate network packages of some kind of
+Protocol to some kind of internal protocol.
+Both of which may be defined by the user through some kind of Adapter-Class/Object.

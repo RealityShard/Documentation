@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="63cm" height="38cm" viewBox="200 119 1257 745" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="320" y="120" width="1040" height="680"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="320" y="120" width="1040" height="680"/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="300" y="660" width="19.6774" height="20.3333"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="300" y="660" width="19.6774" height="20.3333"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="300" y="660" width="19.6774" height="20.3333"/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="1360" y="660" width="19.6774" height="20.3333"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1360" y="660" width="19.6774" height="20.3333"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1360" y="660" width="19.6774" height="20.3333"/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="840" y="800" width="19.6774" height="20.3333"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="840" y="800" width="19.6774" height="20.3333"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="840" y="800" width="19.6774" height="20.3333"/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="300" y="740" width="19.6774" height="20.3333"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 4; stroke: #000000" x="300" y="740" width="19.6774" height="20.3333"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 4; stroke: #000000" x="300" y="740" width="19.6774" height="20.3333"/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="360" y="800" width="18.0323" height="18.6333"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 4; stroke: #000000" x="360" y="800" width="18.0323" height="18.6333"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 4; stroke: #000000" x="360" y="800" width="18.0323" height="18.6333"/>
+  </g>
+  <text style="fill: #000000;text-anchor:start;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="200" y="680">
+    <tspan x="200" y="680">To Client (s)</tspan>
+  </text>
+  <text style="fill: #000000;text-anchor:start;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="200" y="760">
+    <tspan x="200" y="760">To Terminal</tspan>
+  </text>
+  <text style="fill: #000000;text-anchor:start;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="320" y="860">
+    <tspan x="320" y="860">To monitor/observer</tspan>
+  </text>
+  <text style="fill: #000000;text-anchor:start;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="820" y="860">
+    <tspan x="820" y="860">To Server</tspan>
+  </text>
+  <text style="fill: #000000;text-anchor:start;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="1420" y="680">
+    <tspan x="1420" y="680">To DB</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="980" y="140" width="360" height="340"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="980" y="140" width="360" height="340"/>
+  </g>
+  <text style="fill: #000000;text-anchor:start;font-size:22.5778;font-family:sanserif;font-style:normal;font-weight:normal" x="1040" y="320">
+    <tspan x="1040" y="320">Role specific modules</tspan>
+  </text>
+  <g>
+    <polygon style="fill: #ffffff" points="340,140 960,140 960,500 1340,500 1340,780 920,780 340,780 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="340,140 960,140 960,500 1340,500 1340,780 920,780 340,780 "/>
+  </g>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="319.678" y1="670.166" x2="341" y2="669"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="319.678" y1="750.166" x2="341" y2="749"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="369.016" y1="800" x2="369" y2="779"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="849.838" y1="800" x2="850" y2="780"/>
+  <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1360" y1="670.166" x2="1341" y2="669"/>
+  <text style="fill: #000000;text-anchor:start;font-size:22.5778;font-family:sanserif;font-style:normal;font-weight:normal" x="440" y="480">
+    <tspan x="440" y="480">Server modules (same for each shard)</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1160" y1="460" x2="1160" y2="515.528"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1155,507.764 1160,517.764 1165,507.764 "/>
+  </g>
+  <text style="fill: #000000;text-anchor:start;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="1080" y="440">
+    <tspan x="1080" y="440">Extends functionality</tspan>
+  </text>
+  <text style="fill: #000000;text-anchor:start;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="920" y="220">
+    <tspan x="920" y="220"></tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="940" y1="180" x2="995.528" y2="180"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="987.764,185 997.764,180 987.764,175 "/>
+  </g>
+  <text style="fill: #000000;text-anchor:start;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="880" y="180">
+    <tspan x="880" y="180">Controls</tspan>
+  </text>
+  <text style="fill: #000000;text-anchor:start;font-size:12.8;font-family:sanserif;font-style:normal;font-weight:normal" x="1020" y="220">
+    <tspan x="1020" y="220"></tspan>
+  </text>
+</svg>
