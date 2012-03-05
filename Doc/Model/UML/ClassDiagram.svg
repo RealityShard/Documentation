@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
-<svg width="109cm" height="71cm" viewBox="352 29 2176 1407" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="140cm" height="69cm" viewBox="352 58 2782 1378" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 4; stroke: #000000" x="2609.8" y="287.316" width="522.857" height="661.454"/>
   <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 4; stroke: #000000" x="353.266" y="141.197" width="1559.99" height="1294.07"/>
   <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 4; stroke: #000000" x="2003.98" y="59.3214" width="522.857" height="890"/>
   <g>
@@ -13,33 +14,30 @@
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="425" y="279" width="113.25" height="8"/>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="779.714" y="389" width="164" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="779.714" y="389" width="164" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="861.714" y="409">ShardManager</text>
-    <rect style="fill: #ffffff" x="779.714" y="417" width="164" height="20"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="779.714" y="417" width="164" height="20"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="782.714" y="430.2">-shardlet: IShardlet</text>
-    <rect style="fill: #ffffff" x="779.714" y="437" width="164" height="20"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="779.714" y="437" width="164" height="20"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="782.714" y="450.2">+WorkerTask()</text>
+    <rect style="fill: #ffffff" x="768.4" y="389" width="187.1" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="768.4" y="389" width="187.1" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="861.95" y="409">ShardletManager</text>
+    <rect style="fill: #ffffff" x="768.4" y="417" width="187.1" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="768.4" y="417" width="187.1" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="771.4" y="430.2">-shardlets: IShardlet[]</text>
+    <rect style="fill: #ffffff" x="768.4" y="437" width="187.1" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="768.4" y="437" width="187.1" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="771.4" y="450.2">+WorkerTask()</text>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="664" y="537" width="395" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="664" y="537" width="395" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="861.5" y="557">NetworkManager</text>
-    <rect style="fill: #ffffff" x="664" y="565" width="395" height="52"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="664" y="565" width="395" height="52"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="667" y="578.2">-factory: FCFactory</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="667" y="594.2">-listeners: NetworkListener[]</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="667" y="610.2">-frontCtls: IFrontController[NetID]</text>
-    <rect style="fill: #ffffff" x="664" y="617" width="395" height="36"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="664" y="617" width="395" height="36"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="667" y="630.2">+&lt;&lt;ctor&gt;&gt; New(prototypeDict:IFrontConrtoller[int])</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="667" y="646.2">+Update()</text>
+    <rect style="fill: #ffffff" x="664" y="634.58" width="395" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="664" y="634.58" width="395" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="861.5" y="654.58">NetworkManager</text>
+    <rect style="fill: #ffffff" x="664" y="662.58" width="395" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="664" y="662.58" width="395" height="8"/>
+    <rect style="fill: #ffffff" x="664" y="670.58" width="395" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="664" y="670.58" width="395" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="667" y="683.78">+&lt;&lt;ctor&gt;&gt; New(prototypeDict:IFrontConrtoller[int])</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="667" y="699.78">+Update()</text>
   </g>
   <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="861.714,457 861.714,497 861.5,497 861.5,532.528 "/>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="856.5,524.764 861.5,534.764 866.5,524.764 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="861.95,457 861.95,545.79 861.5,545.79 861.5,630.108 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="856.5,622.344 861.5,632.344 866.5,622.344 "/>
   </g>
   <g>
     <rect style="fill: #ffffff" x="1484.33" y="170" width="356.5" height="44"/>
@@ -50,64 +48,32 @@
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1484.33" y="214" width="356.5" height="8"/>
     <rect style="fill: #ffffff" x="1484.33" y="222" width="356.5" height="52"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1484.33" y="222" width="356.5" height="52"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1487.33" y="235.2">+Update()</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1487.33" y="251.2">+GetFrontControllers(): IFrontController[int]</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1487.33" y="267.2">+GetControllers(): IController[]</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1487.33" y="235.2">+Init(context:IShardletContext)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1487.33" y="251.2">+Update()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1487.33" y="267.2">+GetFrontControllers(): IFrontController[int]</text>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="1540.33" y="520" width="302.6" height="44"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1540.33" y="520" width="302.6" height="44"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="1691.63" y="535.2">&lt;&lt;interface&gt;&gt;</text>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="1691.63" y="556">IFrontController</text>
-    <rect style="fill: #ffffff" x="1540.33" y="564" width="302.6" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1540.33" y="564" width="302.6" height="8"/>
-    <rect style="fill: #ffffff" x="1540.33" y="572" width="302.6" height="84"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1540.33" y="572" width="302.6" height="84"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1543.33" y="585.2">+Update()</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1543.33" y="601.2">+Send(action:IAction)</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1543.33" y="617.2">+SetSocketWrapper(sock:ISocketWrapper)</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1543.33" y="633.2">+SetNetID()(netID:NetID)</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1543.33" y="649.2">+SetPublisher()</text>
+    <rect style="fill: #ffffff" x="2697.16" y="520" width="141.3" height="44"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2697.16" y="520" width="141.3" height="44"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="2767.81" y="535.2">&lt;&lt;interface&gt;&gt;</text>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="2767.81" y="556">IFrontController</text>
+    <rect style="fill: #ffffff" x="2697.16" y="564" width="141.3" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2697.16" y="564" width="141.3" height="8"/>
+    <rect style="fill: #ffffff" x="2697.16" y="572" width="141.3" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2697.16" y="572" width="141.3" height="8"/>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="1243.33" y="520" width="203.25" height="44"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1243.33" y="520" width="203.25" height="44"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="1344.96" y="535.2">&lt;&lt;interface&gt;&gt;</text>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="1344.96" y="556">IPrototype (ICloneable)</text>
-    <rect style="fill: #ffffff" x="1243.33" y="564" width="203.25" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1243.33" y="564" width="203.25" height="8"/>
-    <rect style="fill: #ffffff" x="1243.33" y="572" width="203.25" height="20"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1243.33" y="572" width="203.25" height="20"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1246.33" y="585.2">+Clone(): IPrototype</text>
+    <rect style="fill: #ffffff" x="726.258" y="793.33" width="279.5" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="726.258" y="793.33" width="279.5" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="866.008" y="813.33">NetworkListener (?)</text>
+    <rect style="fill: #ffffff" x="726.258" y="821.33" width="279.5" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="726.258" y="821.33" width="279.5" height="8"/>
+    <rect style="fill: #ffffff" x="726.258" y="829.33" width="279.5" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="726.258" y="829.33" width="279.5" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="729.258" y="842.53">+CheckConnections(): ISocketWrapper</text>
   </g>
   <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1464.82,542 1463.58,542 1539.33,542 1540.33,542 "/>
-    <polygon style="fill: #ffffff" points="1464.82,534 1448.82,542 1464.82,550 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1464.82,534 1448.82,542 1464.82,550 "/>
-  </g>
-  <g>
-    <rect style="fill: #ffffff" x="726.544" y="765.608" width="395" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="726.544" y="765.608" width="395" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="924.044" y="785.608">FCFactory</text>
-    <rect style="fill: #ffffff" x="726.544" y="793.608" width="395" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="726.544" y="793.608" width="395" height="8"/>
-    <rect style="fill: #ffffff" x="726.544" y="801.608" width="395" height="36"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="726.544" y="801.608" width="395" height="36"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="729.544" y="814.808">+&lt;&lt;ctor&gt;&gt; New(prototypeDict:IFrontController[int])</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="729.544" y="830.808">+Produce(socket:ISocketWrapper): IFrontController</text>
-  </g>
-  <g>
-    <rect style="fill: #ffffff" x="726.258" y="695.75" width="279.5" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="726.258" y="695.75" width="279.5" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="866.008" y="715.75">NetworkListener (?)</text>
-    <rect style="fill: #ffffff" x="726.258" y="723.75" width="279.5" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="726.258" y="723.75" width="279.5" height="8"/>
-    <rect style="fill: #ffffff" x="726.258" y="731.75" width="279.5" height="20"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="726.258" y="731.75" width="279.5" height="20"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="729.258" y="744.95">+CheckConnections(): ISocketWrapper</text>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="943.714,403 1214.02,403 1214.02,192 1479.86,192 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="955.5,403 1219.92,403 1219.92,192 1479.86,192 "/>
     <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1472.1,197 1482.1,192 1472.1,187 "/>
   </g>
   <g>
@@ -126,18 +92,18 @@
     <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1859.07,184 1843.07,192 1859.07,200 "/>
   </g>
   <g>
-    <polygon style="fill: #ffffff" points="909.024,30.75 1215.32,30.75 1227.32,42.75 1227.32,96.75 909.024,96.75 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" points="909.024,30.75 1215.32,30.75 1227.32,42.75 1227.32,96.75 909.024,96.75 "/>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #ffa500" points="1215.32,30.75 1215.32,42.75 1227.32,42.75 "/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="916.024" y="54.4">
-      <tspan x="916.024" y="54.4">IFrontController[int]</tspan>
-      <tspan x="916.024" y="70.4">is an association of</tspan>
-      <tspan x="916.024" y="86.4">Portnumber -&gt; FrontController prototype</tspan>
+    <polygon style="fill: #ffffff" points="1500.17,377.232 1806.47,377.232 1818.47,389.232 1818.47,443.232 1500.17,443.232 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" points="1500.17,377.232 1806.47,377.232 1818.47,389.232 1818.47,443.232 1500.17,443.232 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #ffa500" points="1806.47,377.232 1806.47,389.232 1818.47,389.232 "/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1507.17" y="400.882">
+      <tspan x="1507.17" y="400.882">IFrontController[int]</tspan>
+      <tspan x="1507.17" y="416.882">is an association of</tspan>
+      <tspan x="1507.17" y="432.882">Portnumber -&gt; FrontController prototype</tspan>
     </text>
   </g>
   <g>
-    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" d="M 1227.32 96.75 C 1312.65,96.75 1399.01,248 1479.86,248"/>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" points="1472.1,253 1482.1,248 1472.1,243 "/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" d="M 1500.17 377.232 C 1424.24,346.712 1427.07,277.416 1479.98,265.02"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" points="1473.56,271.659 1482.15,264.51 1471.28,261.923 "/>
   </g>
   <g>
     <rect style="fill: #ffffff" x="2120.12" y="527.75" width="216.4" height="28"/>
@@ -160,9 +126,9 @@
     <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2135.12" y="608.95">+...()</text>
   </g>
   <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="1861.17,542 1989.53,542 1989.53,541.75 2120.12,541.75 "/>
-    <polygon style="fill: #ffffff" points="1861.17,534 1845.17,542 1861.17,550 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1861.17,534 1845.17,542 1861.17,550 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="2678.92,542 2508.84,542 2508.84,541.75 2336.52,541.75 "/>
+    <polygon style="fill: #ffffff" points="2678.92,550 2694.92,542 2678.92,534 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="2678.92,550 2694.92,542 2678.92,534 "/>
   </g>
   <g>
     <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="2228.07,233.75 2228.07,380.75 2228.32,380.75 2228.32,523.278 "/>
@@ -172,16 +138,16 @@
     <tspan x="2033.98" y="103.607">External object library</tspan>
   </text>
   <g>
-    <rect style="fill: #ffffff" x="729.502" y="982.464" width="418.1" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="729.502" y="982.464" width="418.1" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="938.552" y="1002.46">ActionPublisher</text>
-    <rect style="fill: #ffffff" x="729.502" y="1010.46" width="418.1" height="20"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="729.502" y="1010.46" width="418.1" height="20"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="732.502" y="1023.66">-subs: IController[][string]</text>
-    <rect style="fill: #ffffff" x="729.502" y="1030.46" width="418.1" height="36"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="729.502" y="1030.46" width="418.1" height="36"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="732.502" y="1043.66">+RegisterSubscriber(sub:IController,actions:string[])</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="732.502" y="1059.66">+Publish(action:IAction)</text>
+    <rect style="fill: #ffffff" x="726.674" y="906.096" width="418.1" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="726.674" y="906.096" width="418.1" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="935.724" y="926.096">ActionPublisher</text>
+    <rect style="fill: #ffffff" x="726.674" y="934.096" width="418.1" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="726.674" y="934.096" width="418.1" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="729.674" y="947.296">-subs: IController[][string]</text>
+    <rect style="fill: #ffffff" x="726.674" y="954.096" width="418.1" height="36"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="726.674" y="954.096" width="418.1" height="36"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="729.674" y="967.296">+RegisterSubscriber(sub:IController,actions:string[])</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="729.674" y="983.296">+Publish(action:IAction)</text>
   </g>
   <g>
     <rect style="fill: #ffffff" x="2127.98" y="792.608" width="173.35" height="28"/>
@@ -204,130 +170,131 @@
     <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="2142.98" y="873.808">+...()</text>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="1576.36" y="784.036" width="264.1" height="44"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1576.36" y="784.036" width="264.1" height="44"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="1708.41" y="799.236">&lt;&lt;interface&gt;&gt;</text>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="1708.41" y="820.036">IController</text>
-    <rect style="fill: #ffffff" x="1576.36" y="828.036" width="264.1" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1576.36" y="828.036" width="264.1" height="8"/>
-    <rect style="fill: #ffffff" x="1576.36" y="836.036" width="264.1" height="36"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1576.36" y="836.036" width="264.1" height="36"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1579.36" y="849.236">+Update(action:IAction)</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1579.36" y="865.236">+GetActionIdentifiers(): string[]</text>
+    <rect style="fill: #ffffff" x="2700.16" y="784.496" width="110.1" height="44"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2700.16" y="784.496" width="110.1" height="44"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="2755.21" y="799.696">&lt;&lt;interface&gt;&gt;</text>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="2755.21" y="820.496">IController</text>
+    <rect style="fill: #ffffff" x="2700.16" y="828.496" width="110.1" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2700.16" y="828.496" width="110.1" height="8"/>
+    <rect style="fill: #ffffff" x="2700.16" y="836.496" width="110.1" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2700.16" y="836.496" width="110.1" height="8"/>
   </g>
   <g>
     <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="2228.06,233.75 2228.44,233.75 2228.44,457.892 2481.12,457.892 2481.12,719.322 2224.86,719.322 2224.86,788.136 "/>
     <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="2219.86,780.372 2224.86,790.372 2229.86,780.372 "/>
   </g>
   <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="538.25,257 658.982,257 658.982,403 775.242,403 "/>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="767.478,408 777.478,403 767.478,398 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="538.25,257 653.325,257 653.325,403 763.928,403 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="756.164,408 766.164,403 756.164,398 "/>
   </g>
   <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="1858.7,806.036 1992.22,806.036 1992.22,806.608 2127.98,806.608 "/>
-    <polygon style="fill: #ffffff" points="1858.7,798.036 1842.7,806.036 1858.7,814.036 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1858.7,798.036 1842.7,806.036 1858.7,814.036 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="2681.92,806.496 2492.75,806.496 2492.75,806.608 2301.33,806.608 "/>
+    <polygon style="fill: #ffffff" points="2681.92,814.496 2697.92,806.496 2681.92,798.496 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="2681.92,814.496 2697.92,806.496 2681.92,798.496 "/>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="1541.26" y="999.86" width="302.6" height="44"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1541.26" y="999.86" width="302.6" height="44"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="1692.56" y="1015.06">&lt;&lt;interface&gt;&gt;</text>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="1692.56" y="1035.86">IAction</text>
-    <rect style="fill: #ffffff" x="1541.26" y="1043.86" width="302.6" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1541.26" y="1043.86" width="302.6" height="8"/>
-    <rect style="fill: #ffffff" x="1541.26" y="1051.86" width="302.6" height="52"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1541.26" y="1051.86" width="302.6" height="52"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1544.26" y="1065.06">+&lt;&lt;prop&gt;&gt; Sender(): NetID</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1544.26" y="1081.06">+&lt;&lt;prop&gt;&gt; Identifier(): String</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1544.26" y="1097.06">+&lt;&lt;prop&gt;&gt; Parameters(): object[string]</text>
-  </g>
-  <g>
-    <rect style="fill: #ffffff" x="728.264" y="910.86" width="190.05" height="28"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="728.264" y="910.86" width="190.05" height="28"/>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="823.289" y="930.86">FrontControllerFacade</text>
-    <rect style="fill: #ffffff" x="728.264" y="938.86" width="190.05" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="728.264" y="938.86" width="190.05" height="8"/>
-    <rect style="fill: #ffffff" x="728.264" y="946.86" width="190.05" height="20"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="728.264" y="946.86" width="190.05" height="20"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="731.264" y="960.06">+Send(action:IAction)</text>
+    <rect style="fill: #ffffff" x="2926.1" y="643.088" width="110.1" height="44"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2926.1" y="643.088" width="110.1" height="44"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="2981.15" y="658.288">&lt;&lt;interface&gt;&gt;</text>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="2981.15" y="679.088">IView</text>
+    <rect style="fill: #ffffff" x="2926.1" y="687.088" width="110.1" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2926.1" y="687.088" width="110.1" height="8"/>
+    <rect style="fill: #ffffff" x="2926.1" y="695.088" width="110.1" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="2926.1" y="695.088" width="110.1" height="8"/>
   </g>
   <text font-size="16.9333" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="391.266" y="183.88">
     <tspan x="391.266" y="183.88">RealityShard Server</tspan>
   </text>
   <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="638.828,551 629,551 629,709.75 726.258,709.75 "/>
-    <polygon style="fill: #000000" points="664,551 650,555.8 636,551 650,546.2 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="664,551 650,555.8 636,551 650,546.2 "/>
-    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="631" y="626.375"></text>
-    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="632" y="547"></text>
-    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="722.258" y="705.75"></text>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="638.828,648.58 629,648.58 629,807.33 726.258,807.33 "/>
+    <polygon style="fill: #000000" points="664,648.58 650,653.38 636,648.58 650,643.78 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="664,648.58 650,653.38 636,648.58 650,643.78 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="631" y="723.955"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="632" y="644.58"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="722.258" y="803.33"></text>
   </g>
   <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="638.828,551 629,551 629,779.608 726.544,779.608 "/>
-    <polygon style="fill: #000000" points="664,551 650,555.8 636,551 650,546.2 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="664,551 650,555.8 636,551 650,546.2 "/>
-    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="631" y="661.304"></text>
-    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="632" y="547"></text>
-    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="722.544" y="775.608"></text>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="638.828,648.58 629,648.58 629,920.096 726.674,920.096 "/>
+    <polygon style="fill: #000000" points="664,648.58 650,653.38 636,648.58 650,643.78 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="664,648.58 650,653.38 636,648.58 650,643.78 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="631" y="780.338"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="632" y="644.58"></text>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="722.674" y="916.096"></text>
   </g>
   <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="638.828,551 629,551 629,924.86 728.264,924.86 "/>
-    <polygon style="fill: #000000" points="664,551 650,555.8 636,551 650,546.2 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="664,551 650,555.8 636,551 650,546.2 "/>
-    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="631" y="733.93"></text>
-    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="632" y="547"></text>
-    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="724.264" y="920.86"></text>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="638.828,551 629,551 629,996.464 729.502,996.464 "/>
-    <polygon style="fill: #000000" points="664,551 650,555.8 636,551 650,546.2 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="664,551 650,555.8 636,551 650,546.2 "/>
-    <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="631" y="769.732"></text>
-    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="632" y="547"></text>
-    <text font-size="12.7998" style="fill: #000000;text-anchor:end;font-family:monospace;font-style:normal;font-weight:normal" x="725.502" y="992.464"></text>
-  </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1147.6,996.464 1361.98,996.464 1361.98,806.036 1571.89,806.036 "/>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1564.12,811.036 1574.12,806.036 1564.12,801.036 "/>
-  </g>
-  <g>
-    <polygon style="fill: #ffffff" points="721.314,160.8 1066.11,160.8 1078.11,172.8 1078.11,210.8 721.314,210.8 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" points="721.314,160.8 1066.11,160.8 1078.11,172.8 1078.11,210.8 721.314,210.8 "/>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #ffa500" points="1066.11,160.8 1066.11,172.8 1078.11,172.8 "/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="728.314" y="184.45">
-      <tspan x="728.314" y="184.45">Implements a server tick (Invokes the update</tspan>
-      <tspan x="728.314" y="200.45">mehods on the shardlet and NetworkManager)</tspan>
+    <polygon style="fill: #ffffff" points="1096.08,514.354 1440.88,514.354 1452.88,526.354 1452.88,564.354 1096.08,564.354 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" points="1096.08,514.354 1440.88,514.354 1452.88,526.354 1452.88,564.354 1096.08,564.354 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #ffa500" points="1440.88,514.354 1440.88,526.354 1452.88,526.354 "/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1103.08" y="538.004">
+      <tspan x="1103.08" y="538.004">Implements a server tick (Invokes the update</tspan>
+      <tspan x="1103.08" y="554.004">mehods on the shardlet and NetworkManager)</tspan>
     </text>
   </g>
   <g>
-    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" d="M 1078.11 210.8 C 1076.31,297.5 1034.81,380.5 948.167,388.585"/>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" points="955.433,382.885 945.94,388.792 956.362,392.842 "/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" d="M 1096.08 514.354 C 1009.88,509.348 1060.79,468.334 959.946,457.479"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" points="968.201,453.338 957.723,457.239 967.131,463.281 "/>
   </g>
   <g>
-    <polygon style="fill: #ffffff" points="1111.81,677.35 1425.81,677.35 1437.81,689.35 1437.81,727.35 1111.81,727.35 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" points="1111.81,677.35 1425.81,677.35 1437.81,689.35 1437.81,727.35 1111.81,727.35 "/>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #ffa500" points="1425.81,677.35 1425.81,689.35 1437.81,689.35 "/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1118.81" y="701">
-      <tspan x="1118.81" y="701">NetworkListeners accepts clients on</tspan>
-      <tspan x="1118.81" y="717">the ports given by GetFrontControllers()</tspan>
+    <polygon style="fill: #ffffff" points="1220.71,782.002 1534.71,782.002 1546.71,794.002 1546.71,832.002 1220.71,832.002 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" points="1220.71,782.002 1534.71,782.002 1546.71,794.002 1546.71,832.002 1220.71,832.002 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 1; stroke: #ffa500" points="1534.71,782.002 1534.71,794.002 1546.71,794.002 "/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1227.71" y="805.652">
+      <tspan x="1227.71" y="805.652">NetworkListeners accepts clients on</tspan>
+      <tspan x="1227.71" y="821.652">the ports given by GetFrontControllers()</tspan>
     </text>
   </g>
   <g>
-    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" d="M 1111.81 727.35 C 1055.81,727.75 1081.81,713.75 1010.22,709.985"/>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" points="1018.24,705.4 1007.99,709.867 1017.71,715.386 "/>
+    <path style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" d="M 1220.71 832.002 C 1164.71,832.402 1081.81,811.33 1010.22,807.565"/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #ffa500" points="1018.24,802.98 1007.99,807.447 1017.71,812.966 "/>
   </g>
   <g>
-    <rect style="fill: #ffffff" x="521.766" y="1164.82" width="241" height="44"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="521.766" y="1164.82" width="241" height="44"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="642.266" y="1180.02">&lt;&lt;interface&gt;&gt;</text>
-    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="642.266" y="1200.82">ISocketWrapper</text>
-    <rect style="fill: #ffffff" x="521.766" y="1208.82" width="241" height="8"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="521.766" y="1208.82" width="241" height="8"/>
-    <rect style="fill: #ffffff" x="521.766" y="1216.82" width="241" height="68"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="521.766" y="1216.82" width="241" height="68"/>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="524.766" y="1230.02">+Connect(remoteAddress:string)</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="524.766" y="1246.02">+Send(data:ubyte[])</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="524.766" y="1262.02">+Receive(): ubyte[]</text>
-    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="524.766" y="1278.02">+Disconnect()</text>
+    <rect style="fill: #ffffff" x="1270.04" y="1030.27" width="241" height="44"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1270.04" y="1030.27" width="241" height="44"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="1390.54" y="1045.47">&lt;&lt;interface&gt;&gt;</text>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="1390.54" y="1066.27">ISocketWrapper</text>
+    <rect style="fill: #ffffff" x="1270.04" y="1074.27" width="241" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1270.04" y="1074.27" width="241" height="8"/>
+    <rect style="fill: #ffffff" x="1270.04" y="1082.27" width="241" height="68"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1270.04" y="1082.27" width="241" height="68"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1273.04" y="1095.47">+Connect(remoteAddress:string)</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1273.04" y="1111.47">+Send(data:ubyte[])</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1273.04" y="1127.47">+Receive(): ubyte[]</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="1273.04" y="1143.47">+Disconnect()</text>
+  </g>
+  <text font-size="16.9333" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="2636.96" y="338.056">
+    <tspan x="2636.96" y="338.056">MVC Utility library</tspan>
+  </text>
+  <g>
+    <rect style="fill: #ffffff" x="843.292" y="209.544" width="248.7" height="44"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="843.292" y="209.544" width="248.7" height="44"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="967.642" y="224.744">&lt;&lt;interface&gt;&gt;</text>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="967.642" y="245.544">IShardletContext</text>
+    <rect style="fill: #ffffff" x="843.292" y="253.544" width="248.7" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="843.292" y="253.544" width="248.7" height="8"/>
+    <rect style="fill: #ffffff" x="843.292" y="261.544" width="248.7" height="20"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="843.292" y="261.544" width="248.7" height="20"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="846.292" y="274.744">+&lt;&lt;todo&gt;&gt; GetIncomingQueue(): ?</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="967.642,299.78 967.642,343.272 861.95,343.272 861.95,389 "/>
+    <polygon style="fill: #ffffff" points="975.642,299.78 967.642,283.78 959.642,299.78 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="975.642,299.78 967.642,283.78 959.642,299.78 "/>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="1457.24" y="589.958" width="346.85" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1457.24" y="589.958" width="346.85" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="1630.66" y="609.958">Some-Kind-Of-Incoming-Outgoing-Queue</text>
+    <rect style="fill: #ffffff" x="1457.24" y="617.958" width="346.85" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1457.24" y="617.958" width="346.85" height="8"/>
+    <rect style="fill: #ffffff" x="1457.24" y="625.958" width="346.85" height="8"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1457.24" y="625.958" width="346.85" height="8"/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="861.95,457 861.95,603.958 1452.76,603.958 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1445,608.958 1455,603.958 1445,598.958 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1144.77,920.096 1630.66,920.096 1630.66,638.43 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1635.66,646.194 1630.66,636.194 1625.66,646.194 "/>
   </g>
 </svg>
