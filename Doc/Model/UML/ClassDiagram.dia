@@ -571,7 +571,7 @@
         </dia:composite>
         <dia:composite type="umloperation">
           <dia:attribute name="name">
-            <dia:string>#Update#</dia:string>
+            <dia:string>#Update() / WorkerTask#</dia:string>
           </dia:attribute>
           <dia:attribute name="stereotype">
             <dia:string>##</dia:string>
@@ -1332,7 +1332,7 @@
         <dia:point val="75.0083,18.8616"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="74.9583,18.8116;90.9733,22.2116"/>
+        <dia:rectangle val="74.9583,18.8116;87.1233,22.2116"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -1341,7 +1341,7 @@
         <dia:point val="75.0083,18.8616"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="15.915000000000001"/>
+        <dia:real val="12.065000000000001"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
         <dia:real val="3.3000000000000003"/>
@@ -1360,7 +1360,7 @@
           <dia:attribute name="string">
             <dia:string>#IFrontController[int]
 is an association of
-Portnumber -&gt; FrontController prototype#</dia:string>
+Portnumber -&gt; FrontController#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="monospace" style="0" name="Courier"/>
@@ -1385,7 +1385,7 @@ Portnumber -&gt; FrontController prototype#</dia:string>
         <dia:point val="75.0083,18.8616"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="72.0269,13.0288;75.0733,18.9267"/>
+        <dia:rectangle val="72.0269,13.0288;75.0733,18.9266"/>
       </dia:attribute>
       <dia:attribute name="bez_points">
         <dia:point val="75.0083,18.8616"/>
@@ -1810,13 +1810,13 @@ Portnumber -&gt; FrontController prototype#</dia:string>
         <dia:point val="36.3337,45.3048"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="36.2837,45.2548;57.2887,49.5548"/>
+        <dia:rectangle val="36.2837,45.2548;47.6637,49.5548"/>
       </dia:attribute>
       <dia:attribute name="elem_corner">
         <dia:point val="36.3337,45.3048"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="20.905000000000001"/>
+        <dia:real val="11.279999999999999"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
         <dia:real val="4.2000000000000002"/>
@@ -1965,27 +1965,10 @@ Portnumber -&gt; FrontController prototype#</dia:string>
           <dia:attribute name="parameters">
             <dia:composite type="umlparameter">
               <dia:attribute name="name">
-                <dia:string>#sub#</dia:string>
+                <dia:string>#...#</dia:string>
               </dia:attribute>
               <dia:attribute name="type">
-                <dia:string>#IController#</dia:string>
-              </dia:attribute>
-              <dia:attribute name="value">
                 <dia:string>##</dia:string>
-              </dia:attribute>
-              <dia:attribute name="comment">
-                <dia:string>##</dia:string>
-              </dia:attribute>
-              <dia:attribute name="kind">
-                <dia:enum val="0"/>
-              </dia:attribute>
-            </dia:composite>
-            <dia:composite type="umlparameter">
-              <dia:attribute name="name">
-                <dia:string>#actions#</dia:string>
-              </dia:attribute>
-              <dia:attribute name="type">
-                <dia:string>#string[]#</dia:string>
               </dia:attribute>
               <dia:attribute name="value">
                 <dia:string>##</dia:string>
@@ -2030,10 +2013,10 @@ Portnumber -&gt; FrontController prototype#</dia:string>
           <dia:attribute name="parameters">
             <dia:composite type="umlparameter">
               <dia:attribute name="name">
-                <dia:string>#action#</dia:string>
+                <dia:string>#placeholder#</dia:string>
               </dia:attribute>
               <dia:attribute name="type">
-                <dia:string>#IAction#</dia:string>
+                <dia:string>##</dia:string>
               </dia:attribute>
               <dia:attribute name="value">
                 <dia:string>##</dia:string>
@@ -2854,7 +2837,7 @@ Portnumber -&gt; FrontController prototype#</dia:string>
         <dia:point val="54.804,25.7177"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="54.754,25.6677;72.694,28.2677"/>
+        <dia:rectangle val="54.754,25.6677;73.079,29.0677"/>
       </dia:attribute>
       <dia:attribute name="meta">
         <dia:composite type="dict"/>
@@ -2863,10 +2846,10 @@ Portnumber -&gt; FrontController prototype#</dia:string>
         <dia:point val="54.804,25.7177"/>
       </dia:attribute>
       <dia:attribute name="elem_width">
-        <dia:real val="17.840000000000003"/>
+        <dia:real val="18.225000000000001"/>
       </dia:attribute>
       <dia:attribute name="elem_height">
-        <dia:real val="2.5"/>
+        <dia:real val="3.3000000000000003"/>
       </dia:attribute>
       <dia:attribute name="line_width">
         <dia:real val="0.10000000149011612"/>
@@ -2881,7 +2864,8 @@ Portnumber -&gt; FrontController prototype#</dia:string>
         <dia:composite type="text">
           <dia:attribute name="string">
             <dia:string>#Implements a server tick (Invokes the update
-mehods on the shardlet and NetworkManager)#</dia:string>
+mehods on the shardlet and NetworkManager, 
+if the NetworkManager is no separated thread)#</dia:string>
           </dia:attribute>
           <dia:attribute name="font">
             <dia:font family="monospace" style="0" name="Courier"/>
@@ -2992,7 +2976,7 @@ the ports given by GetFrontControllers()#</dia:string>
         <dia:point val="61.0354,41.6001"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="50.2879,40.0709;61.0858,41.6504"/>
+        <dia:rectangle val="50.2879,40.0708;61.0858,41.6505"/>
       </dia:attribute>
       <dia:attribute name="bez_points">
         <dia:point val="61.0354,41.6001"/>
@@ -3648,15 +3632,15 @@ the ports given by GetFrontControllers()#</dia:string>
     </dia:object>
     <dia:object type="Standard - ZigZagLine" version="1" id="O41">
       <dia:attribute name="obj_pos">
-        <dia:point val="57.2387,46.0048"/>
+        <dia:point val="47.6137,46.0048"/>
       </dia:attribute>
       <dia:attribute name="obj_bb">
-        <dia:rectangle val="57.1887,31.5861;81.8639,46.0548"/>
+        <dia:rectangle val="47.5637,31.5861;81.864,46.0548"/>
       </dia:attribute>
       <dia:attribute name="orth_points">
-        <dia:point val="57.2387,46.0048"/>
-        <dia:point val="81.533,46.0048"/>
-        <dia:point val="81.533,31.6979"/>
+        <dia:point val="47.6137,46.0048"/>
+        <dia:point val="81.5331,46.0048"/>
+        <dia:point val="81.5331,31.6979"/>
       </dia:attribute>
       <dia:attribute name="orth_orient">
         <dia:enum val="0"/>
