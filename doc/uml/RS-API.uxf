@@ -33,7 +33,8 @@ Servlet</panel_attributes>
       <w>320</w>
       <h>50</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <panel_attributes>lt=&lt;.&gt;
+</panel_attributes>
     <additional_attributes>30;30;300;30</additional_attributes>
   </element>
 </diagram>
