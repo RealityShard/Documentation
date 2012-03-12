@@ -94,12 +94,12 @@ bg=yellow</panel_attributes>
     <coordinates>
       <x>315</x>
       <y>320</y>
-      <w>60</w>
+      <w>80</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>folder:
 game-inf
-(name is static)
+(name is mandatory)
 bg=orange</panel_attributes>
     <additional_attributes/>
   </element>
@@ -119,12 +119,12 @@ bg=orange</panel_attributes>
     <coordinates>
       <x>385</x>
       <y>360</y>
-      <w>60</w>
+      <w>80</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>file:
 game.xml
-(name is static)
+(name is mandatory)
 bg=white</panel_attributes>
     <additional_attributes/>
   </element>
@@ -166,12 +166,12 @@ bg=white</panel_attributes>
     <coordinates>
       <x>315</x>
       <y>235</y>
-      <w>60</w>
+      <w>80</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>folder:
 resource
-(name is static)
+(name is mandatory)
 bg=orange</panel_attributes>
     <additional_attributes/>
   </element>
@@ -205,12 +205,12 @@ bg=white</panel_attributes>
     <coordinates>
       <x>385</x>
       <y>410</y>
-      <w>60</w>
+      <w>80</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>folder:
 lib
-(name is static)
+(name is mandatory)
 bg=orange</panel_attributes>
     <additional_attributes/>
   </element>
@@ -255,12 +255,12 @@ bg=white</panel_attributes>
     <coordinates>
       <x>385</x>
       <y>495</y>
-      <w>60</w>
+      <w>80</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>folder:
 classes
-(name is static)
+(name is mandatory)
 bg=orange</panel_attributes>
     <additional_attributes/>
   </element>

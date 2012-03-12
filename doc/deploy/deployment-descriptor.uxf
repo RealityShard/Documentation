@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="11.4">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>280</x>
+      <y>340</y>
+      <w>140</w>
+      <h>190</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>30;30;30;170;120;170</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>280</x>
+      <y>450</y>
+      <w>140</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>30;30;30;210;120;210</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.Node</type>
+    <coordinates>
+      <x>260</x>
+      <y>90</y>
+      <w>500</w>
+      <h>670</h>
+    </coordinates>
+    <panel_attributes>center:&lt;&lt;Deployment Descriptor&gt;&gt;
+center:game.xml</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>280</x>
+      <y>120</y>
+      <w>140</w>
+      <h>300</h>
+    </coordinates>
+    <panel_attributes>lt=-</panel_attributes>
+    <additional_attributes>30;30;30;280;120;280</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.Artefact</type>
+    <coordinates>
+      <x>400</x>
+      <y>160</y>
+      <w>320</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>General Configuration
+ - Game-App Name
+ - Description
+ - </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.custom.Artefact</type>
+    <coordinates>
+      <x>400</x>
+      <y>260</y>
+      <w>320</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>Context-Params
+ - </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <group>
+    <element>
+      <type>com.umlet.element.custom.Node</type>
+      <coordinates>
+        <x>400</x>
+        <y>590</y>
+        <w>320</w>
+        <h>140</h>
+      </coordinates>
+      <panel_attributes>center:Filter</panel_attributes>
+      <additional_attributes/>
+    </element>
+    <element>
+      <type>com.umlet.element.custom.Artefact</type>
+      <coordinates>
+        <x>450</x>
+        <y>630</y>
+        <w>250</w>
+        <h>90</h>
+      </coordinates>
+      <panel_attributes>Init-Params
+ - Servlet
+ - Priority
+ - </panel_attributes>
+      <additional_attributes/>
+    </element>
+  </group>
+  <group>
+    <element>
+      <type>com.umlet.element.custom.Artefact</type>
+      <coordinates>
+        <x>450</x>
+        <y>480</y>
+        <w>250</w>
+        <h>90</h>
+      </coordinates>
+      <panel_attributes>Init-Params
+ - Protocol
+ - Port
+ - </panel_attributes>
+      <additional_attributes/>
+    </element>
+    <element>
+      <type>com.umlet.element.custom.Node</type>
+      <coordinates>
+        <x>400</x>
+        <y>440</y>
+        <w>320</w>
+        <h>140</h>
+      </coordinates>
+      <panel_attributes>center:Shardlet</panel_attributes>
+      <additional_attributes/>
+    </element>
+  </group>
+  <group>
+    <element>
+      <type>com.umlet.element.custom.Artefact</type>
+      <coordinates>
+        <x>450</x>
+        <y>370</y>
+        <w>250</w>
+        <h>50</h>
+      </coordinates>
+      <panel_attributes>Init-Params
+ - </panel_attributes>
+      <additional_attributes/>
+    </element>
+    <element>
+      <type>com.umlet.element.custom.Node</type>
+      <coordinates>
+        <x>400</x>
+        <y>330</y>
+        <w>320</w>
+        <h>100</h>
+      </coordinates>
+      <panel_attributes>center:Protocol</panel_attributes>
+      <additional_attributes/>
+    </element>
+  </group>
+</diagram>
