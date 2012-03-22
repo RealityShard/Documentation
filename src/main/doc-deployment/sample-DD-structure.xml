@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <game-app>
+    <!--meta-info holds information concerning the project-->
     <meta-info>
         <display-name>My Game App</display-name>
         <description>This is the coolest game ever!</description>
     </meta-info>
+    <!--protocols holds protocol filter chains-->
+    <protocols>
+        <protocol name="GW-Protocol">
+            <protocol-filter name="MyProtocolSecurityFilter" class="com.example.bla.MyProtocolSecurityFilterClass" in="true" out="true">
+                <init-param name="foo" value="bar"></init-param>
+            </protocol-filter>
+            <protocol-filter name="MyProtocolFilter" class="com.example.bla.MyProtocolFilterClass" in="true" out="true">
+                <init-param name="fooz" value="baz"></init-param>
+            </protocol-filter>
+        </protocol>
+    </protocols>
+    <!--shardlets holds the shardlet-specific configurations-->
     <shardlets>
         <shardlet name="MyShardletName" class="com.example.blubb.MyShardletClass">
             <init-param name="can_haz_string_parameters" value="true"></init-param>
@@ -16,6 +29,7 @@
             </filter-chain>
         </shardlet>
     </shardlets>
+    <!--context holds context specific information, like context init-params-->
     <context>
         <init-param name="" value=""></init-param>
     </context>
