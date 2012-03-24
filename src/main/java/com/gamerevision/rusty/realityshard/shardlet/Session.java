@@ -166,6 +166,25 @@ public interface Session
      *						                remove from this session
      */
     public void removeAttribute(String name);
+    
+    
+    /**
+     * Returns the Internet Protocol (IP) address of the client 
+     * or last proxy that sent the request.
+     *
+     * @return      A <code>String</code> containing the 
+     *              IP address of the client that sent the request
+     */
+    public String getRemoteAddr();
+    
+    
+    /**
+     * Returns the Internet Protocol (IP) source port of the client
+     * or last proxy that sent the request.
+     *
+     * @return      An integer specifying the port number
+     */    
+    public int getRemotePort();
 
 
     /**

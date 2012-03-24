@@ -93,44 +93,6 @@ public interface ShardletContext
     
 
     /**
-     * 
-     * Returns a {@link RequestDispatcher} object that acts
-     * as a wrapper for the resource located at the given path.
-     * A <code>RequestDispatcher</code> object can be used to forward 
-     * a request to the resource or to include the resource in a response.
-     * The resource can be dynamic or static.
-     *
-     * <p>The pathname must begin with a <tt>/</tt> and is interpreted as
-     * relative to the current context root.  Use <code>getContext</code>
-     * to obtain a <code>RequestDispatcher</code> for resources in foreign
-     * contexts.
-     *
-     * @param 		path 					A <code>String</code> specifying the pathname
-     *										to the resource
-     * @return 		A <code>RequestDispatcher</code> object
-     *				that acts as a wrapper for the resource
-     *				at the specified path, or <code>null</code> if 
-     *				the <code>ShardletContext</code> cannot return
-     *				a <code>RequestDispatcher</code>
-     */
-    public RequestDispatcher getRequestDispatcher(String path);
-
-
-    /**
-     * Returns a {@link RequestDispatcher} object that acts
-     * as a wrapper for the named Shardlet.
-     *
-     * @param 		name 					A <code>String</code> specifying the name
-     *										of a Shardlet to wrap
-     * @return 		A <code>RequestDispatcher</code> object
-     *				that acts as a wrapper for the named Shardlet,
-     *				or <code>null</code> if the <code>ShardletContext</code>
-     *				cannot return a <code>RequestDispatcher</code>
-     */
-    public RequestDispatcher getNamedDispatcher(String name);
-    
-
-    /**
      * Writes the specified message to a Shardlet log file, usually
      * an event log. The name and type of the Shardlet log file is 
      * specific to the Shardlet container.

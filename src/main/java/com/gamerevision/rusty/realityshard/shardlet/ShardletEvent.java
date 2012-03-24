@@ -56,111 +56,115 @@
  * limitations under the License.
  */
 
+
 package com.gamerevision.rusty.realityshard.shardlet;
 
-import java.io.*;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.nio.ByteBuffer;
+import java.util.Enumeration;
 
 
 /**
- * Defines an object to assist a servlet in sending a response to the client.
- * The servlet container creates a <code>ServletResponse</code> object and
- * passes it as an argument to the servlet's <code>service</code> method.
+ * Defines an object to provide a message to or from a client, by:
  * 
- * Thx Oracle!
+ * A) The Shardlet container creates a <code>ShardletAction</code> object and passes
+ * it as an argument to the Shardlet's handler method.
  *
+ * B) The Shardlet creates a <code>ShardletAction</code> object and passes
+ * it as an argument to the Shardlet container where it is distributed.
+ * 
+ * Partly taken from javax.servlet.ServletRequest / ServletResponse
+ * Thx Oracle!
+ * 
  * @author _rusty
  */
- 
-public interface ShardletResponse 
+public interface ShardletEvent
 {
-
     /**
-     * Returns a {@link OutputStream} suitable for writing binary 
-     * data in the response. The servlet container does not encode the
-     * binary data.  
+     * Returns the value of the named attribute as an <code>Object</code>,
+     * or <code>null</code> if no attribute of the given name exists. 
      *
-     * <p> Calling flush() on the ServletOutputStream commits the response.
-     *
-     * Either this method or {@link #getWriter} may 
-     * be called to write the body, not both, except when {@link #reset}
-     * has been called.
-     *
-     * @return 		A {@link OutputStream} for writing binary data 
-     * @exception 	IOException 			If an input or output exception occurred
+     * @param       name                    A <code>String</code> specifying the name 
+     *                                      of the attribute
+     * @return      The value-object or null.
      */
-    public OutputStream getOutputStream() 
-    		throws IOException;
+    public Object getAttribute(String name);
+    
     
     /**
-     * Returns a <code>PrintWriter</code> object that
-     * can send character text to the client.
-     * 
-     * @return 		A <code>PrintWriter</code> object that 
-     * 				can return character data to the client 
-     * @exception 	IOException 			If an input or output exception occurred
+     * Stores an attribute in this request.
+     * Attributes are reset between requests.  This method is most
+     * often used in conjunction with {@link RequestDispatcher}.
+     *
+     * @param       name                    A <code>String</code> specifying 
+     *                                      the name of the attribute
+     * @param       o                       The <code>Object</code> to be stored
      */
-    public PrintWriter getWriter() 
-    		throws IOException;
+    public void setAttribute(String name, Object o);
     
 
     /**
-     * Sets the preferred buffer size for the body of the response.  
-     * The servlet container will use a buffer at least as large as 
-     * the size requested.  The actual buffer size used can be found
-     * using <code>getBufferSize</code>.
-     * 
-     * <p>This method must be called before any response body content is
-     * written; if content has been written or the response object has
-     * been committed, this method throws an 
-     * <code>IllegalStateException</code>.
+     * Returns an <code>Enumeration</code> containing the
+     * names of the attributes available to this request.
      *
-     * @param 		size 					The preferred buffer size
+     * @return      An <code>Enumeration</code> of attribute 
+     *              names
      */
-    public void setBufferSize(int size);
-   
+    public Enumeration<String> getAttributeNames();
+    
     
     /**
-     * Returns the actual buffer size used for the response.  If no buffering
-     * is used, this method returns 0.
      *
-     * @return 		The actual buffer size used
+     * Removes an attribute from this request.  This method is not
+     * generally needed as attributes only persist as long as the request
+     * is being handled.
+     *
+     * @param       name                    A <code>String</code> specifying 
+     *                                      the name of the attribute to remove
      */
-    public int getBufferSize();
+    public void removeAttribute(String name);
     
     
     /**
-     * Forces any content in the buffer to be written to the client.  A call
-     * to this method automatically commits the response, meaning the status 
-     * code and headers will be written.
+     * Getter.
      * 
-     * @throws      IOException             The usual crap.
+     * @return      The underlying NIO buffer.
      */
-    public void flushBuffer() 
-    		throws IOException;
+    public ByteBuffer getBuffer();
     
     
     /**
-     * Clears the content of the underlying buffer. If the 
-     * response has been committed, this method throws an 
-     * <code>IllegalStateException</code>.
+     * Setter.
+     * 
+     * @param       buf                     The <code>ByteBuffer</code> object that will be
+     *                                      set as the new Buffer
      */
-    public void resetBuffer();
+    public void setBuffer(ByteBuffer buf);
+    
+    
+    /**
+     * Returns the name and version of the protocol the request uses.
+     * The protocol is a string taken from the deployment descriptor.
+     *
+     * @return      A <code>String</code> containing the protocol name and version number
+     */    
+    public String getProtocol();
+    
+    
+    /**
+     * Getter.
+     * 
+     * @return      The network session object.
+     */
+    public Session getSession();
     
     
     /**
      * Returns a boolean indicating if the response has been
-     * committed.  A committed response has already had its status 
-     * code and headers written.
+     * committed.  A committed response cannot be changed.
      *
      * @return      A boolean indicating if the response has been
      *              committed
      */
     public boolean isCommitted();
+
 }
-
-
-
-
-
