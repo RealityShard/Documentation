@@ -3,6 +3,7 @@
  */
 package com.gamerevision.rusty.realityshard.container;
 
+import com.gamerevision.rusty.realityshard.shardlet.Reactor;
 import com.gamerevision.rusty.realityshard.shardlet.ShardletEvent;
 import com.gamerevision.rusty.realityshard.shardlet.ShardletEventListener;
 
@@ -16,7 +17,7 @@ import com.gamerevision.rusty.realityshard.shardlet.ShardletEventListener;
  * @author _rusty
  *
  */
-public class EventReactor
+public class EventReactor implements Reactor
 {
     
     /**
@@ -34,6 +35,7 @@ public class EventReactor
      * @param       event                   The event that will trigger the listener
      * @param       listener                The listener that will be triggered by the event
      */
+    @Override
     public <E extends ShardletEvent> void addListener(E event, ShardletEventListener listener)
     {
         // TODO Implement me!
@@ -45,6 +47,7 @@ public class EventReactor
      * 
      * @param       event                   The event that will be triggered.
      */
+    @Override
     public <E extends ShardletEvent> void triggerEvent(E event)
     {
         // TODO Implement me!

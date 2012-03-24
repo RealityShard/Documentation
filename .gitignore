@@ -1,2 +1,7 @@
+#files
+/.directory
+/.project
+
 #dirs
+.settings/*
 target/*
