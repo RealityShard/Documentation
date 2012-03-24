@@ -75,7 +75,7 @@ import java.util.Enumeration;
  * 
  * Thx Oracle!
  *
- * @author 	_rusty
+ * @author     _rusty
  */
 public interface ShardletContext 
 {    
@@ -84,10 +84,10 @@ public interface ShardletContext
      * Returns the resource located at the named path as
      * an <code>InputStream</code> object. 
      *
-     * @param 		path 					The resource path
-     * @return 		The <code>InputStream</code> returned to the 
-     *				Shardlet, or <code>null</code> if no resource
-     *				exists at the specified path 
+     * @param         path                     The resource path
+     * @return         The <code>InputStream</code> returned to the 
+     *                Shardlet, or <code>null</code> if no resource
+     *                exists at the specified path 
      */
     public InputStream getResourceAsStream(String path);
     
@@ -97,8 +97,8 @@ public interface ShardletContext
      * an event log. The name and type of the Shardlet log file is 
      * specific to the Shardlet container.
      *
-     * @param 		msg 					A <code>String</code> specifying the 
-     *										message to be written to the log file
+     * @param         msg                     A <code>String</code> specifying the 
+     *                                        message to be written to the log file
      */
     public void log(String msg);
     
@@ -109,9 +109,9 @@ public interface ShardletContext
      * to the Shardlet log file. The name and type of the Shardlet log 
      * file is specific to the Shardlet container, usually an event log.
      *
-     * @param 		message 				A <code>String</code> that describes the error or exception
+     * @param         message                 A <code>String</code> that describes the error or exception
      *
-     * @param 		throwable 				The <code>Throwable</code> error or exception
+     * @param         throwable                 The <code>Throwable</code> error or exception
      */
     public void log(String message, Throwable throwable);
     
@@ -120,8 +120,8 @@ public interface ShardletContext
      * Returns the name and version of the Shardlet container on which
      * the Shardlet is running.
      *
-     * @return 		A <code>String</code> containing at least the 
-     *				Shardlet container name and version number
+     * @return         A <code>String</code> containing at least the 
+     *                Shardlet container name and version number
      */
     public String getServerInfo();
     
@@ -131,8 +131,8 @@ public interface ShardletContext
      * context-wide initialization parameter, or <code>null</code> if the 
      * parameter does not exist.
      * 
-     * @param		name					The parameter name.
-     * @return 		The parameter value, if the parameter was found.
+     * @param        name                    The parameter name.
+     * @return         The parameter value, if the parameter was found.
      */
     public String getInitParameter(String name);
 
@@ -143,9 +143,9 @@ public interface ShardletContext
      * empty <code>Enumeration</code> if the context has no initialization
      * parameters.
      *
-     * @return 		An <code>Enumeration</code> of <code>String</code> 
-     *           	objects containing the names of the context's
-     *           	initialization parameters
+     * @return         An <code>Enumeration</code> of <code>String</code> 
+     *               objects containing the names of the context's
+     *               initialization parameters
      */
     public Enumeration<String> getInitParameterNames();
     
@@ -154,9 +154,9 @@ public interface ShardletContext
      * Sets the context initialization parameter with the given name and
      * value on this ShardletContext. (Done by the container at context-loading)
      *
-     * @param 		name 					The name of the context initialization parameter to set
-     * @param 		value 					The value of the context initialization parameter to set
-     * @return 		True if successful.
+     * @param         name                     The name of the context initialization parameter to set
+     * @param         value                     The value of the context initialization parameter to set
+     * @return         True if successful.
      */
     public boolean setInitParameter(String name, String value);
 
@@ -166,9 +166,9 @@ public interface ShardletContext
      * or <code>null</code> if there is no attribute by that name.
      * Hint: To store stuff game-app wide.
      *
-     * @param 		name 					A <code>String</code> specifying the name 
-     *										of the attribute
-     * @return 		The value-object or null.
+     * @param         name                     A <code>String</code> specifying the name 
+     *                                        of the attribute
+     * @return         The value-object or null.
      */
     public Object getAttribute(String name);
     
@@ -177,8 +177,8 @@ public interface ShardletContext
      * Returns an <code>Enumeration</code> containing the 
      * attribute names available within this ShardletContext.
      *
-     * @return 		An <code>Enumeration</code> of attribute 
-     *				names
+     * @return         An <code>Enumeration</code> of attribute 
+     *                names
      */
     public Enumeration<String> getAttributeNames();
     
@@ -198,10 +198,10 @@ public interface ShardletContext
      * matching <code>java.*</code>, <code>javax.*</code>, and
      * <code>sun.*</code>.
      *
-     * @param 		name 					A <code>String</code> specifying the name 
-     *										of the attribute
-     * @param 		object 					An <code>Object</code> representing the
-     *										attribute to be bound
+     * @param         name                     A <code>String</code> specifying the name 
+     *                                        of the attribute
+     * @param         object                     An <code>Object</code> representing the
+     *                                        attribute to be bound
      */
     public void setAttribute(String name, Object object);
     
@@ -215,8 +215,8 @@ public interface ShardletContext
      * <p>If listeners are configured on the <code>ShardletContext</code> the 
      * container notifies them accordingly.
      *
-     * @param 		name					A <code>String</code> specifying the name 
-     * 										of the attribute to be removed
+     * @param         name                    A <code>String</code> specifying the name 
+     *                                         of the attribute to be removed
      */
     public void removeAttribute(String name);
 
@@ -226,8 +226,8 @@ public interface ShardletContext
      * ShardletContext as specified in the deployment descriptor for this
      * web application by the display-name element.
      *
-     * @return 		The name of the web application or null if no name has been
-     * 				declared in the deployment descriptor.
+     * @return         The name of the web application or null if no name has been
+     *                 declared in the deployment descriptor.
      */
     public String getShardletContextName();
 }

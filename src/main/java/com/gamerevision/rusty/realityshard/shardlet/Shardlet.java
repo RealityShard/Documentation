@@ -81,22 +81,22 @@ public interface Shardlet extends ShardletEventListener
    /**
     * Getter.
     * 
-    * @return 		The shardlet-description.
+    * @return         The shardlet-description.
     */
    public String getShardletInfo();
    
-	
+    
     /**
      * Called by the container when the shardlet is loaded.
      * 
      * @param       reactor                 The event-reactor provided by the container
-     * @param 		config					The config object, a serialized part of the DD
-     * 										concerning this Shardlet.
-     * @exception	ShardletException		May be thrown if anything didn't work right during
-     * 										initialization.
+     * @param         config                    The config object, a serialized part of the DD
+     *                                         concerning this Shardlet.
+     * @exception    ShardletException        May be thrown if anything didn't work right during
+     *                                         initialization.
      */
     public void init(Reactor reactor, ShardletConfig config) 
-    		throws ShardletException;
+            throws ShardletException;
     
     
     /**

@@ -64,7 +64,7 @@ package com.gamerevision.rusty.realityshard.shardlet;
  *
  * Thx Oracle!
  *
- * @author 	_rusty
+ * @author     _rusty
  */
 public class ShardletException extends Exception 
 {
@@ -78,54 +78,54 @@ public class ShardletException extends Exception
      */
     public ShardletException() 
     {
-    	super();
+        super();
     }
     
    
     /**
      * Constructor.
      * 
-     * @param   	message					Put your custom text in here.
+     * @param       message                    Put your custom text in here.
      */
     public ShardletException(String message) 
     {
-    	super(message);
+        super(message);
     }
     
    
     /**
      * Constructor.
      * 
-     * @param		message					Put your custom text in here.
-     * @param		rootCause				Put the exception that caused this exception in here.
+     * @param        message                    Put your custom text in here.
+     * @param        rootCause                Put the exception that caused this exception in here.
      */
     public ShardletException(String message, Throwable rootCause) 
     {
-    	super(message, rootCause);
-    	this.rootCause = rootCause;
+        super(message, rootCause);
+        this.rootCause = rootCause;
     }
 
 
     /**
      * Constructor.
      * 
-     * @param		rootCause				Put the exception that caused this exception in here.
+     * @param        rootCause                Put the exception that caused this exception in here.
      */
     public ShardletException(Throwable rootCause) 
     {
-    	super(rootCause);
-    	this.rootCause = rootCause;
+        super(rootCause);
+        this.rootCause = rootCause;
     }
   
   
     /**
      * Getter.
      *
-     * @return		Returns the exception that caused this servlet exception.
+     * @return        Returns the exception that caused this servlet exception.
      */
     public Throwable getRootCause() 
     {
-    	return this.rootCause;
+        return this.rootCause;
     }
 }
 

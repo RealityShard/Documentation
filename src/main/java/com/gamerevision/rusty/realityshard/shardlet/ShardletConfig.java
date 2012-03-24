@@ -74,7 +74,7 @@ import java.util.Enumeration;
     /**
      * Getter.
      * 
-     * @return		The name of the shardlet that this config object is made for.
+     * @return        The name of the shardlet that this config object is made for.
      */
     public String getShardletName();
 
@@ -82,7 +82,7 @@ import java.util.Enumeration;
     /**
      * Getter.
      * 
-     * @return		The context of all shardlets that this app has.
+     * @return        The context of all shardlets that this app has.
      */
     public ShardletContext getShardletContext();
 
@@ -90,9 +90,9 @@ import java.util.Enumeration;
     /**
      * Getter.
      * 
-     * @param		name					The name of the (generic) parameter.
-     * 										The object will try to find it based on that string.
-     * @return		The parameter's value if found
+     * @param        name                    The name of the (generic) parameter.
+     *                                         The object will try to find it based on that string.
+     * @return        The parameter's value if found
      */
     public String getInitParameter(String name);
 
@@ -100,7 +100,7 @@ import java.util.Enumeration;
     /**
      * Getter.
      * 
-     * @return		All parameter names (the keys without values)
+     * @return        All parameter names (the keys without values)
      */
     public Enumeration<String> getInitParameterNames();
 
