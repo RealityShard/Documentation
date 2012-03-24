@@ -15,6 +15,8 @@ public interface ShardletEventListener
 {
     
     /**
+     * This method will be called by the reactor.
+     * 
      * @param       event                   The event that will be handled by the shardlet
      *                                      This can be more than one specific event.
      */
