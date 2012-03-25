@@ -21,7 +21,7 @@ public interface Reactor
      * @param       event                   The event that will trigger the listener
      * @param       listener                The listener that will be triggered by the event
      */
-    public <E extends ShardletEvent> void addListener(E event, ShardletEventListener listener);
+    public void addListener(ShardletEvent event, ShardletEventListener listener);
     
     
     /**
@@ -29,5 +29,5 @@ public interface Reactor
      * 
      * @param       event                   The event that will be triggered.
      */
-    public <E extends ShardletEvent> void triggerEvent(E event);
+    public void triggerEvent(ShardletEvent event);
 }

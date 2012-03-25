@@ -36,7 +36,7 @@ public class EventReactor implements Reactor
      * @param       listener                The listener that will be triggered by the event
      */
     @Override
-    public <E extends ShardletEvent> void addListener(E event, ShardletEventListener listener)
+    public void addListener(ShardletEvent event, ShardletEventListener listener)
     {
         // TODO Implement me!
     }
@@ -48,7 +48,7 @@ public class EventReactor implements Reactor
      * @param       event                   The event that will be triggered.
      */
     @Override
-    public <E extends ShardletEvent> void triggerEvent(E event)
+    public void triggerEvent(ShardletEvent event)
     {
         // TODO Implement me!
     }
