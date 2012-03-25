@@ -8,6 +8,8 @@ package com.gamerevision.rusty.realityshard.shardlet;
  * A reactor is the event-reactor-pattern class implemented by the container
  * that will manage the events coming from or triggering the shardlets.
  * 
+ * TODO: Enhance the documentation, avoid abuse of the word "trigger"
+ * 
  * @author _rusty
  */
 public interface Reactor
