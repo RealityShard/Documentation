@@ -1,25 +1,64 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.gamerevision.rusty.realityshard</groupId>
+    <artifactId>reality-shard</artifactId>
+    <version>0.1.0_RC1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>${project.artifactId}</name>
+    
+    
+    <description>Reality:Shard is a generic online-game server container based on javax.servlet that comes with its own servlet-styled API.</description>
+    <url>http://github.com/rusty-gr/Reality-Shard</url>
+    <inceptionYear>2012</inceptionYear>
+    <organization>
+        <name>Game Revision</name>
+        <url>http://www.gamerevision.com</url>
+    </organization>
+    
+    
+    <modules>
+        <module>shardlet</module>
+        <module>container</module>
+    </modules>
 
-  <groupId>com.gamerevision.rusty.realityshard</groupId>
-  <artifactId>reality-shard</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
 
-  <name>RealityShard</name>
+    <properties>
+        <java.source>1.7</java.source>
+        <java.target>1.7</java.target>
+        <java.debug>true</java.debug>
+        <java.optimize>true</java.optimize>
+        <java.verbose>true</java.verbose>
+    </properties>
+    
+    
+    <dependencies>
+        <!-- JUnit for testing -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-  <description>RealityShard aims to create a generic online-game-server, based on the javax.servlet design.</description>
-</project>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>${java.source}</source>
+                    <target>${java.target}</target>
+                    <debug>${java.debug}</debug>
+                    <optimize>${java.optimize}</optimize>
+                    <verbose>${java.verbose}</verbose>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project> 
