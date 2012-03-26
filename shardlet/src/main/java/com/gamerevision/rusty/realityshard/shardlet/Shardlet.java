@@ -67,7 +67,7 @@ package com.gamerevision.rusty.realityshard.shardlet;
  * 
  * @author _rusty
  */
-public interface Shardlet extends ShardletEventListener
+public interface Shardlet
 {
 
    /**
@@ -89,13 +89,12 @@ public interface Shardlet extends ShardletEventListener
     /**
      * Called by the container when the shardlet is loaded.
      * 
-     * @param       aggr                    The event-aggregator provided by the container
      * @param       config                  The config object, a serialized part of the DD
      *                                      concerning this Shardlet.
      * @exception   ShardletException       May be thrown if anything didn't work right during
      *                                      initialization.
      */
-    public void init(EventAggregator aggr, ShardletConfig config) 
+    public void init(ShardletConfig config) 
             throws ShardletException;
     
     

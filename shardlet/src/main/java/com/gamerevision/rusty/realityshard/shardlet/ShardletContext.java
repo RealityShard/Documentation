@@ -59,7 +59,6 @@
 package com.gamerevision.rusty.realityshard.shardlet;
 
 import java.io.InputStream;
-
 import java.util.Enumeration;
 
 
@@ -84,10 +83,10 @@ public interface ShardletContext
      * Returns the resource located at the named path as
      * an <code>InputStream</code> object. 
      *
-     * @param         path                     The resource path
-     * @return         The <code>InputStream</code> returned to the 
-     *                Shardlet, or <code>null</code> if no resource
-     *                exists at the specified path 
+     * @param       path                    The resource path
+     * @return      The <code>InputStream</code> returned to the 
+     *              Shardlet, or <code>null</code> if no resource
+     *              exists at the specified path 
      */
     public InputStream getResourceAsStream(String path);
     
@@ -219,6 +218,17 @@ public interface ShardletContext
      *                                         of the attribute to be removed
      */
     public void removeAttribute(String name);
+    
+    
+    /**
+     * Getter.
+     * 
+     * The event-aggregator is the place where every
+     * shardlet event is distributed.
+     * 
+     * @return      The event aggregator bound to this context. 
+     */
+    public EventAggregator getAggregator();
 
     
     /**
