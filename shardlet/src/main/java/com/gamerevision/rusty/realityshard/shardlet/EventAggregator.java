@@ -8,12 +8,12 @@ package com.gamerevision.rusty.realityshard.shardlet;
 
 
 /**
- * A reactor is the event-reactor-pattern class implemented by the container
+ * An EventAggregator is the EventAggregator-pattern class implemented by the container
  * that will manage the events coming from or triggering the shardlets.
  * 
  * @author _rusty
  */
-public interface Reactor
+public interface EventAggregator
 {
     
     /**
@@ -28,10 +28,10 @@ public interface Reactor
     
     
     /**
-     * Trigger an event, the reactor will try to distribute it to all 
+     * Trigger an event, the EventAggregator will try to distribute it to all 
      * registered listeners
      * 
-     * @param       event                   The event that the reactor will distribute among the registered
+     * @param       event                   The event that the EventAggregator will distribute among the registered
      *                                      listeners. (Just the ones that registered for this event only!)
      */
     public void triggerEvent(ShardletEvent event);
