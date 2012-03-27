@@ -11,7 +11,7 @@ package com.gamerevision.rusty.realityshard.shardlet;
  * An EventAggregator is the EventAggregator-pattern class implemented by the container
  * that will manage the events coming from or triggering the shardlets.
  * 
- * TODO: After the listener updates, this interface needs to be fixed!
+ * TODO: Check if the generics work they way they should.
  * 
  * @author _rusty
  */
@@ -19,7 +19,6 @@ public interface EventAggregator
 {
     
     /**
-     * @deprecated TODO: fix this shit
      * Register a new listener with the event->listeners associations.
      * 
      * @param       event                   The listener will be bound to this event. Whenever
@@ -27,16 +26,22 @@ public interface EventAggregator
      *                                      with a concrete implementation of this event.
      * @param       listener                The listener that will be triggered by the event
      */
-    public void addListener(ShardletEvent event, Object listener);
+    public <E extends ShardletEvent> void addListener(E event, ShardletEventListener<E> listener);
     
     
     /**
-     * @deprecated TODO: fix this shit
+     * Trigger an event, the EventAggregator will try to distribute it to all 
+     * registered listeners
+     */
+    public <E extends ShardletEvent> void triggerEvent();
+    
+    
+    /**
      * Trigger an event, the EventAggregator will try to distribute it to all 
      * registered listeners
      * 
-     * @param       event                   The event that the EventAggregator will distribute among the registered
-     *                                      listeners. (Just the ones that registered for this event only!)
+     * @param       action                  The <code>ShardletAction</code> that will be attached to the
+     *                                      event.
      */
-    public void triggerEvent(ShardletEvent event);
+    public <E extends ShardletEvent> void triggerEvent(ShardletAction action);
 }

@@ -1,9 +1,11 @@
 /**
- * 
+ * Distributed under the GNU GLP v.3
  */
+
 package com.gamerevision.rusty.realityshard.container;
 
 import com.gamerevision.rusty.realityshard.shardlet.EventAggregator;
+import com.gamerevision.rusty.realityshard.shardlet.ShardletAction;
 import com.gamerevision.rusty.realityshard.shardlet.ShardletEvent;
 import com.gamerevision.rusty.realityshard.shardlet.ShardletEventListener;
 
@@ -38,7 +40,7 @@ public class ContextEventAggregator implements EventAggregator
      *                                      service method of this object in case of an event.
      */
     @Override
-    public void addListener(ShardletEvent event, ShardletEventListener listener)
+    public <E extends ShardletEvent> void addListener(E event, ShardletEventListener<E> listener)
     {
         // TODO Implement me!
     }
@@ -47,11 +49,22 @@ public class ContextEventAggregator implements EventAggregator
     /**
      * Trigger an event, the aggregator will try to distribute 
      * it to the appropriate listeners
-     * 
-     * @param       event                   The event that will be distributed.
      */
     @Override
-    public void triggerEvent(ShardletEvent event)
+    public <E extends ShardletEvent> void triggerEvent() 
+    {
+        // TODO Implement me!
+    }
+
+    
+    /**
+     * Trigger an event, the aggregator will try to distribute 
+     * it to the appropriate listeners
+     * 
+     * @param       action                   The action that will be distributed.
+     */
+    @Override
+    public <E extends ShardletEvent> void triggerEvent(ShardletAction action) 
     {
         // TODO Implement me!
     }

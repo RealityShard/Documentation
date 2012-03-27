@@ -1,6 +1,7 @@
 /**
- * 
+ * Distributed under the GNU GLP v.3
  */
+
 package com.gamerevision.rusty.realityshard.shardlet;
 
 import java.io.IOException;
