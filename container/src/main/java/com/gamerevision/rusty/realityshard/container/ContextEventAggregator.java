@@ -4,10 +4,12 @@
 
 package com.gamerevision.rusty.realityshard.container;
 
+import com.gamerevision.rusty.realityshard.shardlet.Event;
 import com.gamerevision.rusty.realityshard.shardlet.EventAggregator;
+import com.gamerevision.rusty.realityshard.shardlet.EventListener;
 import com.gamerevision.rusty.realityshard.shardlet.ShardletAction;
-import com.gamerevision.rusty.realityshard.shardlet.ShardletEvent;
-import com.gamerevision.rusty.realityshard.shardlet.ShardletEventListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,10 +23,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author _rusty
  *
  */
-public final class ContextEventAggregator implements EventAggregator
+public final class ContextEventAggregator implements EventAggregator<ShardletAction>
 {
     
-    private Map<Integer, ShardletEventListener<? extends ShardletEvent>> eventMapping;
+    private Map<Class<? extends Event>, List<EventListener<? extends Event>>> eventMapping;
     
     
     /**
@@ -42,11 +44,24 @@ public final class ContextEventAggregator implements EventAggregator
      * @param       listener                The listener object. The aggregator will call the
      *                                      service method of this object in case of an event.
      */
-    //@Override
-    //public void addListener(ShardletEvent event, ShardletEventListener<? extends ShardletEvent> listener)
-    //{
-    //    eventMapping.put(event.getTypeHash(), listener);
-    //}
+    @Override
+    public <E extends Event> void addListener(Class<E> clazz, EventListener<E> listener)
+    {
+        // we want to add the listener to a list of listeners that all observer the same event
+        
+        if (eventMapping.containsKey(clazz))
+        {
+            // add the listener to the list if the entry already exists
+            eventMapping.get(clazz).add(listener);
+            return;
+        }
+        
+        // or create a new entry if the event has no listeners yet
+        ArrayList<EventListener<? extends Event>> list = new ArrayList<>();
+        list.add(listener);
+        
+        eventMapping.put(clazz, list);
+    }
     
     
     /**
@@ -54,9 +69,24 @@ public final class ContextEventAggregator implements EventAggregator
      * it to the appropriate listeners
      */
     @Override
-    public <E extends ShardletEvent> void triggerEvent() 
+    public <E extends Event> void triggerEvent(Class<E> clazz)
     {
-        // TODO Implement me!
+        for (EventListener<? extends Event> listener: eventMapping.get(clazz))
+        {
+            // for each listener in the listener collection,
+            // try to service() the event
+            try
+            {
+                // we need to instantiate the event
+                // TODO: Can this be done any other way? We dont need the object here
+                ((EventListener<E>) listener)
+                    .service(clazz.newInstance());
+            }
+            catch (InstantiationException | IllegalAccessException e)
+            {
+                // TODO Handle exceptions!
+            }            
+        }
     }
 
     
@@ -67,8 +97,26 @@ public final class ContextEventAggregator implements EventAggregator
      * @param       action                   The action that will be distributed.
      */
     @Override
-    public <E extends ShardletEvent> void triggerEvent(ShardletAction action) 
+    public <E extends Event> void triggerEvent(Class<E> clazz, ShardletAction action) 
     {
-        // TODO Implement me!
+        for (EventListener<? extends Event> listener: eventMapping.get(clazz))
+        {
+            // for each listener in the listener collection,
+            // try to service() the event
+            try
+            {
+                // we need to instantiate the event
+                // TODO: Can this be done any other way? We dont need the object here
+                E event = clazz.newInstance();
+                event.setAction(action);
+                
+                ((EventListener<E>) listener)
+                    .service(event);
+            }
+            catch (InstantiationException | IllegalAccessException e)
+            {
+                // TODO Handle exceptions!
+            }            
+        }
     }
 }

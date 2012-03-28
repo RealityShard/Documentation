@@ -15,7 +15,7 @@ package com.gamerevision.rusty.realityshard.shardlet;
  * 
  * @author _rusty
  */
-public interface EventAggregator
+public interface EventAggregator<PayloadType>
 {
     
     /**
@@ -26,14 +26,14 @@ public interface EventAggregator
      *                                      with a concrete implementation of this event.
      * @param       listener                The listener that will be triggered by the event
      */
-    public <E extends ShardletEvent> void addListener(ShardletEventListener<E> listener);
+    public <E extends Event> void addListener(Class<E> clazz, EventListener<E> listener);
     
     
     /**
      * Trigger an event, the EventAggregator will try to distribute it to all 
      * registered listeners
      */
-    public <E extends ShardletEvent> void triggerEvent();
+    public <E extends Event> void triggerEvent(Class<E> clazz);
     
     
     /**
@@ -43,5 +43,5 @@ public interface EventAggregator
      * @param       action                  The <code>ShardletAction</code> that will be attached to the
      *                                      event.
      */
-    public <E extends ShardletEvent> void triggerEvent(ShardletAction action);
+    public <E extends Event> void triggerEvent(Class<E> clazz, PayloadType action);
 }

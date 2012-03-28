@@ -6,6 +6,7 @@ package com.gamerevision.rusty.realityshard.shardlet;
 
 import java.util.Enumeration;
 
+
 /**
  * This class is a generic shardlet template, that will auto-load the
  * config and household the config/context/aggregator so the sub class
@@ -14,17 +15,18 @@ import java.util.Enumeration;
  * 
  * @author _rusty
  */
-public abstract class GenericShardlet implements Shardlet, ShardletConfig
+public abstract  class GenericShardlet implements Shardlet, ShardletConfig
 {    
     private ShardletConfig config;
     private ShardletContext context;
     private EventAggregator aggregator;
-    
+   
     
     /**
      * Constructor.
      */
     public GenericShardlet() {}
+    
     
     /**
      * Called when the shardlet is going to be taken out of service.
@@ -71,9 +73,9 @@ public abstract class GenericShardlet implements Shardlet, ShardletConfig
      * 
      * @param       <E>                     The event type. 
      */
-    protected final <E extends ShardletEvent> void publish()
+    protected final <E extends Event> void publish(Class<E> clazz)
     {
-        aggregator.<E>triggerEvent();
+        aggregator.<E>triggerEvent(clazz);
     }
     
     
@@ -84,9 +86,9 @@ public abstract class GenericShardlet implements Shardlet, ShardletConfig
      * @param       <E>                     The event type.
      * @param       action                  The <code>ShardletAction</code> object.
      */
-    protected final <E extends ShardletEvent> void publish(ShardletAction action)
+    protected final <E extends Event> void publish(Class<E> clazz, ShardletAction action)
     {
-        aggregator.<E>triggerEvent(action);
+        aggregator.<E>triggerEvent(clazz, action);
     }
 
     

@@ -13,17 +13,8 @@ package com.gamerevision.rusty.realityshard.shardlet;
  * @author _rusty
  *
  */
-public interface ShardletEvent
+public interface Event
 {
-    
-    /**
-     * Getter.
-     * Used to destinguish different event types.
-     * 
-     * @return      A type-unique number.
-     */
-    public int getTypeHash();
-    
     
     /**
      * Getter.

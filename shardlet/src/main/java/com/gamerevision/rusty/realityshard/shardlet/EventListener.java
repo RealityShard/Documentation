@@ -12,7 +12,7 @@ package com.gamerevision.rusty.realityshard.shardlet;
  * @author _rusty
  *
  */
-public interface ShardletEventListener<E extends ShardletEvent>
+public interface EventListener<E extends Event>
 {
     
     /**
