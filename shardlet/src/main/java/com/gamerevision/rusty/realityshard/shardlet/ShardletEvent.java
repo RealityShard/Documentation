@@ -18,6 +18,15 @@ public interface ShardletEvent
     
     /**
      * Getter.
+     * Used to destinguish different event types.
+     * 
+     * @return      A type-unique number.
+     */
+    public int getTypeHash();
+    
+    
+    /**
+     * Getter.
      * 
      * @return      The <code>ShardletAction</code> of the event (a.k.a. the network message or payload)
      */

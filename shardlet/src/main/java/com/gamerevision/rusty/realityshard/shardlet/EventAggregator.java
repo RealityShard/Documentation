@@ -26,7 +26,7 @@ public interface EventAggregator
      *                                      with a concrete implementation of this event.
      * @param       listener                The listener that will be triggered by the event
      */
-    public <E extends ShardletEvent> void addListener(E event, ShardletEventListener<E> listener);
+    public <E extends ShardletEvent> void addListener(ShardletEventListener<E> listener);
     
     
     /**

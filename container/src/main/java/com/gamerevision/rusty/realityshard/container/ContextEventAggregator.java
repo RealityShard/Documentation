@@ -8,6 +8,8 @@ import com.gamerevision.rusty.realityshard.shardlet.EventAggregator;
 import com.gamerevision.rusty.realityshard.shardlet.ShardletAction;
 import com.gamerevision.rusty.realityshard.shardlet.ShardletEvent;
 import com.gamerevision.rusty.realityshard.shardlet.ShardletEventListener;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -19,31 +21,32 @@ import com.gamerevision.rusty.realityshard.shardlet.ShardletEventListener;
  * @author _rusty
  *
  */
-public class ContextEventAggregator implements EventAggregator
+public final class ContextEventAggregator implements EventAggregator
 {
+    
+    private Map<Integer, ShardletEventListener<? extends ShardletEvent>> eventMapping;
+    
     
     /**
      * Constructor.
-     *
      */
     public ContextEventAggregator()
     {
+        eventMapping = new ConcurrentHashMap<>();
     }
     
     
     /**
      * Add a new listener to the event->listener association
      * 
-     * @param       event                   The listener will be invoked when events of this
-     *                                      type occur.
      * @param       listener                The listener object. The aggregator will call the
      *                                      service method of this object in case of an event.
      */
-    @Override
-    public <E extends ShardletEvent> void addListener(E event, ShardletEventListener<E> listener)
-    {
-        // TODO Implement me!
-    }
+    //@Override
+    //public void addListener(ShardletEvent event, ShardletEventListener<? extends ShardletEvent> listener)
+    //{
+    //    eventMapping.put(event.getTypeHash(), listener);
+    //}
     
     
     /**
