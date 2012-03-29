@@ -13,10 +13,10 @@ import junit.framework.TestCase;
  * 
  * @author _rusty
  */
-public class ContextEventAggregatorTest extends TestCase
+public class ConcurrentEventAggregatorTest extends TestCase
 {
     
-    public ContextEventAggregatorTest(String name)
+    public ConcurrentEventAggregatorTest(String name)
     {
         super(name);
     }
@@ -25,7 +25,7 @@ public class ContextEventAggregatorTest extends TestCase
     {
         // instantiate the listener and aggregator
         TestShardlet listenerOne = new TestShardlet();
-        ContextEventAggregator aggr = new ContextEventAggregator();
+        ConcurrentEventAggregator aggr = new ConcurrentEventAggregator();
         
         // add the listener
         aggr.addListener(listenerOne);

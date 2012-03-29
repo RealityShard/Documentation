@@ -9,11 +9,11 @@ import com.gamerevision.rusty.realityshard.shardlet.EventAggregator;
 import com.gamerevision.rusty.realityshard.shardlet.EventListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
  * @author _rusty
  *
  */
-public final class ContextEventAggregator implements EventAggregator
+public final class ConcurrentEventAggregator implements EventAggregator
 {
     /**
      * Used for keeping the listener-object/listener-method
@@ -75,14 +75,14 @@ public final class ContextEventAggregator implements EventAggregator
     }
     
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(ContextEventAggregator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConcurrentEventAggregator.class);
     private Map<Class<? extends Event>, List<ObjectMethodPair>> eventMapping;
     
     
     /**
      * Constructor.
      */
-    public ContextEventAggregator()
+    public ConcurrentEventAggregator()
     {
         eventMapping = new ConcurrentHashMap<>();
     }
@@ -92,7 +92,7 @@ public final class ContextEventAggregator implements EventAggregator
      * Add a new listener to the event->listener association
      * 
      * @param       listener                The listener object. The aggregator will call the
-     *                                      service method of this object in case of an event.
+     *                                      handler methods of this object in case of an event.
      */
     @Override
     public void addListener(Object listener)
@@ -137,7 +137,7 @@ public final class ContextEventAggregator implements EventAggregator
             if (list == null)
             {
                 // if there is no entry yet, create a new listener list
-                list = new ArrayList<>();
+                list = new CopyOnWriteArrayList<>();
                 eventMapping.put(clazz, list);
             }
 
@@ -166,7 +166,8 @@ public final class ContextEventAggregator implements EventAggregator
             try 
             {
                 // for each listener in the listener collection,
-                // try to service() the event
+                // try to invoke the handler with
+                // the object that holds it and the event
                 pair.getMethod().invoke(pair.getObject(), event);
             } 
             catch (IllegalAccessException | IllegalArgumentException ex) 
