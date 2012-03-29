@@ -22,7 +22,7 @@ public class ContextEventAggregatorTest extends TestCase
     public void testEvent()
     {
         // instantiate the listener and aggregator
-        TestListenerOne listenerOne = new TestListenerOne();
+        TestShardlet listenerOne = new TestShardlet();
         ContextEventAggregator aggr = new ContextEventAggregator();
         
         // add the listener
