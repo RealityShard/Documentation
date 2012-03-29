@@ -1,14 +1,16 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Distributed under the GNU GLP v.3
  */
+
 package com.gamerevision.rusty.realityshard.container;
 
 import java.lang.reflect.InvocationTargetException;
 import junit.framework.TestCase;
 
+
 /**
- *
+ * JUnit test class
+ * 
  * @author _rusty
  */
 public class ContextEventAggregatorTest extends TestCase

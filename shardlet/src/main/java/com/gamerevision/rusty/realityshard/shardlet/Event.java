@@ -6,28 +6,10 @@ package com.gamerevision.rusty.realityshard.shardlet;
 
 
 /**
- * A general shardlet event that can be handled by an event-aggregator.
- * An event may contain an action, which is basically a message from
- * or to a client.
- * 
+ * A general event that can be handled by an event-aggregator.
+ *  
  * @author _rusty
- *
  */
 public interface Event
-{
-    
-    /**
-     * Getter.
-     * 
-     * @return      The <code>ShardletAction</code> of the event (a.k.a. the network message or payload)
-     */
-    public ShardletAction getAction();
-    
-    /**
-     * Setter.
-     * 
-     * @param       action                  The <code>ShardletAction</code> of the event 
-     *                                      (a.k.a. the network message or payload)
-     */
-    public void setAction(ShardletAction action);
+{ 
 }

@@ -1,7 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Distributed under the GNU GLP v.3
  */
+
 package com.gamerevision.rusty.realityshard.container;
 
 import com.gamerevision.rusty.realityshard.shardlet.EventListener;
@@ -34,6 +34,7 @@ public class TestShardlet extends GenericShardlet
     
     /**
      * This is a sample event handler
+     * 
      * @param event 
      */
     @EventListener
@@ -49,6 +50,7 @@ public class TestShardlet extends GenericShardlet
     
     /**
      * This is a sample event handler
+     * 
      * @param event 
      */
     @EventListener
@@ -60,6 +62,4 @@ public class TestShardlet extends GenericShardlet
         // some sample test code:
         throw new UnsupportedOperationException("ServiceEventTwo");
     }
-
-
 }

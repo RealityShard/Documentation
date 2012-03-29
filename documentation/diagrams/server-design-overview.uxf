@@ -113,7 +113,7 @@
         <w>170</w>
         <h>30</h>
       </coordinates>
-      <panel_attributes>EventReactor
+      <panel_attributes>EventAggregator
 </panel_attributes>
       <additional_attributes/>
     </element>
