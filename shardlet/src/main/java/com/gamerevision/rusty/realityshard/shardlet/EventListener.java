@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 
 /**
  * This annotation will mark the listener methods that the aggregator will look for
- * @author felix
+ * @author _rusty
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
