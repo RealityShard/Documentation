@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +36,7 @@ public final class ConcurrentEventAggregator implements EventAggregator
      * Used for keeping the listener-object/listener-method
      * stuff within a pair. (Needed for invokation of the method lateron)
      */
-    private final class ObjectMethodPair
+    private static final class ObjectMethodPair
     {
         private Object object;
         private Method method;
@@ -75,15 +78,62 @@ public final class ConcurrentEventAggregator implements EventAggregator
     }
     
     
+    /**
+     * Used to invoke the listeners dynamically and by the executor
+     */
+    private static final class Invokable implements Runnable
+    {
+        
+        private final ObjectMethodPair invokablePair;
+        private final Event parameter;
+        
+        
+        /**
+         * Constructor.
+         * 
+         * @param       invokablePair
+         * @param       parameter 
+         */
+        public Invokable(ObjectMethodPair invokablePair, Event parameter)
+        {
+            this.invokablePair = invokablePair;
+            this.parameter = parameter;
+            
+        }
+        
+        /**
+         * Will be executed by executorService
+         */
+        @Override
+        public void run() 
+        {
+            try 
+            {
+                invokablePair.getMethod()
+                        .invoke(invokablePair.getObject(), parameter);
+            } 
+            catch (    IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) 
+            {
+                LOGGER.warn("Could not execute an event handler", ex);
+            }
+        }
+        
+    }
+    
+    
     private static final Logger LOGGER = LoggerFactory.getLogger(ConcurrentEventAggregator.class);
-    private Map<Class<? extends Event>, List<ObjectMethodPair>> eventMapping;
+    private final Map<Class<? extends Event>, List<ObjectMethodPair>> eventMapping;
+    private final Executor executor;
     
     
     /**
      * Constructor.
      */
-    public ConcurrentEventAggregator()
+    public ConcurrentEventAggregator(Executor executor)
     {
+        // get the executor defined by the application
+        this.executor = executor;
+        
         eventMapping = new ConcurrentHashMap<>();
     }
     
@@ -153,7 +203,6 @@ public final class ConcurrentEventAggregator implements EventAggregator
      */
     @Override
     public void triggerEvent(Event event)
-            throws InvocationTargetException
     {
         // get the listeners of the event
         List<ObjectMethodPair> listeners = eventMapping.get(event.getClass());
@@ -163,17 +212,10 @@ public final class ConcurrentEventAggregator implements EventAggregator
         
         for (ObjectMethodPair pair: eventMapping.get(event.getClass()))
         {
-            try 
-            {
-                // for each listener in the listener collection,
-                // try to invoke the handler with
-                // the object that holds it and the event
-                pair.getMethod().invoke(pair.getObject(), event);
-            } 
-            catch (IllegalAccessException | IllegalArgumentException ex) 
-            {
-                LOGGER.warn("Could not execute an event handler", ex);
-            }
+            // for each listener in the listener collection,
+            // try to invoke the handler with
+            // the object that holds it and the event
+            executor.execute(new Invokable(pair, event));
         }
     }
 }
