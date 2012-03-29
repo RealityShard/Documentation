@@ -1,24 +1,18 @@
-/**
- * Distributed under the GNU GLP v.3
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
  */
-
 package com.gamerevision.rusty.realityshard.shardlet;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * All classes that implement this interface can be used by the
- * EventAggregator, that will manage the ShardletEvents.
- * 
- * @author _rusty
- *
+ * This annotation will mark the listener methods that the aggregator will look for
+ * @author felix
  */
-public interface EventListener<E extends Event>
-{
-    
-    /**
-     * This method will be called by the aggregator.
-     * 
-     * @param       event                   The event that will be handled by the shardlet
-     */
-    public void service(E event);
-}
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface EventListener {}

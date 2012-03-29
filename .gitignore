@@ -11,3 +11,4 @@
 #dirs
 */.settings/*
 */target/*
+/target/

@@ -4,6 +4,7 @@
 
 package com.gamerevision.rusty.realityshard.shardlet;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Enumeration;
 
 
@@ -63,6 +64,7 @@ public abstract  class GenericShardlet implements Shardlet, ShardletConfig
      * Will be called by the init(config) method,
      * so just override this to ensure your code
      * gets loaded at shardlet-startup.
+     * This method can also be left empty.
      */
     protected abstract void init();
     
@@ -71,24 +73,20 @@ public abstract  class GenericShardlet implements Shardlet, ShardletConfig
      * Publish an Event.
      * This hides the aggregator from sub types.
      * 
+     * Note that we need to make this generic, because we need to keep the type.
+     * 
      * @param       <E>                     The event type. 
      */
-    protected final <E extends Event> void publish(Class<E> clazz)
+    protected final <E extends Event> void publish(E event)
     {
-        aggregator.<E>triggerEvent(clazz);
-    }
-    
-    
-    /**
-     * Publish an Event plus attached Action.
-     * This hides the aggregator from sub types.
-     * 
-     * @param       <E>                     The event type.
-     * @param       action                  The <code>ShardletAction</code> object.
-     */
-    protected final <E extends Event> void publish(Class<E> clazz, ShardletAction action)
-    {
-        aggregator.<E>triggerEvent(clazz, action);
+        try
+        {
+            aggregator.triggerEvent(event);
+        }
+        catch (InvocationTargetException ex)
+        {
+            // TODO log me!
+        }
     }
 
     

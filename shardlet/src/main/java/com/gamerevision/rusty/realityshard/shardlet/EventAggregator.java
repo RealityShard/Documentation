@@ -6,6 +6,9 @@
 
 package com.gamerevision.rusty.realityshard.shardlet;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 
 /**
  * An EventAggregator is the EventAggregator-pattern class implemented by the container
@@ -15,33 +18,31 @@ package com.gamerevision.rusty.realityshard.shardlet;
  * 
  * @author _rusty
  */
-public interface EventAggregator<PayloadType>
+public interface EventAggregator
 {
     
     /**
      * Register a new listener with the event->listeners associations.
      * 
-     * @param       event                   The listener will be bound to this event. Whenever
-     *                                      it is triggered, the listener's service method will be invoked
-     *                                      with a concrete implementation of this event.
-     * @param       listener                The listener that will be triggered by the event
+     * @param       listener                The listener that will be triggered by various events. 
+     *                                      (Depends on its listeners, these methods should have <code>@EventListener</code>
+     *                                      as an annotation, and follow the signature:
+     *                                      only one parameter that class implements Shardlet.Event)
      */
-    public <E extends Event> void addListener(Class<E> clazz, EventListener<E> listener);
-    
-    
-    /**
-     * Trigger an event, the EventAggregator will try to distribute it to all 
-     * registered listeners
-     */
-    public <E extends Event> void triggerEvent(Class<E> clazz);
+    public void addListener(Object listener);
     
     
     /**
      * Trigger an event, the EventAggregator will try to distribute it to all 
      * registered listeners
      * 
-     * @param       action                  The <code>ShardletAction</code> that will be attached to the
-     *                                      event.
+     * Note that the generic type parameter is necessary in order to
+     * be able to call the listener later on.
+     * 
+     * @exception   InvocationTargetExpection
+     *                                      This Exception is thrown when an exception
+     *                                      was thrown from within a handler.
      */
-    public <E extends Event> void triggerEvent(Class<E> clazz, PayloadType action);
+    public void triggerEvent(Event event)
+            throws InvocationTargetException;
 }

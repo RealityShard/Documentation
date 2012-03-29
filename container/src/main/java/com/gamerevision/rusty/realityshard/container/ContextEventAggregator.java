@@ -7,11 +7,15 @@ package com.gamerevision.rusty.realityshard.container;
 import com.gamerevision.rusty.realityshard.shardlet.Event;
 import com.gamerevision.rusty.realityshard.shardlet.EventAggregator;
 import com.gamerevision.rusty.realityshard.shardlet.EventListener;
-import com.gamerevision.rusty.realityshard.shardlet.ShardletAction;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -23,10 +27,56 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author _rusty
  *
  */
-public final class ContextEventAggregator implements EventAggregator<ShardletAction>
+public final class ContextEventAggregator implements EventAggregator
 {
+    /**
+     * Used for keeping the listener-object/listener-method
+     * stuff within a pair. (Needed for invokation of the method lateron)
+     */
+    private final class ObjectMethodPair
+    {
+        private Object object;
+        private Method method;
+        
+        
+        /**
+         * Constructor.
+         * 
+         * @param       object
+         * @param       method 
+         */
+        public ObjectMethodPair(Object object, Method method)
+        {
+            this.object = object;
+            this.method = method;
+        }
+
+        
+        /**
+         * Getter.
+         * 
+         * @return      The object that holds the method
+         */
+        public Object getObject() 
+        {
+            return object;
+        }
+        
+        
+        /**
+         * Getter.
+         * 
+         * @return      The method declared within the class of the object
+         */
+        public Method getMethod() 
+        {
+            return method;
+        }     
+    }
     
-    private Map<Class<? extends Event>, List<EventListener<? extends Event>>> eventMapping;
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ContextEventAggregator.class);
+    private Map<Class<? extends Event>, List<ObjectMethodPair>> eventMapping;
     
     
     /**
@@ -45,78 +95,84 @@ public final class ContextEventAggregator implements EventAggregator<ShardletAct
      *                                      service method of this object in case of an event.
      */
     @Override
-    public <E extends Event> void addListener(Class<E> clazz, EventListener<E> listener)
+    public void addListener(Object listener)
     {
-        // we want to add the listener to a list of listeners that all observer the same event
+        // get all the declared methods of the listener, so we can look for annotations
+        Method[] methods = listener.getClass().getDeclaredMethods();
         
-        if (eventMapping.containsKey(clazz))
+        // try extracting the methods with our listener annotation, specified in
+        // Shardlet.EventListener
+        Map<Class<? extends Event>, Method> listenerMethods = new HashMap<>();
+        for (Method method : methods) 
         {
-            // add the listener to the list if the entry already exists
-            eventMapping.get(clazz).add(listener);
-            return;
-        }
-        
-        // or create a new entry if the event has no listeners yet
-        ArrayList<EventListener<? extends Event>> list = new ArrayList<>();
-        list.add(listener);
-        
-        eventMapping.put(clazz, list);
-    }
-    
-    
-    /**
-     * Trigger an event, the aggregator will try to distribute 
-     * it to the appropriate listeners
-     */
-    @Override
-    public <E extends Event> void triggerEvent(Class<E> clazz)
-    {
-        for (EventListener<? extends Event> listener: eventMapping.get(clazz))
-        {
-            // for each listener in the listener collection,
-            // try to service() the event
-            try
+            // check if the method has an annotation of type EventListener
+            if(method.getAnnotation(EventListener.class) != null)
             {
-                // we need to instantiate the event
-                // TODO: Can this be done any other way? We dont need the object here
-                ((EventListener<E>) listener)
-                    .service(clazz.newInstance());
+                Class<?>[] params = method.getParameterTypes();
+                // check if the method follows the general listener method conventions
+                // meaning it takes only one argument which has a class that implements
+                // Shardlet.Event
+                if (params.length == 1 && Event.class.isAssignableFrom(params[0]))
+                {
+                    listenerMethods.put((Class<? extends Event>)params[0], method);
+                }
+                else
+                {
+                    LOGGER.warn("Listener has a method that is annotated as EventListener but doesnt follow the signature.", listener);
+                }
             }
-            catch (InstantiationException | IllegalAccessException e)
-            {
-                // TODO Handle exceptions!
-            }            
         }
-    }
+        
+        // add the methods to the aggregator
+        for (Map.Entry<Class<? extends Event>, Method> entry : listenerMethods.entrySet()) 
+        {
+            Class<? extends Event> clazz = entry.getKey();
+            ObjectMethodPair pair = new ObjectMethodPair(listener, entry.getValue());
+        
+            // we want to add the listener methods to a list of methods that have the same
+            // signature, and thus listen for the same event
+            // so try to get the list
+            List<ObjectMethodPair> list = eventMapping.get(clazz);
 
+            if (list == null)
+            {
+                // if there is no entry yet, create a new listener list
+                list = new ArrayList<>();
+                eventMapping.put(clazz, list);
+            }
+
+            // finally add the listener
+            list.add(pair);
+        }
+    }
+    
     
     /**
      * Trigger an event, the aggregator will try to distribute 
      * it to the appropriate listeners
-     * 
-     * @param       action                   The action that will be distributed.
      */
     @Override
-    public <E extends Event> void triggerEvent(Class<E> clazz, ShardletAction action) 
+    public void triggerEvent(Event event)
+            throws InvocationTargetException
     {
-        for (EventListener<? extends Event> listener: eventMapping.get(clazz))
+        // get the listeners of the event
+        List<ObjectMethodPair> listeners = eventMapping.get(event.getClass());
+        
+        // failcheck
+        if (listeners == null) return;
+        
+        for (ObjectMethodPair pair: eventMapping.get(event.getClass()))
         {
-            // for each listener in the listener collection,
-            // try to service() the event
-            try
+            try 
             {
-                // we need to instantiate the event
-                // TODO: Can this be done any other way? We dont need the object here
-                E event = clazz.newInstance();
-                event.setAction(action);
-                
-                ((EventListener<E>) listener)
-                    .service(event);
+                // for each listener in the listener collection,
+                // try to service() the event
+                pair.getMethod().invoke(pair.getObject(), event);
+            } 
+            catch (IllegalAccessException | IllegalArgumentException ex) 
+            {
+                LOGGER.warn("Could not execute an event handler", ex);
             }
-            catch (InstantiationException | IllegalAccessException e)
-            {
-                // TODO Handle exceptions!
-            }            
         }
     }
 }
