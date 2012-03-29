@@ -1,5 +1,5 @@
 /**
- * Distributed under the GNU GLP v.3
+ * Distributed under the GNU GPL v.3
  * Google it if you want to have a copy of the license.
  */
 
