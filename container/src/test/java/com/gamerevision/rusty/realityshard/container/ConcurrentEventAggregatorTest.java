@@ -4,16 +4,11 @@
 
 package com.gamerevision.rusty.realityshard.container;
 
-import com.gamerevision.rusty.realityshard.shardlet.*;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Enumeration;
+import com.gamerevision.rusty.realityshard.shardlet.EventListener;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import junit.framework.TestCase;
 
 
@@ -51,6 +46,8 @@ public class ConcurrentEventAggregatorTest extends TestCase
         // nao exeQt da fuq
         aggr.triggerEvent(new TestEventOne());
         
+        // wait till the aggregator has invoked our own method
+        // or till 10 seconds are over (timeout)
         int counter = 0;
         while (!testSuccessful && counter <= 10)
         {

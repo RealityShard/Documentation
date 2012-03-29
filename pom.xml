@@ -20,6 +20,7 @@
     
     <modules>
         <module>shardlet</module>
+        <module>schemas</module>
         <module>container</module>
     </modules>
 

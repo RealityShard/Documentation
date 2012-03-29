@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>schemas</artifactId>
+    <name>${project.artifactId}</name>
+    <packaging>jar</packaging>
+        
+    
+    <parent>
+        <groupId>com.gamerevision.rusty.realityshard</groupId>
+        <artifactId>reality-shard</artifactId>
+        <version>0.1.0_RC1-SNAPSHOT</version>
+    </parent>
+
+
+    <description>The generated jaxb schema classes used to serialize the deployment-descriptor and other XML docs.</description>
+    
+    
+    <build>
+        <resources>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+                <executions>
+                    <execution>
+                        
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        
+                        <configuration>
+                            <forceRegenerate>true</forceRegenerate>
+                            <generateDirectory>src/main/java</generateDirectory>
+                            <generatePackage>com.gamerevision.rusty.realityshard.schemas</generatePackage>
+                            <removeOldOutput>true</removeOldOutput>
+                            <episode>false</episode>
+                        </configuration>
+                        
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project> 

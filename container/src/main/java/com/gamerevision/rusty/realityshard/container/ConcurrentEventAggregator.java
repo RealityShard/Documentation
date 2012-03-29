@@ -15,17 +15,16 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 /**
  * Implementation of the event aggregator pattern (or some kind of it)
- * 
- * This is a first draft only.
- * TODO Implement me!
+ * This should be concurrent:
+ * It is able to handle event triggers from different threads and
+ * creates a new invokation-execution for each listener via
+ * the extern provided Executor.
  * 
  * @author _rusty
  *
@@ -101,8 +100,9 @@ public final class ConcurrentEventAggregator implements EventAggregator
             
         }
         
+        
         /**
-         * Will be executed by executorService
+         * Will be executed by executor
          */
         @Override
         public void run() 
@@ -117,7 +117,6 @@ public final class ConcurrentEventAggregator implements EventAggregator
                 LOGGER.warn("Could not execute an event handler", ex);
             }
         }
-        
     }
     
     
@@ -218,4 +217,4 @@ public final class ConcurrentEventAggregator implements EventAggregator
             executor.execute(new Invokable(pair, event));
         }
     }
-}
+} 
