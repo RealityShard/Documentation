@@ -2,19 +2,19 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0">
 
 
- <!--RootNode: GameApp-->
-    <xsd:element name="game-app" type="GameApp" />
+<!--RootNode: GameApp-->
+    <xsd:element name="GameApp" type="GameApp" />
         
         
- <!--Type defs-->
+<!--Type defs-->
     <!--GameApp-->
     <xsd:complexType name="GameApp">
         <xsd:sequence>
-            <xsd:element name="DisplayName" type="xsd:string" minOccurs="1" maxOccurs="1" />
-            <xsd:element name="Description" type="xsd:string" minOccurs="1" maxOccurs="1" />
-            <xsd:element name="Protocols" type="Protocols" minOccurs="1" maxOccurs="1" />
-            <xsd:element name="Shardlets" type="Shardlets" minOccurs="1" maxOccurs="1" />
-            <xsd:element name="Context" type="Context" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="DisplayName" type="xsd:string"   minOccurs="1" maxOccurs="1" />
+            <xsd:element name="Description" type="xsd:string"   minOccurs="1" maxOccurs="1" />
+            <xsd:element name="Protocols"   type="Protocols"    minOccurs="1" maxOccurs="1" />
+            <xsd:element name="Shardlets"   type="Shardlets"    minOccurs="1" maxOccurs="1" />
+            <xsd:element name="Context"     type="Context"      minOccurs="1" maxOccurs="1" />
         </xsd:sequence>
     </xsd:complexType>
 
@@ -42,10 +42,10 @@
         <xsd:sequence>
             <xsd:element name="InitParam" type="InitParam" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
-        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="name"  type="xsd:string" />
         <xsd:attribute name="class" type="xsd:string" />
-        <xsd:attribute name="in" type="xsd:boolean" />
-        <xsd:attribute name="out" type="xsd:boolean" />
+        <xsd:attribute name="in"    type="xsd:boolean" />
+        <xsd:attribute name="out"   type="xsd:boolean" />
     </xsd:complexType>
 
     
@@ -62,7 +62,7 @@
         <xsd:sequence>
             <xsd:element name="InitParam" type="InitParam" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
-        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="name"  type="xsd:string" />
         <xsd:attribute name="class" type="xsd:string" />
     </xsd:complexType>
 
@@ -77,7 +77,7 @@
     
     <!--InitParam-->
     <xsd:complexType name="InitParam">
-        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="name"  type="xsd:string" />
         <xsd:attribute name="value" type="xsd:string" />
     </xsd:complexType>
 

@@ -8,30 +8,24 @@
 
 package com.gamerevision.rusty.realityshard.schemas;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for Protocol complex type.
+ * <p>Java class for Port complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="Protocol">
+ * &lt;complexType name="Port">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="ProtocolFilter" type="{}ProtocolFilter" maxOccurs="unbounded"/>
- *       &lt;/sequence>
  *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="port" type="{http://www.w3.org/2001/XMLSchema}unsignedInt" />
+ *       &lt;attribute name="number" type="{http://www.w3.org/2001/XMLSchema}unsignedInt" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -40,47 +34,14 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Protocol", propOrder = {
-    "protocolFilter"
-})
-public class Protocol {
+@XmlType(name = "Port")
+public class Port {
 
-    @XmlElement(name = "ProtocolFilter", required = true)
-    protected List<ProtocolFilter> protocolFilter;
     @XmlAttribute(name = "name")
     protected String name;
-    @XmlAttribute(name = "port")
+    @XmlAttribute(name = "number")
     @XmlSchemaType(name = "unsignedInt")
-    protected Long port;
-
-    /**
-     * Gets the value of the protocolFilter property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the protocolFilter property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getProtocolFilter().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ProtocolFilter }
-     * 
-     * 
-     */
-    public List<ProtocolFilter> getProtocolFilter() {
-        if (protocolFilter == null) {
-            protocolFilter = new ArrayList<ProtocolFilter>();
-        }
-        return this.protocolFilter;
-    }
+    protected Long number;
 
     /**
      * Gets the value of the name property.
@@ -107,27 +68,27 @@ public class Protocol {
     }
 
     /**
-     * Gets the value of the port property.
+     * Gets the value of the number property.
      * 
      * @return
      *     possible object is
      *     {@link Long }
      *     
      */
-    public Long getPort() {
-        return port;
+    public Long getNumber() {
+        return number;
     }
 
     /**
-     * Sets the value of the port property.
+     * Sets the value of the number property.
      * 
      * @param value
      *     allowed object is
      *     {@link Long }
      *     
      */
-    public void setPort(Long value) {
-        this.port = value;
+    public void setNumber(Long value) {
+        this.number = value;
     }
 
 }

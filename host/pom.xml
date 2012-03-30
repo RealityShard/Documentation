@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>host</artifactId>
+    <name>${project.artifactId}</name>
+    <packaging>jar</packaging>
+        
+    
+    <parent>
+        <groupId>com.gamerevision.rusty.realityshard</groupId>
+        <artifactId>reality-shard</artifactId>
+        <version>0.1.0_RC1-SNAPSHOT</version>
+    </parent>
+
+
+    <description>The host application that creates a new Shardlet:Container</description>
+    
+    
+    <dependencies>
+        <!--the network manager-->
+        <dependency>
+            <groupId>com.gamerevision.rusty.realityshard</groupId>
+            <artifactId>network</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+        </dependency>
+        
+        <!--the container-->
+        <dependency>
+            <groupId>com.gamerevision.rusty.realityshard</groupId>
+            <artifactId>container</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+        </dependency>
+        
+        <!-- LOGBack for logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.6.4</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy</artifactId>
+            <version>1.8.3</version>
+        </dependency>
+    </dependencies>
+
+</project> 

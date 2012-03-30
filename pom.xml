@@ -21,7 +21,9 @@
     <modules>
         <module>shardlet</module>
         <module>schemas</module>
+        <module>network</module>
         <module>container</module>
+        <module>host</module>
     </modules>
 
 

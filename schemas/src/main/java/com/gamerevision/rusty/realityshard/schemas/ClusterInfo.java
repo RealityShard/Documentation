@@ -17,16 +17,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for Context complex type.
+ * <p>Java class for ClusterInfo complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="Context">
+ * &lt;complexType name="ClusterInfo">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="InitParam" type="{}InitParam" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="ClusterServer" type="{}ClusterServer" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -36,41 +36,41 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Context", propOrder = {
-    "initParam"
+@XmlType(name = "ClusterInfo", propOrder = {
+    "clusterServer"
 })
-public class Context {
+public class ClusterInfo {
 
-    @XmlElement(name = "InitParam")
-    protected List<InitParam> initParam;
+    @XmlElement(name = "ClusterServer")
+    protected List<ClusterServer> clusterServer;
 
     /**
-     * Gets the value of the initParam property.
+     * Gets the value of the clusterServer property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the initParam property.
+     * This is why there is not a <CODE>set</CODE> method for the clusterServer property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getInitParam().add(newItem);
+     *    getClusterServer().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link InitParam }
+     * {@link ClusterServer }
      * 
      * 
      */
-    public List<InitParam> getInitParam() {
-        if (initParam == null) {
-            initParam = new ArrayList<InitParam>();
+    public List<ClusterServer> getClusterServer() {
+        if (clusterServer == null) {
+            clusterServer = new ArrayList<ClusterServer>();
         }
-        return this.initParam;
+        return this.clusterServer;
     }
 
 }
