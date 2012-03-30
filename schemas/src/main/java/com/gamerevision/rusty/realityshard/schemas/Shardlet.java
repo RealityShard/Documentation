@@ -8,23 +8,29 @@
 
 package com.gamerevision.rusty.realityshard.schemas;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for InitParam complex type.
+ * <p>Java class for Shardlet complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="InitParam">
+ * &lt;complexType name="Shardlet">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element name="InitParam" type="{}InitParam" maxOccurs="unbounded" minOccurs="0"/>
+ *       &lt;/sequence>
  *       &lt;attribute name="name" type="{http://www.w3.org/2001/XMLSchema}string" />
- *       &lt;attribute name="value" type="{http://www.w3.org/2001/XMLSchema}string" />
+ *       &lt;attribute name="class" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
@@ -33,13 +39,46 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "InitParam")
-public class InitParam {
+@XmlType(name = "Shardlet", propOrder = {
+    "initParam"
+})
+public class Shardlet {
 
+    @XmlElement(name = "InitParam")
+    protected List<InitParam> initParam;
     @XmlAttribute(name = "name")
     protected String name;
-    @XmlAttribute(name = "value")
-    protected String value;
+    @XmlAttribute(name = "class")
+    protected String clazz;
+
+    /**
+     * Gets the value of the initParam property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the initParam property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getInitParam().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link InitParam }
+     * 
+     * 
+     */
+    public List<InitParam> getInitParam() {
+        if (initParam == null) {
+            initParam = new ArrayList<InitParam>();
+        }
+        return this.initParam;
+    }
 
     /**
      * Gets the value of the name property.
@@ -66,27 +105,27 @@ public class InitParam {
     }
 
     /**
-     * Gets the value of the value property.
+     * Gets the value of the clazz property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getValue() {
-        return value;
+    public String getClazz() {
+        return clazz;
     }
 
     /**
-     * Sets the value of the value property.
+     * Sets the value of the clazz property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setValue(String value) {
-        this.value = value;
+    public void setClazz(String value) {
+        this.clazz = value;
     }
 
 }

@@ -1,87 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jxb="http://java.sun.com/xml/ns/jaxb" jxb:version="2.0">
-  
-  <xsd:element name="init-param">
-    <xsd:complexType>
-      <xsd:attribute name="name" type="xsd:string" />
-      <xsd:attribute name="value" type="xsd:string" />
+
+
+ <!--RootNode: GameApp-->
+    <xsd:element name="game-app" type="GameApp" />
+        
+        
+ <!--Type defs-->
+    <!--GameApp-->
+    <xsd:complexType name="GameApp">
+        <xsd:sequence>
+            <xsd:element name="DisplayName" type="xsd:string" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="Description" type="xsd:string" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="Protocols" type="Protocols" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="Shardlets" type="Shardlets" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="Context" type="Context" minOccurs="1" maxOccurs="1" />
+        </xsd:sequence>
     </xsd:complexType>
-  </xsd:element>
-  
-  <xsd:element name="game-app">
+
     
-    <xsd:complexType>
-      <xsd:choice minOccurs="0" maxOccurs="unbounded">
-        <xsd:element ref="init-param" />
-        
-        <xsd:element name="info">
-          <xsd:complexType>
-            <xsd:sequence>
-              <xsd:element name="display-name" type="xsd:string" minOccurs="0" />
-              <xsd:element name="description" type="xsd:string" minOccurs="0" />
-            </xsd:sequence>
-          </xsd:complexType>
-        </xsd:element>
-        
-        <xsd:element name="protocols">
-          <xsd:complexType>
-            <xsd:sequence>
-              
-              <xsd:element name="protocol" minOccurs="0" maxOccurs="unbounded">
-                <xsd:complexType>
-                  <xsd:sequence>
-                    
-                    <xsd:element name="protocol-filter" minOccurs="0" maxOccurs="unbounded">
-                      <xsd:complexType>
-                        <xsd:sequence>
-                          <xsd:element ref="init-param" minOccurs="0" maxOccurs="unbounded" />
-                        </xsd:sequence>
-                        <xsd:attribute name="name" type="xsd:string" />
-                        <xsd:attribute name="class" type="xsd:string" />
-                        <xsd:attribute name="in" type="xsd:string" />
-                        <xsd:attribute name="out" type="xsd:string" />
-                      </xsd:complexType>
-                    </xsd:element>
-                  </xsd:sequence>
-                  <xsd:attribute name="name" type="xsd:string" />
-                  <xsd:attribute name="port" type="xsd:string" />
-                </xsd:complexType>
-              </xsd:element>
-              
-            </xsd:sequence>
-          </xsd:complexType>
-        </xsd:element>
-        
-        <xsd:element name="shardlets">
-          <xsd:complexType>
-            <xsd:sequence>
-              
-              <xsd:element name="shardlet" minOccurs="0" maxOccurs="unbounded">
-                <xsd:complexType>
-                  <xsd:sequence>
-                    <xsd:element ref="init-param" minOccurs="0" maxOccurs="unbounded" />
-                  </xsd:sequence>
-                  <xsd:attribute name="name" type="xsd:string" />
-                  <xsd:attribute name="class" type="xsd:string" />
-                </xsd:complexType>
-              </xsd:element>
-              
-            </xsd:sequence>
-          </xsd:complexType>
-        </xsd:element>
-        
-        <xsd:element name="context">
-          <xsd:complexType>
-            <xsd:sequence>
-              
-              <xsd:element ref="init-param" minOccurs="0" maxOccurs="unbounded" />
-              
-            </xsd:sequence>
-          </xsd:complexType>
-        </xsd:element>
-        
-      </xsd:choice>
+    <!--Protocols-->
+    <xsd:complexType name="Protocols">
+        <xsd:sequence>
+            <xsd:element name="Protocol" type="Protocol" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
     </xsd:complexType>
-  </xsd:element>
-  
+    
+    
+    <!--Protocol-->
+    <xsd:complexType name="Protocol">
+        <xsd:sequence>
+            <xsd:element name="ProtocolFilter" type="ProtocolFilter" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="port" type="xsd:unsignedInt" />
+    </xsd:complexType>
+
+
+    <!--ProtocolFilter-->
+    <xsd:complexType name="ProtocolFilter">
+        <xsd:sequence>
+            <xsd:element name="InitParam" type="InitParam" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="class" type="xsd:string" />
+        <xsd:attribute name="in" type="xsd:boolean" />
+        <xsd:attribute name="out" type="xsd:boolean" />
+    </xsd:complexType>
+
+    
+    <!--Shardlets-->
+    <xsd:complexType name="Shardlets">
+        <xsd:sequence>
+            <xsd:element name="Shardlet" type="Shardlet" minOccurs="1" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+        
+
+    <!--Shardlet-->
+    <xsd:complexType name="Shardlet">
+        <xsd:sequence>
+            <xsd:element name="InitParam" type="InitParam" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="class" type="xsd:string" />
+    </xsd:complexType>
+
+    
+    <!--Context-->
+    <xsd:complexType name="Context">
+        <xsd:sequence>
+            <xsd:element name="InitParam" type="InitParam" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    
+    <!--InitParam-->
+    <xsd:complexType name="InitParam">
+        <xsd:attribute name="name" type="xsd:string" />
+        <xsd:attribute name="value" type="xsd:string" />
+    </xsd:complexType>
+
 </xsd:schema>
