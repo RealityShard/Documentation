@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="11.4">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>610</x>
+      <y>390</y>
+      <w>160</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>EventAggregator
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>190</x>
+      <y>420</y>
+      <w>150</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>ContainerFacade
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>310</x>
+      <y>410</y>
+      <w>320</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.
+creates</panel_attributes>
+    <additional_attributes>300;50;30;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>570</x>
+      <y>220</y>
+      <w>140</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>SessionManager
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.UseCase</type>
+    <coordinates>
+      <x>820</x>
+      <y>260</y>
+      <w>140</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>ContextManager
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>720</x>
+      <y>300</y>
+      <w>130</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.&gt;
+events</panel_attributes>
+    <additional_attributes>110;30;30;110</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>590</x>
+      <y>280</y>
+      <w>104</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.&gt;
+events</panel_attributes>
+    <additional_attributes>50;30;70;110</additional_attributes>
+  </element>
+</diagram>
