@@ -4,13 +4,13 @@
 
 package com.gamerevision.rusty.realityshard.container;
 
-import com.gamerevision.rusty.realityshard.shardlet.utils.ConcurrentEventAggregator;
 import com.gamerevision.rusty.realityshard.container.events.InternalEventListener;
 import com.gamerevision.rusty.realityshard.container.events.InternalIncomingNetworkActionEvent;
 import com.gamerevision.rusty.realityshard.container.events.InternalStartupEvent;
 import com.gamerevision.rusty.realityshard.schemas.ServerConfig;
 import com.gamerevision.rusty.realityshard.shardlet.EventAggregator;
 import com.gamerevision.rusty.realityshard.shardlet.ShardletAction;
+import com.gamerevision.rusty.realityshard.shardlet.utils.ConcurrentEventAggregator;
 import java.util.concurrent.Executor;
 
 
@@ -68,7 +68,7 @@ public final class ContainerFacade
         // of this constructor
         
         // - the context manager
-        contextManager = new ContextManager(internalAggregator);
+        contextManager = new ContextManager(internalAggregator, executor, serverConfig.getGameAppBasePath());
         internalAggregator.addListener(contextManager);
         
         // - the session manager

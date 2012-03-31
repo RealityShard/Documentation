@@ -10,12 +10,13 @@
     <!--GameApp-->
     <xsd:complexType name="GameApp">
         <xsd:sequence>
-            <xsd:element name="DisplayName" type="xsd:string"   minOccurs="1" maxOccurs="1" />
-            <xsd:element name="Description" type="xsd:string"   minOccurs="1" maxOccurs="1" />
-            <xsd:element name="Startup"     type="Start"        minOccurs="1" maxOccurs="1" />
-            <xsd:element name="Protocols"   type="Protocols"    minOccurs="1" maxOccurs="1" />
-            <xsd:element name="Shardlets"   type="Shardlets"    minOccurs="1" maxOccurs="1" />
-            <xsd:element name="Context"     type="Context"      minOccurs="1" maxOccurs="1" />
+            <xsd:element name="DisplayName" type="xsd:string"       minOccurs="1" maxOccurs="1" />
+            <xsd:element name="Description" type="xsd:string"       minOccurs="1" maxOccurs="1" />
+            <xsd:element name="Startup"     type="Start"            minOccurs="0" maxOccurs="1" />
+            <xsd:element name="HeartBeat"   type="xsd:unsignedInt"  minOccurs="0" maxOccurs="1" />
+            <xsd:element name="InitParam"   type="InitParam"        minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="Protocol"    type="Protocol"         minOccurs="1" maxOccurs="unbounded" />
+            <xsd:element name="Shardlet"    type="Shardlet"         minOccurs="1" maxOccurs="unbounded" />
         </xsd:sequence>
     </xsd:complexType>
     
@@ -27,14 +28,6 @@
             <xsd:enumeration value="WhenRequested" />
         </xsd:restriction>
     </xsd:simpleType>
-
-    
-    <!--Protocols-->
-    <xsd:complexType name="Protocols">
-        <xsd:sequence>
-            <xsd:element name="Protocol" type="Protocol" minOccurs="1" maxOccurs="unbounded" />
-        </xsd:sequence>
-    </xsd:complexType>
     
     
     <!--Protocol-->
@@ -57,14 +50,6 @@
         <xsd:attribute name="in"    type="xsd:boolean" />
         <xsd:attribute name="out"   type="xsd:boolean" />
     </xsd:complexType>
-
-    
-    <!--Shardlets-->
-    <xsd:complexType name="Shardlets">
-        <xsd:sequence>
-            <xsd:element name="Shardlet" type="Shardlet" minOccurs="1" maxOccurs="unbounded" />
-        </xsd:sequence>
-    </xsd:complexType>
         
 
     <!--Shardlet-->
@@ -74,14 +59,6 @@
         </xsd:sequence>
         <xsd:attribute name="name"  type="xsd:string" />
         <xsd:attribute name="class" type="xsd:string" />
-    </xsd:complexType>
-
-    
-    <!--Context-->
-    <xsd:complexType name="Context">
-        <xsd:sequence>
-            <xsd:element name="InitParam" type="InitParam" minOccurs="0" maxOccurs="unbounded" />
-        </xsd:sequence>
     </xsd:complexType>
 
     

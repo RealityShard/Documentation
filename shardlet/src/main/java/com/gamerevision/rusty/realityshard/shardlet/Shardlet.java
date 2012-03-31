@@ -75,7 +75,7 @@ public interface Shardlet
     * 
     * @return       The shardlet config object given to this shardlet at initialization.
     */
-   public ShardletConfig getShardletConfig();
+   public Config getShardletConfig();
    
    
    /**
@@ -94,7 +94,7 @@ public interface Shardlet
      * @exception   ShardletException       May be thrown if anything didn't work right during
      *                                      initialization.
      */
-    public void init(ShardletConfig config) 
+    public void init(Config config) 
             throws ShardletException;
     
     

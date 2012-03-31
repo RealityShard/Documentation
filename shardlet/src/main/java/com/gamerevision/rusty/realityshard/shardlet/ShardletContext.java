@@ -128,8 +128,8 @@ public interface ShardletContext
      * context-wide initialization parameter, or <code>null</code> if the 
      * parameter does not exist.
      * 
-     * @param        name                    The parameter name.
-     * @return         The parameter value, if the parameter was found.
+     * @param       name                    The parameter name.
+     * @return      The parameter value, if the parameter was found.
      */
     public String getInitParameter(String name);
 
@@ -140,22 +140,11 @@ public interface ShardletContext
      * empty <code>Enumeration</code> if the context has no initialization
      * parameters.
      *
-     * @return         An <code>Enumeration</code> of <code>String</code> 
-     *               objects containing the names of the context's
-     *               initialization parameters
+     * @return      An <code>Enumeration</code> of <code>String</code> 
+     *              objects containing the names of the context's
+     *              initialization parameters
      */
     public Enumeration<String> getInitParameterNames();
-    
-
-    /**
-     * Sets the context initialization parameter with the given name and
-     * value on this ShardletContext. (Done by the container at context-loading)
-     *
-     * @param         name                     The name of the context initialization parameter to set
-     * @param         value                     The value of the context initialization parameter to set
-     * @return         True if successful.
-     */
-    public boolean setInitParameter(String name, String value);
 
 
     /**

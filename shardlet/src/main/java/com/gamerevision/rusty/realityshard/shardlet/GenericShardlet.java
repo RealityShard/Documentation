@@ -4,7 +4,6 @@
 
 package com.gamerevision.rusty.realityshard.shardlet;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Enumeration;
 
 
@@ -16,9 +15,9 @@ import java.util.Enumeration;
  * 
  * @author _rusty
  */
-public abstract  class GenericShardlet implements Shardlet, ShardletConfig
+public abstract  class GenericShardlet implements Shardlet, Config
 {    
-    private ShardletConfig config;
+    private Config config;
     private ShardletContext context;
     private EventAggregator aggregator;
    
@@ -46,7 +45,7 @@ public abstract  class GenericShardlet implements Shardlet, ShardletConfig
      * @throws      ShardletException 
      */
     @Override
-    public final void init(ShardletConfig config) 
+    public final void init(Config config) 
             throws ShardletException 
     {
         // init the attributes
@@ -89,7 +88,7 @@ public abstract  class GenericShardlet implements Shardlet, ShardletConfig
      * @return      The current config.
      */
     @Override
-    public ShardletConfig getShardletConfig() 
+    public Config getShardletConfig() 
     {
         return config;
     }
@@ -125,16 +124,16 @@ public abstract  class GenericShardlet implements Shardlet, ShardletConfig
      * @return      The name of this shardlet instance
      */
     @Override
-    public String getShardletName() 
+    public String getName() 
     {
-        ShardletConfig sc = getShardletConfig();
+        Config sc = getShardletConfig();
         
         if (sc == null) 
         {
             throw new IllegalStateException("Error: Shardlet config not initialized!");
         }
 
-        return sc.getShardletName();
+        return sc.getName();
     }
     
 
@@ -149,7 +148,7 @@ public abstract  class GenericShardlet implements Shardlet, ShardletConfig
     @Override
     public String getInitParameter(String name) 
     {
-        ShardletConfig sc = getShardletConfig();
+        Config sc = getShardletConfig();
         
         if (sc == null) 
         {
@@ -168,7 +167,7 @@ public abstract  class GenericShardlet implements Shardlet, ShardletConfig
     @Override
     public Enumeration<String> getInitParameterNames() 
     {
-        ShardletConfig sc = getShardletConfig();
+        Config sc = getShardletConfig();
         
         if (sc == null) 
         {

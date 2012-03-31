@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class ConcurrentEventAggregator implements EventAggregator
 {
+    
     /**
      * Used for keeping the listener-object/listener-method
      * stuff within a pair. (Needed for invokation of the method lateron)

@@ -2,14 +2,7 @@
  * For copyright information see the LICENSE document.
  */
 
-package com.gamerevision.rusty.realityshard.container;
-
-import com.gamerevision.rusty.realityshard.shardlet.EventAggregator;
-import com.gamerevision.rusty.realityshard.shardlet.EventHandler;
-import com.gamerevision.rusty.realityshard.shardlet.GenericShardlet;
-import java.lang.reflect.InvocationTargetException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+package com.gamerevision.rusty.realityshard.shardlet;
 
 
 /**
