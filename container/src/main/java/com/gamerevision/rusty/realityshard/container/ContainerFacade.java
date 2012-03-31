@@ -53,7 +53,7 @@ public final class ContainerFacade
         // try to load the server config
         // as this is usually where the most errors come from,
         // we can fail fast at an early stage of startup
-        ServerConfig serverConfig = ConfigLoader.getServerConfig(configPath, schemaPath);
+        ServerConfig serverConfig = JaxbUtils.validateAndUnmarshal(ServerConfig.class, configPath, schemaPath);
         
         
         // set up the internal aggregator

@@ -17,6 +17,8 @@ import org.xml.sax.SAXException;
 /**
  * Used to handle XML files with the JAXB framework
  * 
+ * Thx to iDemmel for parts of the sourcecode
+ * 
  * @author _rusty
  */
 public final class JaxbUtils 
@@ -27,16 +29,19 @@ public final class JaxbUtils
      * 
      * @param       <T>                     The type that will be validated and marshalled
      * @param       docClass                The class that represents the type T
-     * @param       inputStream             The raw document input stream
+     * @param       xmlFilePath             The path to the XML file
      * @param       schemaLocation          The path to the schema file for validation
      * @return      An object of type T filled with the content from the
      *              XML document (if everything went right that is)
      * @throws      JAXBException           If the JAXB framework threw an error
      * @throws      SAXException            If the SAX framework threw an error
      */
-    public static <T> T validateAndUnmarshal(Class<T> docClass, InputStream inputStream, String schemaLocation)
+    public static <T> T validateAndUnmarshal(Class<T> docClass, String xmlFilePath, String schemaLocation)
             throws JAXBException, SAXException 
     {
+        // try to get the file
+        InputStream inputStream = docClass.getResourceAsStream(xmlFilePath);
+        
         // get the schema to validate the inputStream later on
         SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Schema schema = sf.newSchema(JaxbUtils.class.getResource(schemaLocation));

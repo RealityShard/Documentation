@@ -52,6 +52,17 @@ public class GameAppContext implements ShardletContext
         this.serverConfig = serverConfig;
         this.appConfig = appConfig;
         
+        // the current schema looks like this:
+        //        <xsd:element name="DisplayName" type="xsd:string"       minOccurs="1" maxOccurs="1" />
+        //        <xsd:element name="Description" type="xsd:string"       minOccurs="1" maxOccurs="1" />
+        //        <xsd:element name="Startup"     type="Start"            minOccurs="0" maxOccurs="1" />
+        //        <xsd:element name="HeartBeat"   type="xsd:unsignedInt"  minOccurs="0" maxOccurs="1" />
+        //        <xsd:element name="InitParam"   type="InitParam"        minOccurs="0" maxOccurs="unbounded"/>
+        //        <xsd:element name="Protocol"    type="Protocol"         minOccurs="1" maxOccurs="unbounded" />
+        //        <xsd:element name="Shardlet"    type="Shardlet"         minOccurs="1" maxOccurs="unbounded" />
+        // we can read that directly from the appConfig, so lets create
+        // the game app context out the given stuff!
+        
         // try to add the init parameters
         // any additional init parameters that are also defined within
         // the deployment descriptor will be replaced by the latter ones
