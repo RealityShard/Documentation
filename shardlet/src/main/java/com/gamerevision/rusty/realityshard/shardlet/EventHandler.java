@@ -1,5 +1,5 @@
 /**
- * Distributed under the GNU GPL v.3
+ * For copyright information see the LICENSE document.
  */
 
 package com.gamerevision.rusty.realityshard.shardlet;
