@@ -5,7 +5,7 @@
 package com.gamerevision.rusty.realityshard.container;
 
 import com.gamerevision.rusty.realityshard.shardlet.EventAggregator;
-import com.gamerevision.rusty.realityshard.shardlet.EventListener;
+import com.gamerevision.rusty.realityshard.shardlet.EventHandler;
 import com.gamerevision.rusty.realityshard.shardlet.GenericShardlet;
 import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Level;
@@ -50,20 +50,13 @@ public class TestShardlet extends GenericShardlet
      * 
      * @param event 
      */
-    @EventListener
+    @EventHandler
     public void handleEventOne(TestEventOne event) 
     {
-        try 
-        {
-            // this will get triggered when the event "TestEventOne"
-            // is triggered.
-            
-            // some sample test code:
-            aggr.triggerEvent(new TestEventTwo());
-        } 
-        catch (InvocationTargetException ex) 
-        {
-            assert false;
-        }
+        // this will get triggered when the event "TestEventOne"
+        // is triggered.
+
+        // some sample test code:
+        aggr.triggerEvent(new TestEventTwo());
     }
 }

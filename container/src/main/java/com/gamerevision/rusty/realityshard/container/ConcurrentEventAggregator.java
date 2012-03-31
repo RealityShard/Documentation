@@ -6,7 +6,7 @@ package com.gamerevision.rusty.realityshard.container;
 
 import com.gamerevision.rusty.realityshard.shardlet.Event;
 import com.gamerevision.rusty.realityshard.shardlet.EventAggregator;
-import com.gamerevision.rusty.realityshard.shardlet.EventListener;
+import com.gamerevision.rusty.realityshard.shardlet.EventHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -150,12 +150,12 @@ public final class ConcurrentEventAggregator implements EventAggregator
         Method[] methods = listener.getClass().getDeclaredMethods();
         
         // try extracting the methods with our listener annotation, specified in
-        // Shardlet.EventListener
+        // Shardlet.EventHandler
         Map<Class<? extends Event>, Method> listenerMethods = new HashMap<>();
         for (Method method : methods) 
         {
-            // check if the method has an annotation of type EventListener
-            if(method.getAnnotation(EventListener.class) != null)
+            // check if the method has an annotation of type EventHandler
+            if(method.getAnnotation(EventHandler.class) != null)
             {
                 Class<?>[] params = method.getParameterTypes();
                 // check if the method follows the general listener method conventions

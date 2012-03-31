@@ -4,7 +4,7 @@
 
 package com.gamerevision.rusty.realityshard.container;
 
-import com.gamerevision.rusty.realityshard.shardlet.EventListener;
+import com.gamerevision.rusty.realityshard.shardlet.EventHandler;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -66,7 +66,7 @@ public class ConcurrentEventAggregatorTest extends TestCase
         assert testSuccessful;
     }
     
-    @EventListener
+    @EventHandler
     public void handleEventTwo(TestEventTwo event)
     {
         // when this gets executed, TestShardlet must have triggered the event

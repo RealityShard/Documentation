@@ -26,6 +26,14 @@
             <type>jar</type>
         </dependency>
         
+        <!--the jaxb xsd schemas-->
+        <dependency>
+            <groupId>com.gamerevision.rusty.realityshard</groupId>
+            <artifactId>schemas</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+        </dependency>
+        
         <!-- LOGBack for logging -->
         <dependency>
             <groupId>org.slf4j</groupId>

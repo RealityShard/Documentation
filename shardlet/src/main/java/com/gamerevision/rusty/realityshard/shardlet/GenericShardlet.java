@@ -79,14 +79,7 @@ public abstract  class GenericShardlet implements Shardlet, ShardletConfig
      */
     protected final <E extends Event> void publish(E event)
     {
-        try
-        {
-            aggregator.triggerEvent(event);
-        }
-        catch (InvocationTargetException ex)
-        {
-            // TODO log me!
-        }
+        aggregator.triggerEvent(event);
     }
 
     

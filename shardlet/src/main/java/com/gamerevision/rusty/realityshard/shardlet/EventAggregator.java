@@ -43,6 +43,5 @@ public interface EventAggregator
      *                                      This Exception is thrown when an exception
      *                                      was thrown from within a handler.
      */
-    public void triggerEvent(Event event)
-            throws InvocationTargetException;
+    public void triggerEvent(Event event);
 }

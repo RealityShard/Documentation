@@ -19,13 +19,4 @@ public interface ActionEvent extends Event
      * @return      The <code>ShardletAction</code> of the event (a.k.a. the network message or payload)
      */
     public ShardletAction getAction();
-    
-    
-    /**
-     * Setter.
-     * 
-     * @param       action                  The <code>ShardletAction</code> of the event 
-     *                                      (a.k.a. the network message or payload)
-     */
-    public void setAction(ShardletAction action);
 }
