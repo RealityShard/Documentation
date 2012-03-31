@@ -9,7 +9,7 @@ package com.gamerevision.rusty.realityshard.shardlet;
  *
  * @author _rusty
  */
-public class TestShardlet extends GenericShardlet
+public class TestShardlet extends GenericShardlet implements TestShardletInterface
 {
     private EventAggregator aggr;
 
@@ -33,6 +33,7 @@ public class TestShardlet extends GenericShardlet
     /**
      * temporary fake method
      */
+    @Override
     public void setAggregator(EventAggregator aggr)
     {
         this.aggr = aggr;

@@ -2,7 +2,9 @@
  * For copyright information see the LICENSE document.
  */
 
-package com.gamerevision.rusty.realityshard.shardlet.events;
+package com.gamerevision.rusty.realityshard.shardlet.events.context;
+
+import com.gamerevision.rusty.realityshard.shardlet.events.GenericContextEvent;
 
 
 /**

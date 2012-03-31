@@ -16,7 +16,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledExecutorService;
 
 
 /**
@@ -33,6 +33,7 @@ public class GameAppContext implements ShardletContext
     private final ServerConfig serverConfig;
     private final GameApp appConfig;
     
+    private final Pacemaker pacemaker;
     private final Map<String, String> initParams;
     private final Map<String, Object> attributes;
     
@@ -46,11 +47,12 @@ public class GameAppContext implements ShardletContext
      * @param       appConfig               The deployment descriptor
      * @param       additionalInitParams    Any additional init parameters
      */
-    public GameAppContext(Executor executor, ServerConfig serverConfig, GameApp appConfig, Map<String, String> additionalInitParams)
+    public GameAppContext(ScheduledExecutorService executor, ServerConfig serverConfig, GameApp appConfig, Map<String, String> additionalInitParams)
     {
         localAggregator = new ConcurrentEventAggregator(executor);
         this.serverConfig = serverConfig;
         this.appConfig = appConfig;
+        
         
         // the current schema looks like this:
         //        <xsd:element name="DisplayName" type="xsd:string"       minOccurs="1" maxOccurs="1" />
@@ -61,9 +63,22 @@ public class GameAppContext implements ShardletContext
         //        <xsd:element name="Protocol"    type="Protocol"         minOccurs="1" maxOccurs="unbounded" />
         //        <xsd:element name="Shardlet"    type="Shardlet"         minOccurs="1" maxOccurs="unbounded" />
         // we can read that directly from the appConfig, so lets create
-        // the game app context out the given stuff!
+        // the game app context out of the given stuff!
         
-        // try to add the init parameters
+        // DisplayName and Description do not need to be processed atm
+        // they can be accessed by public methods below
+        
+        // Startup is important for the Container but not for us
+        
+        // so lets handle the HeartBeat option at first
+        // The only thing we do is actually just creating a new
+        // Pacemaker that handles the HeartBeat later on
+        // WHY THE HELL DO I FUCKING NEED TO TEMPORARILY SAVE THAT SHIT,
+        // JUST TO DO A SIMPLE CAST TO A SMALLER TYPE?!
+        long tmp = appConfig.getHeartBeat();
+        pacemaker = new Pacemaker(executor, localAggregator, (int) tmp);
+        
+        // try to add the init parameters next
         // any additional init parameters that are also defined within
         // the deployment descriptor will be replaced by the latter ones
         initParams = new HashMap<>();
@@ -74,10 +89,13 @@ public class GameAppContext implements ShardletContext
             initParams.put(param.getName(), param.getValue());
         }
         
-        // try to add the shardlets to the aggregator
+        // create the protocol chains next:
         
         // create the attributes map
         attributes = new ConcurrentHashMap<>();
+        
+        // start the pacemaker
+        
     }
     
     
