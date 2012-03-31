@@ -4,6 +4,7 @@
 
 package com.gamerevision.rusty.realityshard.container;
 
+import com.gamerevision.rusty.realityshard.shardlet.utils.ConcurrentEventAggregator;
 import com.gamerevision.rusty.realityshard.shardlet.EventHandler;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executor;

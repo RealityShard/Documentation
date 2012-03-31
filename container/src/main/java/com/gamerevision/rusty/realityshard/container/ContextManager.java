@@ -12,11 +12,11 @@ import com.gamerevision.rusty.realityshard.shardlet.EventHandler;
 
 /**
  * This handles the containers shardlet-contexts in general.
- * It's basically a representation of a game-app.
+ * One context is basically a representation of a game-app.
  * 
  * @author _rusty
  */
-public class ContextManager extends InternalEventListener
+public final class ContextManager extends InternalEventListener
 {
     
     private final EventAggregator internalAggregator;
@@ -43,5 +43,4 @@ public class ContextManager extends InternalEventListener
     public void handleStartupEvent(InternalStartupEvent event)
     {
     }
-
 }

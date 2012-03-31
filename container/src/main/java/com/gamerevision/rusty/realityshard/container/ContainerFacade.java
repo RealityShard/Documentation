@@ -4,8 +4,9 @@
 
 package com.gamerevision.rusty.realityshard.container;
 
+import com.gamerevision.rusty.realityshard.shardlet.utils.ConcurrentEventAggregator;
 import com.gamerevision.rusty.realityshard.container.events.InternalEventListener;
-import com.gamerevision.rusty.realityshard.container.events.InternalNewNetworkActionEvent;
+import com.gamerevision.rusty.realityshard.container.events.InternalIncomingNetworkActionEvent;
 import com.gamerevision.rusty.realityshard.container.events.InternalStartupEvent;
 import com.gamerevision.rusty.realityshard.schemas.ServerConfig;
 import com.gamerevision.rusty.realityshard.shardlet.EventAggregator;
@@ -92,6 +93,6 @@ public final class ContainerFacade
     {
         // we could do anything we want with this packet here,
         // but we don't
-        internalAggregator.triggerEvent(new InternalNewNetworkActionEvent(action));
+        internalAggregator.triggerEvent(new InternalIncomingNetworkActionEvent(action));
     }
 }

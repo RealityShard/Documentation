@@ -5,7 +5,6 @@
 package com.gamerevision.rusty.realityshard.container;
 
 import java.io.InputStream;
-import java.net.URL;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -20,7 +19,7 @@ import org.xml.sax.SAXException;
  * 
  * @author _rusty
  */
-public class JaxbUtils 
+public final class JaxbUtils 
 {
     /**
      * Tries to read an XML input stream and validate and marshal it.

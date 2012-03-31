@@ -15,7 +15,7 @@ import org.xml.sax.SAXException;
  * 
  * @author _rusty
  */
-public class ConfigLoader
+public final class ConfigLoader
 {
     
     /**

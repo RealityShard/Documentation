@@ -12,11 +12,21 @@
         <xsd:sequence>
             <xsd:element name="DisplayName" type="xsd:string"   minOccurs="1" maxOccurs="1" />
             <xsd:element name="Description" type="xsd:string"   minOccurs="1" maxOccurs="1" />
+            <xsd:element name="Startup"     type="Start"        minOccurs="1" maxOccurs="1" />
             <xsd:element name="Protocols"   type="Protocols"    minOccurs="1" maxOccurs="1" />
             <xsd:element name="Shardlets"   type="Shardlets"    minOccurs="1" maxOccurs="1" />
             <xsd:element name="Context"     type="Context"      minOccurs="1" maxOccurs="1" />
         </xsd:sequence>
     </xsd:complexType>
+    
+    
+    <!--Start-->
+    <xsd:simpleType name="Start">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="WhenContainerStartupFinished" />
+            <xsd:enumeration value="WhenRequested" />
+        </xsd:restriction>
+    </xsd:simpleType>
 
     
     <!--Protocols-->

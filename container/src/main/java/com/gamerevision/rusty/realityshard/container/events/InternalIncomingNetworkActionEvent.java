@@ -13,7 +13,7 @@ import com.gamerevision.rusty.realityshard.shardlet.ShardletAction;
  * 
  * @author _rusty
  */
-public final class InternalNewNetworkActionEvent extends GenericInternalEvent
+public final class InternalIncomingNetworkActionEvent extends GenericInternalEvent
     implements ActionEvent 
 {
     
@@ -25,10 +25,9 @@ public final class InternalNewNetworkActionEvent extends GenericInternalEvent
      * 
      * @param       newAction 
      */
-    public InternalNewNetworkActionEvent(ShardletAction newAction)
+    public InternalIncomingNetworkActionEvent(ShardletAction newAction)
     {
         this.newAction = newAction;
-        
     }
 
     

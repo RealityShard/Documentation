@@ -2,7 +2,7 @@
  * For copyright information see the LICENSE document.
  */
 
-package com.gamerevision.rusty.realityshard.container;
+package com.gamerevision.rusty.realityshard.shardlet.utils;
 
 import com.gamerevision.rusty.realityshard.shardlet.Event;
 import com.gamerevision.rusty.realityshard.shardlet.EventAggregator;
