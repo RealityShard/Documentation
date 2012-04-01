@@ -16,7 +16,7 @@
             <xsd:element name="HeartBeat"   type="xsd:unsignedInt"  minOccurs="0" maxOccurs="1" />
             <xsd:element name="InitParam"   type="InitParam"        minOccurs="0" maxOccurs="unbounded"/>
             <xsd:element name="Protocol"    type="Protocol"         minOccurs="1" maxOccurs="unbounded" />
-            <xsd:element name="Shardlet"    type="Shardlet"         minOccurs="1" maxOccurs="unbounded" />
+            <xsd:element name="Shardlet"    type="ShardletConfig"   minOccurs="1" maxOccurs="unbounded" />
         </xsd:sequence>
     </xsd:complexType>
     
@@ -33,15 +33,15 @@
     <!--Protocol-->
     <xsd:complexType name="Protocol">
         <xsd:sequence>
-            <xsd:element name="ProtocolFilter" type="ProtocolFilter" minOccurs="1" maxOccurs="unbounded" />
+            <xsd:element name="ProtocolFilter" type="ProtocolFilterConfig" minOccurs="1" maxOccurs="unbounded" />
         </xsd:sequence>
         <xsd:attribute name="name" type="xsd:string" />
         <xsd:attribute name="port" type="xsd:unsignedInt" />
     </xsd:complexType>
 
 
-    <!--ProtocolFilter-->
-    <xsd:complexType name="ProtocolFilter">
+    <!--ProtocolFilterConfig-->
+    <xsd:complexType name="ProtocolFilterConfig">
         <xsd:sequence>
             <xsd:element name="InitParam" type="InitParam" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
@@ -52,8 +52,8 @@
     </xsd:complexType>
         
 
-    <!--Shardlet-->
-    <xsd:complexType name="Shardlet">
+    <!--ShardletConfig-->
+    <xsd:complexType name="ShardletConfig">
         <xsd:sequence>
             <xsd:element name="InitParam" type="InitParam" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>

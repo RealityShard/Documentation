@@ -6,15 +6,14 @@ package com.gamerevision.rusty.realityshard.container;
 
 import com.gamerevision.rusty.realityshard.schemas.GameApp;
 import com.gamerevision.rusty.realityshard.schemas.InitParam;
+import com.gamerevision.rusty.realityshard.schemas.Protocol;
 import com.gamerevision.rusty.realityshard.schemas.ServerConfig;
 import com.gamerevision.rusty.realityshard.shardlet.EventAggregator;
+import com.gamerevision.rusty.realityshard.shardlet.ProtocolFilter;
 import com.gamerevision.rusty.realityshard.shardlet.ShardletContext;
 import com.gamerevision.rusty.realityshard.shardlet.utils.ConcurrentEventAggregator;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -29,6 +28,18 @@ import java.util.concurrent.ScheduledExecutorService;
 public class GameAppContext implements ShardletContext
 {
     
+    /**
+     * Used to save the protocol filter lists
+     * 
+     * @param       <T>
+     * @param       <U> 
+     */
+    private interface Pair<T, U>
+    {
+        public T getFirst();
+        public U getSecond();
+    }
+    
     private final EventAggregator localAggregator;
     private final ServerConfig serverConfig;
     private final GameApp appConfig;
@@ -37,6 +48,7 @@ public class GameAppContext implements ShardletContext
     private final Map<String, String> initParams;
     private final Map<String, Object> attributes;
     
+    private final List<Pair<List<ProtocolFilter>, List<ProtocolFilter>>> protocols;
     
     /**
      * Constructor.
@@ -70,7 +82,7 @@ public class GameAppContext implements ShardletContext
         
         // Startup is important for the Container but not for us
         
-        // so lets handle the HeartBeat option at first
+        // so lets handle the HeartBeat option first
         // The only thing we do is actually just creating a new
         // Pacemaker that handles the HeartBeat later on
         // WHY THE HELL DO I FUCKING NEED TO TEMPORARILY SAVE THAT SHIT,
@@ -89,7 +101,8 @@ public class GameAppContext implements ShardletContext
             initParams.put(param.getName(), param.getValue());
         }
         
-        // create the protocol chains next:
+        // create the protocol chains next
+        // to do so, we need new 
         
         // create the attributes map
         attributes = new ConcurrentHashMap<>();
