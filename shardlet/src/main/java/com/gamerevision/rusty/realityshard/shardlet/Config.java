@@ -75,7 +75,7 @@ import java.util.Enumeration;
     /**
      * Getter.
      * 
-     * @return        The name of the shardlet or filter that this config object is made for.
+     * @return      The name of the shardlet or filter that this config object is made for.
      */
     public String getName();
 

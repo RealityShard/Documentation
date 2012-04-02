@@ -4,18 +4,15 @@
 
 package com.gamerevision.rusty.realityshard.container;
 
-import com.gamerevision.rusty.realityshard.schemas.GameApp;
-import com.gamerevision.rusty.realityshard.schemas.InitParam;
-import com.gamerevision.rusty.realityshard.schemas.Protocol;
-import com.gamerevision.rusty.realityshard.schemas.ServerConfig;
-import com.gamerevision.rusty.realityshard.shardlet.EventAggregator;
-import com.gamerevision.rusty.realityshard.shardlet.ProtocolFilter;
-import com.gamerevision.rusty.realityshard.shardlet.ShardletContext;
+import com.gamerevision.rusty.realityshard.schemas.*;
+import com.gamerevision.rusty.realityshard.shardlet.*;
 import com.gamerevision.rusty.realityshard.shardlet.utils.ConcurrentEventAggregator;
 import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -23,22 +20,14 @@ import java.util.concurrent.ScheduledExecutorService;
  * This is a basic implementation of an event-driven shardlet context,
  * that encapsulates a GameApp.
  * 
+ * TODO: Review; Cleanup; Enhance the code in style and performance
+ * 
  * @author _rusty
  */
 public class GameAppContext implements ShardletContext
 {
-    
-    /**
-     * Used to save the protocol filter lists
-     * 
-     * @param       <T>
-     * @param       <U> 
-     */
-    private interface Pair<T, U>
-    {
-        public T getFirst();
-        public U getSecond();
-    }
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(GameAppContext.class);
     
     private final EventAggregator localAggregator;
     private final ServerConfig serverConfig;
@@ -48,18 +37,35 @@ public class GameAppContext implements ShardletContext
     private final Map<String, String> initParams;
     private final Map<String, Object> attributes;
     
-    private final List<Pair<List<ProtocolFilter>, List<ProtocolFilter>>> protocols;
+    private final Map<String, ProtocolChain> protocols;
+    private final List<Shardlet> shardlets;
+    
     
     /**
      * Constructor.
      * 
      * @param       executor                The executor thread pool manager, used for
      *                                      the local event-aggregator
+     * @param       gameAppLoader           The classloader used for this plugin
      * @param       serverConfig            The server config object
      * @param       appConfig               The deployment descriptor
      * @param       additionalInitParams    Any additional init parameters
+     * @throws      ClassNotFoundException  If the filter or shardlet has not been found
+     * @throws      InstantiationException  If the filter or shardlet could not be created
+     * @throws      ShardletException       If the filter or shardlet could not be initalized
+     * @throws      IllegalAccessException  If the filter or shardlet could not be created
      */
-    public GameAppContext(ScheduledExecutorService executor, ServerConfig serverConfig, GameApp appConfig, Map<String, String> additionalInitParams)
+    public GameAppContext(
+            ScheduledExecutorService executor, 
+            ClassLoader gameAppLoader, 
+            ServerConfig serverConfig, 
+            GameApp appConfig, 
+            Map<String, String> additionalInitParams) 
+            throws 
+            ClassNotFoundException, 
+            InstantiationException, 
+            ShardletException, 
+            IllegalAccessException
     {
         localAggregator = new ConcurrentEventAggregator(executor);
         this.serverConfig = serverConfig;
@@ -96,19 +102,98 @@ public class GameAppContext implements ShardletContext
         initParams = new HashMap<>();
         initParams.putAll(additionalInitParams);
         
-        for (InitParam param : appConfig.getInitParam()) 
+        for (InitParam jaxbContxInitParam : appConfig.getInitParam()) 
         {
-            initParams.put(param.getName(), param.getValue());
+            initParams.put(jaxbContxInitParam.getName(), jaxbContxInitParam.getValue());
         }
         
         // create the protocol chains next
-        // to do so, we need new 
+        // to do so, we need to create the appropriate classes
+        protocols = new ConcurrentHashMap<>();
+        
+        for (Protocol jaxbProtConf : appConfig.getProtocol())
+        {
+            // we've got a list of filters that do something with
+            // incoming packets, and we've got a list of those that
+            // handle outgoing packets
+            List<ProtocolFilter> inFilters = new ArrayList<>();
+            List<ProtocolFilter> outFilters = new ArrayList<>();
+            
+            // each protocol may consist of multiple protocol filters
+            for (ProtocolFilterConfig jaxbProtFiltConf : jaxbProtConf.getProtocolFilter())
+            {
+                // to create a new protocol filter, we need it's config
+                // and it's class
+                
+                // create a new generic config out of the info
+                // found in the deployment descriptor
+                Config filterConf = new GenericConfig(jaxbProtFiltConf.getName(), this, jaxbProtFiltConf.getInitParam());
+                
+                @SuppressWarnings("unchecked")
+                Class<ProtocolFilter> clazz = (Class<ProtocolFilter>) gameAppLoader.loadClass(jaxbProtFiltConf.getClazz());
+
+                // create the filter!
+                ProtocolFilter newInst = clazz.newInstance();
+
+                // init it
+                newInst.init(filterConf);
+
+                // and add it to our lists, depending on its config
+                if (jaxbProtFiltConf.isIn()) { inFilters.add(newInst); }
+                // NOTE! THE OUTGOING FILTERS NEED TO BE PROCESSED IN 
+                // REVERSE ORDER, SO ALWAYS ADD OUT FILTERS TO THE FRONT
+                if (jaxbProtFiltConf.isOut()) { outFilters.add(0, newInst); }
+
+            }
+            
+            // we should have created a nice ProtocolFilter list for in and outgoing filters
+            // so lets finally create the protocolchain.
+            // note that we have a mapping for ProtocolName -> ProtocolChain
+            protocols.put(jaxbProtConf.getName(), new ProtocolChain(inFilters, outFilters));
+        }
+        
+        // Now, the last thing that's missing is the Shardlets of course
+        // we can do that like we did with the protocol filters
+        // here's what we'll need:
+        // - get the shardlet list
+        // - loop trough and create a generic config for it
+        // - get the shardlet class
+        // - create the shardlet and call init(config)
+        // - add it to the aggregator and to our internal shardlet list
+        shardlets = new ArrayList<>();
+        
+        for (ShardletConfig jaxbShardConf : appConfig.getShardlet())
+        {
+            
+            // to create a new shardlet, we need it's config
+            // and it's class
+
+            // create a new generic config out of the info
+            // found in the deployment descriptor
+            Config shardletConf = new GenericConfig(jaxbShardConf.getName(), this, jaxbShardConf.getInitParam());
+
+            @SuppressWarnings("unchecked")
+            Class<Shardlet> clazz = (Class<Shardlet>) gameAppLoader.loadClass(jaxbShardConf.getClazz());
+
+            // create the shardlet
+            Shardlet newInst = clazz.newInstance();
+
+            // init it
+            newInst.init(shardletConf);
+
+            // add it to our list
+            shardlets.add(newInst);
+
+            // add it to the aggregator
+            localAggregator.addListener(newInst);
+
+        }
         
         // create the attributes map
         attributes = new ConcurrentHashMap<>();
         
         // start the pacemaker
-        
+        pacemaker.start();
     }
     
     
