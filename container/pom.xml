@@ -26,6 +26,14 @@
             <type>jar</type>
         </dependency>
         
+        <!--the Network API-->
+        <dependency>
+            <groupId>com.gamerevision.rusty.realityshard</groupId>
+            <artifactId>network</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+        </dependency>
+        
         <!--the jaxb xsd schemas-->
         <dependency>
             <groupId>com.gamerevision.rusty.realityshard</groupId>

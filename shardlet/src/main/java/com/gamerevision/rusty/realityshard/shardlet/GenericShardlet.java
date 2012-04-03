@@ -74,13 +74,28 @@ public abstract  class GenericShardlet implements Shardlet, Config
      * 
      * Note that we need to make this generic, because we need to keep the type.
      * 
-     * @param       <E>                     The event type. 
+     * @param       <E>                     The event type.
+     * @param       event                   The event object.
      */
-    protected final <E extends Event> void publish(E event)
+    protected final <E extends Event> void publishEvent(E event)
     {
         aggregator.triggerEvent(event);
     }
-
+    
+    
+    /**
+     * Send an action to a client.
+     * The client is determined by the <code>Session</code> object,
+     * the action must be a valid packet that uses a known protocol.
+     * 
+     * @param       action                  A valid action with attached Session
+     *                                      and a valid protocol string.
+     */
+    protected final void sendAction(ShardletAction action)
+    {
+        context.sendAction(action);
+    }
+    
     
     /**
      * Getter.

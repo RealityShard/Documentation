@@ -4,11 +4,6 @@
 
 package com.gamerevision.rusty.realityshard.container;
 
-import com.gamerevision.rusty.realityshard.container.events.InternalEventListener;
-import com.gamerevision.rusty.realityshard.container.events.InternalStartupEvent;
-import com.gamerevision.rusty.realityshard.shardlet.EventAggregator;
-import com.gamerevision.rusty.realityshard.shardlet.EventHandler;
-
 
 /**
  * This handles session objects.
@@ -17,31 +12,15 @@ import com.gamerevision.rusty.realityshard.shardlet.EventHandler;
  * 
  * @author _rusty
  */
-public class SessionManager extends InternalEventListener
+public class SessionManager
 {
-    
-    private final EventAggregator internalAggregator;
-
     
     /**
      * Constructor.
      * 
-     * @param       internalAggregator 
      */
-    public SessionManager(EventAggregator internalAggregator)
+    public SessionManager()
     {
-        this.internalAggregator = internalAggregator;
-    }
-    
-    
-    /**
-     * EventHandler.
-     * 
-     * @param       event 
-     */
-    @EventHandler
-    @Override
-    public void handleStartupEvent(InternalStartupEvent event) 
-    {
+        //TODO
     }
 }

@@ -34,7 +34,7 @@ public final class GameAppClassLoaderFactory
      * @return      The newly created class loader that holds
      * @throws      MalformedURLException  
      */
-    public static URLClassLoader produceGameAppClassLoader(Path path) 
+    public static URLClassLoader produceGameAppClassLoader(File path) 
             throws MalformedURLException
     {
         // a "GAME-INF" GameApp folder should include
@@ -48,7 +48,7 @@ public final class GameAppClassLoaderFactory
         
         // search for all the libs
         // because the shardlet expects them to be there
-        File lib = new File(path.toFile(), "/lib/");
+        File lib = new File(path, "/lib/");
         if (!lib.exists()) { return null; }
         
         // quick and dirty: get all jars from there (not including sub directories)
@@ -70,7 +70,7 @@ public final class GameAppClassLoaderFactory
         
         // create the URL that contains the "classes" folder
         // i guess this code is total crap
-        urls.add(new File(path.toFile(), "/lib/").toURI().toURL());
+        urls.add(new File(path, "/lib/").toURI().toURL());
 
                 
         // some more horrifc code follows

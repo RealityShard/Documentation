@@ -6,7 +6,9 @@ package com.gamerevision.rusty.realityshard.container;
 
 import com.gamerevision.rusty.realityshard.schemas.*;
 import com.gamerevision.rusty.realityshard.shardlet.*;
+import com.gamerevision.rusty.realityshard.shardlet.events.context.ContextIncomingActionEvent;
 import com.gamerevision.rusty.realityshard.shardlet.utils.ConcurrentEventAggregator;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,9 +28,10 @@ import org.slf4j.LoggerFactory;
  */
 public class GameAppContext implements ShardletContext
 {
-
+    
     private final static Logger LOGGER = LoggerFactory.getLogger(GameAppContext.class);
     
+    private final ContextManager manager;
     private final EventAggregator localAggregator;
     private final ServerConfig serverConfig;
     private final GameApp appConfig;
@@ -39,11 +42,13 @@ public class GameAppContext implements ShardletContext
     
     private final Map<String, ProtocolChain> protocols;
     private final List<Shardlet> shardlets;
+
     
     
     /**
      * Constructor.
      * 
+     * @param       manager                 The context manager of this game app context
      * @param       executor                The executor thread pool manager, used for
      *                                      the local event-aggregator
      * @param       gameAppLoader           The classloader used for this plugin
@@ -56,6 +61,7 @@ public class GameAppContext implements ShardletContext
      * @throws      IllegalAccessException  If the filter or shardlet could not be created
      */
     public GameAppContext(
+            ContextManager manager,
             ScheduledExecutorService executor, 
             ClassLoader gameAppLoader, 
             ServerConfig serverConfig, 
@@ -67,10 +73,10 @@ public class GameAppContext implements ShardletContext
             ShardletException, 
             IllegalAccessException
     {
-        localAggregator = new ConcurrentEventAggregator(executor);
+        this.manager = manager;
         this.serverConfig = serverConfig;
         this.appConfig = appConfig;
-        
+        localAggregator = new ConcurrentEventAggregator(executor);
         
         // the current schema looks like this:
         //        <xsd:element name="DisplayName" type="xsd:string"       minOccurs="1" maxOccurs="1" />
@@ -79,7 +85,7 @@ public class GameAppContext implements ShardletContext
         //        <xsd:element name="HeartBeat"   type="xsd:unsignedInt"  minOccurs="0" maxOccurs="1" />
         //        <xsd:element name="InitParam"   type="InitParam"        minOccurs="0" maxOccurs="unbounded"/>
         //        <xsd:element name="Protocol"    type="Protocol"         minOccurs="1" maxOccurs="unbounded" />
-        //        <xsd:element name="Shardlet"    type="Shardlet"         minOccurs="1" maxOccurs="unbounded" />
+        //        <xsd:element name="Shardlet"    type="ShardletConfig"   minOccurs="1" maxOccurs="unbounded" />
         // we can read that directly from the appConfig, so lets create
         // the game app context out of the given stuff!
         
@@ -194,6 +200,57 @@ public class GameAppContext implements ShardletContext
         
         // start the pacemaker
         pacemaker.start();
+        
+    }
+    
+    
+    /**
+     * Used by the ContextManager: provide this Context with a
+     * new action, coming from a network client.
+     * 
+     * @param action 
+     */
+    public void handleIncomingAction(ShardletAction action)
+    {
+        try 
+        {
+            // try decrypt/parse packet (or whatever else is done by the filters
+            protocols.get(action.getProtocol()).doInFilter(action);
+            
+            // invoke the shardlets, trigger the event that they are waiting for ;D
+            localAggregator.triggerEvent(new ContextIncomingActionEvent(action));
+        } 
+        catch (IOException | ShardletException ex) 
+        {
+            LOGGER.error("Failed to handle a client action (a packet was unkown)", ex);
+        }
+    }
+
+    
+    /**
+     * Sends an action to client specified by Session object attached to the action
+     * if the client cannot be found, the action will not be transmitted and no error
+     * is thrown.
+     * This means: whenever you want to send stuff, make sure that everything is
+     * alright with your messages.
+     * 
+     * @param       action 
+     */
+    @Override
+    public void sendAction(ShardletAction action) 
+    {
+        try 
+        {
+            // try encrypt/parse packet (or whatever else is done by the filters)
+            protocols.get(action.getProtocol()).doOutFilter(action);
+            
+            // pass it to the context manager
+            manager.sendAction(action);
+        } 
+        catch (IOException | ShardletException ex) 
+        {
+            LOGGER.error("Failed to handle a client action (a packet was unkown)", ex);
+        }
     }
     
     

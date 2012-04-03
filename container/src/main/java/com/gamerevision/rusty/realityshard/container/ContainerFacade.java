@@ -4,14 +4,11 @@
 
 package com.gamerevision.rusty.realityshard.container;
 
-import com.gamerevision.rusty.realityshard.container.events.InternalEventListener;
-import com.gamerevision.rusty.realityshard.container.events.InternalIncomingNetworkActionEvent;
-import com.gamerevision.rusty.realityshard.container.events.InternalStartupEvent;
+import com.gamerevision.rusty.realityshard.network.NetworkPacketEmitter;
+import com.gamerevision.rusty.realityshard.network.NetworkPacketListener;
 import com.gamerevision.rusty.realityshard.schemas.ServerConfig;
-import com.gamerevision.rusty.realityshard.shardlet.EventAggregator;
 import com.gamerevision.rusty.realityshard.shardlet.ShardletAction;
-import com.gamerevision.rusty.realityshard.shardlet.utils.ConcurrentEventAggregator;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledExecutorService;
 
 
 /**
@@ -21,12 +18,12 @@ import java.util.concurrent.Executor;
  * @author _rusty
  */
 public final class ContainerFacade
+    implements NetworkPacketListener, NetworkPacketEmitter
 {
     
-    private final Executor executor;
-    private final EventAggregator internalAggregator;
-    private final InternalEventListener contextManager;
-    private final InternalEventListener sessionManager;
+    private final ScheduledExecutorService executor;
+    private final ContextManager contextManager;
+    private final SessionManager sessionManager;
     
     
     /**
@@ -40,59 +37,80 @@ public final class ContainerFacade
      * @throws      Exception               If there was any fatal error that keeps this
      *                                      container from being able to be executed
      */
-    public ContainerFacade(Executor executor, String configPath, String schemaPath) 
+    public ContainerFacade(ScheduledExecutorService executor, String configPath, String schemaPath) 
             throws Exception
     {
         // the executor is responsible for multithreading of this server
         // every internal event listener below will automatically be running parallel
         // depending on the executors decision, because when an event is triggered,
-        // the aggregator will direct the event-handler invocations to the executor
+        // the event-aggregator will direct the event-handler invocations to the executor
         this.executor = executor;
-        
         
         // try to load the server config
         // as this is usually where the most errors come from,
         // we can fail fast at an early stage of startup
         ServerConfig serverConfig = JaxbUtils.validateAndUnmarshal(ServerConfig.class, configPath, schemaPath);
+                
         
-        
-        // set up the internal aggregator
-        // this is the main "blackboard" for publishing events
-        internalAggregator = new ConcurrentEventAggregator(executor);
-        
-        
-        // add the service objects to the aggregator
+        // create the service objects
         // if anything fails here, we have a severe problem and
         // cannot continue the execution of the container
         // that's why all exceptions will be delegated to the caller
         // of this constructor
         
         // - the context manager
-        contextManager = new ContextManager(internalAggregator, executor, serverConfig.getGameAppBasePath());
-        internalAggregator.addListener(contextManager);
+        contextManager = new ContextManager(this, executor, serverConfig, schemaPath);
         
         // - the session manager
-        sessionManager = new SessionManager(internalAggregator);
-        internalAggregator.addListener(sessionManager);
-        
+        sessionManager = new SessionManager();
 
-        // start the event chain
-        internalAggregator.triggerEvent(new InternalStartupEvent(serverConfig));
+        
+        // we'r done now. relax and wait for stuff coming from outside or
+        // from the shardlets
+    }
+    
+    
+    /**
+     * Just the implementation of the interface.
+     * This will be called by the network manager!
+     * 
+     * @param       rawData
+     * @param       clientUID 
+     */
+    @Override
+    public void handlePacket(Byte[] rawData, int clientUID) 
+    {
+        // we could do anything we want with this packet here,
+        // but we don't
+        
+        // basically, what we will be doing though
+        // is let the session manager attach a session to it
+        // and then delegate it to the ContextManager
+    }
+    
+    
+    /**
+     * Just the implementation of the interface.
+     * 
+     * @param       listener 
+     */
+    @Override
+    public void addPacketListener(NetworkPacketListener listener) 
+    {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     
     /**
      * This is a gateway for network actions.
      * 
-     * Note that this method is here because usually only this class is used
-     * by the host application, so this is the actual container interface
+     * Note that this method is the only way to send packets via the network manager
      * 
      * @param       action 
      */
-    public void handleNetworkAction(ShardletAction action)
+    public void handleOutgoingNetworkAction(ShardletAction action)
     {
-        // we could do anything we want with this packet here,
-        // but we don't
-        internalAggregator.triggerEvent(new InternalIncomingNetworkActionEvent(action));
+        // send this packet straight to the NetworkInterface
     }
+    
 }

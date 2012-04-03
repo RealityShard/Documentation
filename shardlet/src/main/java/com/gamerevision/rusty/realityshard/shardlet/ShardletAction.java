@@ -124,6 +124,8 @@ public interface ShardletAction
     
     /**
      * Getter.
+     * Use this when writing raw data into this action,
+     * or reading raw data from this action
      * 
      * @return      The underlying NIO buffer.
      */
@@ -132,6 +134,7 @@ public interface ShardletAction
     
     /**
      * Setter.
+     * Use this when writing raw data into this action
      * 
      * @param       buf                     The <code>ByteBuffer</code> object that will be
      *                                      set as the new Buffer
@@ -140,10 +143,11 @@ public interface ShardletAction
     
     
     /**
-     * Returns the name and version of the protocol the action uses.
+     * Returns the name of the protocol the action uses.
      * The protocol is a string taken from the deployment descriptor.
      *
-     * @return      A <code>String</code> containing the protocol name and version number
+     * @return      A <code>String</code> containing the protocol name,
+     *              as used in the deployment descriptor.
      */    
     public String getProtocol();
     
@@ -154,15 +158,5 @@ public interface ShardletAction
      * @return      The network session object.
      */
     public Session getSession();
-    
-    
-    /**
-     * Returns a boolean indicating if the response has been
-     * committed.  A committed response cannot be changed.
-     *
-     * @return      A boolean indicating if the response has been
-     *              committed
-     */
-    public boolean isCommitted();
 
 }

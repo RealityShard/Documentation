@@ -1,20 +1,13 @@
 /**
  * For copyright information see the LICENSE document.
- * Google it if you want to have a copy of the license.
  */
 
-
 package com.gamerevision.rusty.realityshard.shardlet;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 
 /**
  * An EventAggregator is the EventAggregator-pattern class implemented by the container
  * that will manage the events coming from or triggering the shardlets.
- * 
- * TODO: Check if the generics work they way they should.
  * 
  * @author _rusty
  */
@@ -39,9 +32,7 @@ public interface EventAggregator
      * Note that the generic type parameter is necessary in order to
      * be able to call the listener later on.
      * 
-     * @exception   InvocationTargetExpection
-     *                                      This Exception is thrown when an exception
-     *                                      was thrown from within a handler.
+     * @param       event                   The event that will be published on this Event-Aggregator
      */
     public void triggerEvent(Event event);
 }

@@ -77,7 +77,17 @@ import java.util.Enumeration;
  * @author     _rusty
  */
 public interface ShardletContext 
-{    
+{
+    
+    /**
+     * Used by shardlets to send an action (packet) to the client.
+     * Note: The packet needs to be in its abstract state, meaning it
+     * will be compiled and packed later on within the ProtocolFilterChain
+     * 
+     * @param       action 
+     */
+    public void sendAction(ShardletAction action);
+    
 
     /**
      * Returns the name and version of the Shardlet container on which
