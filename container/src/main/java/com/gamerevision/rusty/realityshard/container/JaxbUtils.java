@@ -4,7 +4,13 @@
 
 package com.gamerevision.rusty.realityshard.container;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -29,22 +35,35 @@ public final class JaxbUtils
      * 
      * @param       <T>                     The type that will be validated and marshalled
      * @param       docClass                The class that represents the type T
-     * @param       xmlFilePath             The path to the XML file
-     * @param       schemaLocation          The path to the schema file for validation
+     * @param       xmlFile                 The xml file to be parsed
+     * @param       schemaFile              The schema file to validate the XML file
      * @return      An object of type T filled with the content from the
      *              XML document (if everything went right that is)
      * @throws      JAXBException           If the JAXB framework threw an error
      * @throws      SAXException            If the SAX framework threw an error
+     * @throws      FileNotFoundException   If specified input files could not be read
      */
-    public static <T> T validateAndUnmarshal(Class<T> docClass, String xmlFilePath, String schemaLocation)
-            throws JAXBException, SAXException 
+    public static <T> T validateAndUnmarshal(Class<T> docClass, File xmlFile, File schemaFile)
+            throws JAXBException, SAXException, FileNotFoundException 
     {
         // try to get the file
-        InputStream inputStream = docClass.getResourceAsStream(xmlFilePath);
+        if (!xmlFile.isFile() || !schemaFile.isFile()) { throw new FileNotFoundException("Cannot find input file"); }
+        
+        InputStream inputStream = new FileInputStream(xmlFile);
         
         // get the schema to validate the inputStream later on
         SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Schema schema = sf.newSchema(JaxbUtils.class.getResource(schemaLocation));
+        
+        Schema schema;
+        try 
+        {
+            schema = sf.newSchema(schemaFile.toURI().toURL());
+        } 
+        catch (MalformedURLException ex) 
+        {
+            // should never happen
+            throw new FileNotFoundException("Cannot find input file");
+        }
         
         // create the unmarshaller that will parse/validate/marshal the inputStream
         String packageName = docClass.getPackage().getName();

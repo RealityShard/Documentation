@@ -64,7 +64,7 @@ public final class ContextManager
     private final ContainerFacade facade;
     
     private final ScheduledExecutorService executor;
-    private final String gameAppSchemaPath;
+    private final File gameAppSchema;
     private final List<GameAppInfo> gameAppsInfo;
     
     private ServerConfig serverConfig = null;
@@ -79,13 +79,16 @@ public final class ContextManager
      * @param       facade 
      * @param       executor
      * @param       config 
-     * @param       gameAppSchemaPath 
+     * @param       gameAppsPath 
+     * @param       gameAppSchema 
+     * @throws      Exception  
      */
-    public ContextManager(ContainerFacade facade, ScheduledExecutorService executor, ServerConfig config, String gameAppSchemaPath)
+    public ContextManager(ContainerFacade facade, ScheduledExecutorService executor, ServerConfig config, File gameAppsPath, File gameAppSchema) 
+            throws Exception
     {
         this.facade = facade;
         this.executor = executor;
-        this.gameAppSchemaPath = gameAppSchemaPath;
+        this.gameAppSchema = gameAppSchema;
         
         gameAppsInfo = new ArrayList<>();
         gameAppGeneral = new ArrayList<>();
@@ -106,19 +109,26 @@ public final class ContextManager
         
         List<File> gameAppPaths = new ArrayList<>();
         
-        for (File path : new File(serverConfig.getGameAppBasePath()).listFiles()) 
+
+        File[] gameAppsSubDirs = gameAppsPath.listFiles();
+        
+        // failcheck
+        if (gameAppsSubDirs == null) { throw new Exception("No game apps could be found in specified folder!"); }
+        
+        
+        for (File path : gameAppsSubDirs) 
         {
             // and check them for sub dirs
             if (path.isDirectory())
             {
                 //we've got a possible game-app dir here, lets search for the
-                // GAME-APP folder
+                // GAME-INF folder
                 for (File subPath : path.listFiles()) 
                 {
                     if (subPath.isDirectory() && 
-                            (subPath.getName().endsWith("GAME-APP") ||
-                            subPath.getName().endsWith("GAME-APP/") ||
-                            subPath.getName().endsWith("GAME-APP\\")))
+                            (subPath.getName().endsWith("GAME-INF") ||
+                            subPath.getName().endsWith("GAME-INF/") ||
+                            subPath.getName().endsWith("GAME-INF\\")))
                     {
                         // we've found the game app folder
                         // lets add it to our list of game app folders
@@ -134,13 +144,13 @@ public final class ContextManager
         {
             for (File subPath : path.listFiles()) 
             {
-                if (subPath.isFile() && path.getName().endsWith("game.xml"))
+                if (subPath.isFile() && subPath.getName().endsWith("game.xml"))
                 {
                     try 
                     {
                         // we've found a file that may fit our delpoyment descriptor schema
                         // lets try that
-                        GameApp gameConfig = JaxbUtils.validateAndUnmarshal(GameApp.class, subPath.getPath(), gameAppSchemaPath);
+                        GameApp gameConfig = JaxbUtils.validateAndUnmarshal(GameApp.class, subPath, gameAppSchema);
                         
                         // lets add this game app to our list
                         gameAppsInfo.add(new GameAppInfo(gameConfig.getDisplayName(), path, gameConfig));

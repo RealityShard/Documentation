@@ -9,6 +9,7 @@ import com.gamerevision.rusty.realityshard.network.NetworkPacketConnector;
 import com.gamerevision.rusty.realityshard.schemas.ServerConfig;
 import com.gamerevision.rusty.realityshard.shardlet.Session;
 import com.gamerevision.rusty.realityshard.shardlet.ShardletAction;
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Map;
@@ -26,7 +27,7 @@ import java.util.concurrent.ScheduledExecutorService;
 public final class ContainerFacade
     implements NetworkPacketConnector
 {
-    
+        
     /**
      * Hold client data.
      * Currently undocumented as its a simple and passive class.
@@ -80,10 +81,11 @@ public final class ContainerFacade
      * @param       configPath              The path to the server config file
      * @param       schemaPath              The path to the schema file to validate the
      *                                      XML server config file
+     * @param       gameAppsPath            The path to the game apps folder
      * @throws      Exception               If there was any fatal error that keeps this
      *                                      container from being able to be executed
      */
-    public ContainerFacade(NetworkManager network, ScheduledExecutorService executor, String configPath, String schemaPath) 
+    public ContainerFacade(NetworkManager network, ScheduledExecutorService executor, File configPath, File schemaPath, File gameAppsPath) 
             throws Exception
     {
         // the network manager will handle the networking stuff,
@@ -104,7 +106,10 @@ public final class ContainerFacade
         // try to load the server config
         // as this is usually where the most errors come from,
         // we can fail fast at an early stage of startup
-        ServerConfig serverConfig = JaxbUtils.validateAndUnmarshal(ServerConfig.class, configPath, schemaPath);
+        File concreteConfig = new File(configPath, "server-config.xml");
+        File concreteSchema = new File(schemaPath, "server-config.xsd");
+        // strangely enough, we need a relative path here
+        ServerConfig serverConfig = JaxbUtils.validateAndUnmarshal(ServerConfig.class, concreteConfig, concreteSchema);
                 
         
         // create the service objects
@@ -114,7 +119,8 @@ public final class ContainerFacade
         // of this constructor
         
         // - the context manager
-        contextManager = new ContextManager(this, executor, serverConfig, schemaPath);
+        concreteSchema = new File(schemaPath, "game-app.xsd");
+        contextManager = new ContextManager(this, executor, serverConfig, gameAppsPath, concreteSchema);
         
         // - the session manager
         sessionManager = new SessionManager();

@@ -48,29 +48,30 @@ public final class GameAppClassLoaderFactory
         
         // search for all the libs
         // because the shardlet expects them to be there
-        File lib = new File(path, "/lib/");
-        if (!lib.exists()) { return null; }
+        File lib = new File(path, "lib");
         
-        // quick and dirty: get all jars from there (not including sub directories)
-        File[] libs = lib.listFiles(new FileFilter() 
-        {
-            @Override
-            public boolean accept(File file) 
+        if (lib.exists()) 
+        {        
+            // quick and dirty: get all jars from there (not including sub directories)
+            File[] libs = lib.listFiles(new FileFilter() 
             {
-                return file.getName().toLowerCase().endsWith("jar");
+                @Override
+                public boolean accept(File file) 
+                {
+                    return file.getName().toLowerCase().endsWith(".jar");
+                }
+            });
+        
+            // add the found jars to the URL's
+            for (File file : libs) 
+            {
+                urls.add(file.toURI().toURL());
             }
-        });
-        
-        // add the found jars to the URL's
-        for (File file : libs) 
-        {
-            urls.add(file.toURI().toURL());
         }
-        
         
         // create the URL that contains the "classes" folder
         // i guess this code is total crap
-        urls.add(new File(path, "/lib/").toURI().toURL());
+        urls.add(new File(path, "classes").toURI().toURL());
 
                 
         // some more horrifc code follows
