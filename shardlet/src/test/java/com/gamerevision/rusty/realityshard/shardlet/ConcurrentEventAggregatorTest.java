@@ -76,7 +76,7 @@ public class ConcurrentEventAggregatorTest extends TestCase
         
         // nao exeQt da fuq
         // STRESS1 re-uses the event reference
-        eventChaining(1, 10000000); //10mio
+        //eventChaining(1, 10000000); //10mio
         
         // 10mio 10000000
         // 1mio  1000000

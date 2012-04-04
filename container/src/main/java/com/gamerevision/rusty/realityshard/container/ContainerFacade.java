@@ -4,10 +4,16 @@
 
 package com.gamerevision.rusty.realityshard.container;
 
-import com.gamerevision.rusty.realityshard.network.NetworkPacketEmitter;
-import com.gamerevision.rusty.realityshard.network.NetworkPacketListener;
+import com.gamerevision.rusty.realityshard.network.NetworkManager;
+import com.gamerevision.rusty.realityshard.network.NetworkPacketConnector;
 import com.gamerevision.rusty.realityshard.schemas.ServerConfig;
+import com.gamerevision.rusty.realityshard.shardlet.Session;
 import com.gamerevision.rusty.realityshard.shardlet.ShardletAction;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 
 
@@ -18,17 +24,57 @@ import java.util.concurrent.ScheduledExecutorService;
  * @author _rusty
  */
 public final class ContainerFacade
-    implements NetworkPacketListener, NetworkPacketEmitter
+    implements NetworkPacketConnector
 {
+    
+    /**
+     * Hold client data.
+     * Currently undocumented as its a simple and passive class.
+     */
+    private final class ClientWrapper
+    {
+        
+        private final String protocolName;
+        private final String IP;
+        private final int port;
+        private final Session session;
+        private final UUID clientUID;
+        
+        
+        public ClientWrapper(String protocolName, String IP, int port, Session session, UUID clientUID)
+        {
+            this.protocolName = protocolName;
+            this.IP = IP;
+            this.port = port;
+            this.session = session;
+            this.clientUID = clientUID;
+
+        }
+
+        public String getIP() { return IP; }
+
+        public UUID getClientUID() { return clientUID; }
+
+        public int getPort() { return port; }
+
+        public String getProtocolName() { return protocolName; }
+
+        public Session getSession() { return session; }
+    }
+    
+    private final NetworkManager network;
     
     private final ScheduledExecutorService executor;
     private final ContextManager contextManager;
     private final SessionManager sessionManager;
     
+    private final Map<UUID, ClientWrapper> clients;
+    
     
     /**
      * Constructor.
      * 
+     * @param       network                 The network manager of this application
      * @param       executor                The default thread scheduler, provided and
      *                                      created by the host application
      * @param       configPath              The path to the server config file
@@ -37,9 +83,18 @@ public final class ContainerFacade
      * @throws      Exception               If there was any fatal error that keeps this
      *                                      container from being able to be executed
      */
-    public ContainerFacade(ScheduledExecutorService executor, String configPath, String schemaPath) 
+    public ContainerFacade(NetworkManager network, ScheduledExecutorService executor, String configPath, String schemaPath) 
             throws Exception
     {
+        // the network manager will handle the networking stuff,
+        // like sending and recieving data.
+        // TODO Check this:
+        // We currently use a two-ways interface implemented by both this container
+        // and the network manager, so we can plug them both together.
+        // (They are both using almost equal methods of each other when it comes to signatures)
+        this.network = network;
+        this.network.addPacketListener(this);
+        
         // the executor is responsible for multithreading of this server
         // every internal event listener below will automatically be running parallel
         // depending on the executors decision, because when an event is triggered,
@@ -65,6 +120,7 @@ public final class ContainerFacade
         sessionManager = new SessionManager();
 
         
+        clients = new ConcurrentHashMap<>();
         // we'r done now. relax and wait for stuff coming from outside or
         // from the shardlets
     }
@@ -78,7 +134,8 @@ public final class ContainerFacade
      * @param       clientUID 
      */
     @Override
-    public void handlePacket(Byte[] rawData, int clientUID) 
+    public void handlePacket(ByteBuffer rawData, UUID clientUID)
+        throws IOException
     {
         // we could do anything we want with this packet here,
         // but we don't
@@ -95,7 +152,7 @@ public final class ContainerFacade
      * @param       listener 
      */
     @Override
-    public void addPacketListener(NetworkPacketListener listener) 
+    public void addPacketListener(NetworkPacketConnector listener) 
     {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -111,6 +168,41 @@ public final class ContainerFacade
     public void handleOutgoingNetworkAction(ShardletAction action)
     {
         // send this packet straight to the NetworkInterface
+    }
+
+    
+    /**
+     * Called by the network manager when a client connects
+     * 
+     * @param       protocolName
+     * @param       IP
+     * @param       port
+     * @param       clientUID
+     * @throws      IOException 
+     */
+    @Override
+    public void newClient(String protocolName, String IP, int port, UUID clientUID) 
+            throws IOException 
+    {
+        // add the client here,
+        clients.put(clientUID, new ClientWrapper(protocolName, IP, port, null, clientUID));
+        
+        // and TODO: inform the contexts
+    }
+    
+
+    /**
+     * Called by the network manager when a client disconnects
+     * 
+     * @param       clientUID 
+     */
+    @Override
+    public void disconnectClient(UUID clientUID) 
+    {
+        // remove the client here,
+        clients.remove(clientUID);
+        
+        // and TODO: inform the contexts
     }
     
 }
