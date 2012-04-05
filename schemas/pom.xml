@@ -8,7 +8,7 @@
         
     
     <parent>
-        <groupId>com.gamerevision.rusty.realityshard</groupId>
+        <groupId>com.realityshard</groupId>
         <artifactId>reality-shard</artifactId>
         <version>0.1.0_RC1-SNAPSHOT</version>
     </parent>
@@ -34,7 +34,7 @@
                         <configuration>
                             <forceRegenerate>true</forceRegenerate>
                             <generateDirectory>src/main/java</generateDirectory>
-                            <generatePackage>com.gamerevision.rusty.realityshard.schemas</generatePackage>
+                            <generatePackage>com.realityshard.schemas</generatePackage>
                             <removeOldOutput>true</removeOldOutput>
                             <episode>false</episode>
                         </configuration>

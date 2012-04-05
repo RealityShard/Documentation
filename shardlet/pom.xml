@@ -9,7 +9,7 @@
         
     
     <parent>
-        <groupId>com.gamerevision.rusty.realityshard</groupId>
+        <groupId>com.realityshard</groupId>
         <artifactId>reality-shard</artifactId>
         <version>0.1.0_RC1-SNAPSHOT</version>
     </parent>
