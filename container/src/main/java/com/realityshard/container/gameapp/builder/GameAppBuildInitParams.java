@@ -20,8 +20,17 @@ public interface GameAppBuildInitParams
      * Build step: save the init parameters.
      * 
      * @param       mandatoryParams 
+     * @return      The next build step.
+     */
+    public GameAppBuildProtocols setInitParams(List<InitParam> mandatoryParams);
+    
+    
+    /**
+     * Build step: save the init parameters.
+     * 
+     * @param       mandatoryParams 
      * @param       additionalParams
      * @return      The next build step.
      */
-    public GameAppBuildProtocols initParams(List<InitParam> mandatoryParams, Map<String, String> additionalParams);
+    public GameAppBuildProtocols setInitParams(List<InitParam> mandatoryParams, Map<String, String> additionalParams);
 }

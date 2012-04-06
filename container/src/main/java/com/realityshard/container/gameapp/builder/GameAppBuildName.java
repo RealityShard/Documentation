@@ -18,5 +18,5 @@ public interface GameAppBuildName
      * @param       name
      * @return      The next build step
      */
-    public GameAppBuildDescription name(String name);
+    public GameAppBuildDescription setName(String name);
 }

@@ -18,5 +18,5 @@ public interface GameAppBuildDescription
      * @param       description
      * @return      The next build step.
      */
-    public GameAppBuildPacemaker description(String description);
+    public GameAppBuildPacemaker setDescription(String description);
 }

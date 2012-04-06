@@ -21,5 +21,5 @@ public interface GameAppBuildEventAggregator
      * @param       aggregator
      * @return      The next step.
      */
-    public GameAppBuildClassloader aggregator(EventAggregator aggregator);
+    public GameAppBuildClassloader setAggregator(EventAggregator aggregator);
 }

@@ -4,6 +4,7 @@
 
 package com.realityshard.container.gameapp.builder;
 
+import com.realityshard.container.Pacemaker;
 import java.util.concurrent.ScheduledExecutorService;
 
 
@@ -23,5 +24,14 @@ public interface GameAppBuildPacemaker
      *                                      HeartBeatEvent from the pacemaker.
      * @return      The next build step.
      */
-    public GameAppBuildInitParams heartBeat(ScheduledExecutorService executor, int milliseconds);
+    public GameAppBuildInitParams setHeartBeat(ScheduledExecutorService executor, int milliseconds);
+    
+    
+    /**
+     * Build step: set the pacemaker directly.
+     * 
+     * @param       pacemaker
+     * @return      The next build step.
+     */
+    public GameAppBuildInitParams setPacemaker(Pacemaker pacemaker);
 }

@@ -13,10 +13,10 @@ package com.realityshard.container.gameapp.builder;
 public interface GameAppBuildClassloader 
 {
     /**
-     * Build step: add the classloader for this game app
+     * Build step: add the setClassloader for this game app
      * 
      * @param       loader
      * @return      The next build step.
      */
-    public GameAppBuildName classloader(ClassLoader loader);
+    public GameAppBuildInfo setClassloader(ClassLoader loader);
 }
