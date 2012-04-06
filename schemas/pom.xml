@@ -25,7 +25,11 @@
                 <groupId>org.jvnet.jaxb2.maven2</groupId>
                 <artifactId>maven-jaxb2-plugin</artifactId>
                 <executions>
+                    
                     <execution>
+                        <id>game-app-schema</id>
+                        
+                        <phase>generate-sources</phase>
                         
                         <goals>
                             <goal>generate</goal>
@@ -34,12 +38,57 @@
                         <configuration>
                             <forceRegenerate>true</forceRegenerate>
                             <generateDirectory>src/main/java</generateDirectory>
-                            <generatePackage>com.realityshard.schemas</generatePackage>
-                            <removeOldOutput>true</removeOldOutput>
+                            <generatePackage>com.realityshard.schemas.gameapp</generatePackage>
                             <episode>false</episode>
+                            <schemaIncludes>
+                                <include>game-app-schema.xsd</include>
+                            </schemaIncludes>
                         </configuration>
                         
                     </execution>
+                    
+                    <execution>
+                        <id>protocol-schema</id>
+                        
+                        <phase>generate-sources</phase>
+                        
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        
+                        <configuration>
+                            <forceRegenerate>true</forceRegenerate>
+                            <generateDirectory>src/main/java</generateDirectory>
+                            <generatePackage>com.realityshard.schemas.protocol</generatePackage>
+                            <episode>false</episode>
+                            <schemaIncludes>
+                                <include>protocol-schema.xsd</include>
+                            </schemaIncludes>
+                        </configuration>
+                        
+                    </execution>
+                    
+                    <execution>
+                        <id>server-config-schema</id>
+                        
+                        <phase>generate-sources</phase>
+                        
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        
+                        <configuration>
+                            <forceRegenerate>true</forceRegenerate>
+                            <generateDirectory>src/main/java</generateDirectory>
+                            <generatePackage>com.realityshard.schemas.serverconfig</generatePackage>
+                            <episode>false</episode>
+                            <schemaIncludes>
+                                <include>server-config-schema.xsd</include>
+                            </schemaIncludes>
+                        </configuration>
+                        
+                    </execution>
+                    
                 </executions>
             </plugin>
         </plugins>
