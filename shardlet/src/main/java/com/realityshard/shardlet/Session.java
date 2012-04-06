@@ -59,6 +59,7 @@
 package com.realityshard.shardlet;
 
 import java.util.Enumeration;
+import java.util.UUID;
 
 
 /**
@@ -76,9 +77,9 @@ public interface Session
     /**
      * Getter.
      * 
-     * @return		The unique identifier as string (usually a hex string)
+     * @return      The unique identifier as UUID
      */
-    public String getId();
+    public UUID getId();
     
     
     /**
@@ -88,86 +89,7 @@ public interface Session
      */
     public ShardletContext getShardletContext();
 
-
-    /**
-     * Setter.
-     * 
-     * Specifies the time, in seconds, between client requests before the 
-     * Shardlet container will invalidate this session. 
-     *
-     * @param       interval		        An integer specifying the number
-     * 				                        of seconds 
-     */    
-    public void setMaxInactiveInterval(int interval);
-
-
-    /**
-     * Getter.
-     * 
-     * Returns the maximum time interval, in seconds, between 
-     * client accesses before the Shardlet container
-     * will invalidate the session.
-     *
-     * <p>A return value of zero or less indicates that the
-     * session will never timeout.
-     *
-     * @return		An integer specifying the number of
-     *			    seconds this session remains open
-     *			    between client requests
-     */
-    public int getMaxInactiveInterval();
-    
-
-    /**
-     * Getter.
-     * 
-     * Returns the object bound with the specified name in this session, or
-     * <code>null</code> if no object is bound under the name.
-     *
-     * @param       name		            A string specifying the name of the object
-     * @return		The object with the specified name
-     */
-    public Object getAttribute(String name);
-            
-
-    /**
-     * Getter.
-     * 
-     * Returns an <code>Enumeration</code> of <code>String</code> objects
-     * containing the names of all the objects bound to this session. 
-     *
-     * @return		The names of all currently available attributes
-     */    
-    public Enumeration<String> getAttributeNames();
-    
-
-    /**
-     * Binds an object to this session, using the name specified.
-     * If an object of the same name is already bound to the session,
-     * the object is replaced.
-     *
-     * <p>If the value passed in is null, this has the same effect as calling 
-     * <code>removeAttribute()<code>.
-     *
-     *
-     * @param       name			        The name to which the object is bound;
-     *					                    cannot be null
-     * @param       value			        The object to be bound
-     */
-    public void setAttribute(String name, Object value);
-
-
-    /**
-     * Removes the object bound with the specified name from
-     * this session. If the session does not have an object
-     * bound with the specified name, this method does nothing.
-     *
-     * @param       name				    The name of the object to
-     *						                remove from this session
-     */
-    public void removeAttribute(String name);
-    
-    
+   
     /**
      * Returns the Internet Protocol (IP) address of the client 
      * or last proxy that sent the request.
@@ -192,6 +114,56 @@ public interface Session
      * to it. 
      */
     public void invalidate();
+    
+
+    /**
+     * Getter.
+     * 
+     * Returns the object bound with the specified name in this session, or
+     * <code>null</code> if no object is bound under the name.
+     *
+     * @param       name                    A string specifying the name of the object
+     * @return                              The object with the specified name
+     */
+    public Object getAttribute(String name);
+            
+
+    /**
+     * Getter.
+     * 
+     * Returns an <code>Enumeration</code> of <code>String</code> objects
+     * containing the names of all the objects bound to this session. 
+     *
+     * @return		The names of all currently available attributes
+     */    
+    public Enumeration<String> getAttributeNames();
+    
+
+    /**
+     * Binds an object to this session, using the name specified.
+     * If an object of the same name is already bound to the session,
+     * the object is replaced.
+     *
+     * <p>If the value passed in is null, this has the same effect as calling 
+     * <code>removeAttribute()<code>.
+     *
+     *
+     * @param       name                    The name to which the object is bound;
+     *					    cannot be null
+     * @param       value                   The object to be bound
+     */
+    public void setAttribute(String name, Object value);
+
+
+    /**
+     * Removes the object bound with the specified name from
+     * this session. If the session does not have an object
+     * bound with the specified name, this method does nothing.
+     *
+     * @param       name                    The name of the object to
+     *                                      remove from this session
+     */
+    public void removeAttribute(String name);
 
 }
 
