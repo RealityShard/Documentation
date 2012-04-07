@@ -4,14 +4,13 @@
 
 package com.realityshard.container.gameapp.builder;
 
-import com.realityshard.container.Pacemaker;
 import com.realityshard.container.gameapp.GameAppContext;
+import com.realityshard.container.utils.Pacemaker;
 import com.realityshard.schemas.gameapp.AppInfo;
 import com.realityshard.schemas.gameapp.InitParam;
 import com.realityshard.schemas.gameapp.ShardletConfig;
 import com.realityshard.shardlet.EventAggregator;
 import com.realityshard.shardlet.Shardlet;
-import com.realityshard.shardlet.ShardletException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
@@ -108,7 +107,7 @@ public interface GameAppContextBuildDescriptors
                 ClassNotFoundException, 
                 InstantiationException,
                 IllegalAccessException,
-                ShardletException;
+                Exception;
         public Build useShardlets(Shardlet[] shardlets);
     }
     

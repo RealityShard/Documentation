@@ -4,7 +4,7 @@
 
 package com.realityshard.container.gameapp.builder;
 
-import com.realityshard.container.ContainerFacade;
+import com.realityshard.container.NetworkAdapter;
 import com.realityshard.container.gameapp.ContextManager;
 import com.realityshard.schemas.serverconfig.ServerConfig;
 import java.io.File;
@@ -23,9 +23,9 @@ public interface ContextManagerBuildDescriptors
     /**
      * Build step: set facade
      */
-    public interface BuildFacade
+    public interface BuildNetworkAdapter
     {
-        public BuildExecuter useFacade(ContainerFacade facade);
+        public BuildExecuter useAdapter(NetworkAdapter adapter);
     }
     
     

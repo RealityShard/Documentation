@@ -2,12 +2,11 @@
  * For copyright information see the LICENSE document.
  */
 
-package com.realityshard.container.gameapp;
+package com.realityshard.container.utils;
 
-import com.realityshard.shardlet.Config;
+import com.realityshard.shardlet.ConfigProtocolFilter;
 import com.realityshard.shardlet.ProtocolFilter;
 import com.realityshard.shardlet.ShardletAction;
-import com.realityshard.shardlet.ShardletException;
 import java.io.IOException;
 import java.util.List;
 
@@ -48,11 +47,11 @@ public class ProtocolChain implements ProtocolFilter
      * so it should have been done before creating a ProtocolChain object.
      * 
      * @param       filterConfig            Do nothing!
-     * @throws      ShardletException       Do nothing!
+     * @throws      Exception       Do nothing!
      */
     @Override
-    public void init(Config filterConfig) 
-            throws ShardletException 
+    public void init(ConfigProtocolFilter filterConfig) 
+            throws Exception 
     {
         // do nothing here, all filters should have been initialized before
     }
@@ -65,11 +64,10 @@ public class ProtocolChain implements ProtocolFilter
      * @param       action                  The action (aka Packet) that needs
      *                                      to be processed.
      * @throws      IOException             If any filter threw it.
-     * @throws      ShardletException       If any filter threw it.
      */
     @Override
     public void doInFilter(ShardletAction action) 
-            throws IOException, ShardletException 
+            throws IOException
     {
         for (ProtocolFilter protocolFilter : incomingFilters) 
         {
@@ -86,11 +84,10 @@ public class ProtocolChain implements ProtocolFilter
      * @param       action                  The action (aka Packet) that needs
      *                                      to be processed.
      * @throws      IOException             If any filter threw it.
-     * @throws      ShardletException       If any filter threw it.
      */
     @Override
     public void doOutFilter(ShardletAction action) 
-            throws IOException, ShardletException 
+            throws IOException
     {
         for (ProtocolFilter protocolFilter : outgoingFilters) 
         {

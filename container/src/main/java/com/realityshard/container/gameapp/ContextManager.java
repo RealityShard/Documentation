@@ -4,17 +4,15 @@
 
 package com.realityshard.container.gameapp;
 
-import com.realityshard.container.ClassLoaderFactory;
-import com.realityshard.container.ContainerFacade;
-import com.realityshard.container.gameapp.GameAppContext;
+import com.realityshard.container.NetworkAdapter;
 import com.realityshard.container.gameapp.builder.ContextManagerFluentBuilder;
 import com.realityshard.container.gameapp.builder.GameAppContextFluentBuilder;
+import com.realityshard.container.utils.ClassLoaderFactory;
+import com.realityshard.container.utils.ProtocolChain;
 import com.realityshard.schemas.gameapp.GameApp;
-import com.realityshard.schemas.gameapp.Start;
 import com.realityshard.schemas.serverconfig.ServerConfig;
 import com.realityshard.shardlet.Session;
 import com.realityshard.shardlet.ShardletAction;
-import com.realityshard.shardlet.ShardletException;
 import com.realityshard.shardlet.utils.ConcurrentEventAggregator;
 import java.io.File;
 import java.io.IOException;
@@ -74,7 +72,7 @@ public class ContextManager
     
     private final static Logger LOGGER = LoggerFactory.getLogger(GameAppContext.class);
     
-    protected ContainerFacade facade;
+    protected NetworkAdapter adapter;
     
     protected ScheduledExecutorService executor;
     
@@ -152,7 +150,7 @@ public class ContextManager
 
                 // thats all for now ;D
             } 
-            catch (MalformedURLException | ClassNotFoundException | InstantiationException | IllegalAccessException | ShardletException ex) 
+            catch (MalformedURLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) 
             {
                 throw new Exception("Unable to create a new game app.", ex);
             }
@@ -175,7 +173,7 @@ public class ContextManager
             // try decrypt/parse packet (or whatever else is done by the filters
             protocols.get(action.getProtocol()).doInFilter(action);
         } 
-        catch (IOException | ShardletException ex) 
+        catch (IOException ex) 
         {
             LOGGER.error("Failed to handle a client action (a packet was unkown)", ex);
             return;
@@ -214,6 +212,27 @@ public class ContextManager
     public void sendAction(ShardletAction action) 
     {
         // try to send the action to the ContainerFacade
-        facade.handleOutgoingNetworkAction(action);
+        adapter.handleOutgoingNetworkAction(action);
+    }
+    
+    
+    /**
+     * Inform the contexts that we lost a client connection
+     * (This is called by the facade)
+     * 
+     * Note that by the time this session reference arrives at the Shardlets of
+     * the context, the facade will have deleted it from its list already, so you cannot
+     * send any actions/packets to it anymore.
+     * 
+     * @param       session                 The session used to identify the client
+     */
+    public void handleLostClient(Session session)
+    {
+        GameAppContext context = gameAppBySession.get(session);
+        
+        if (context != null)
+        {
+            context.handleLostClient(session);
+        }
     }
 }

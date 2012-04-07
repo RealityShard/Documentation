@@ -4,9 +4,8 @@
 
 package com.realityshard.container.gameapp.builder;
 
-import com.realityshard.container.Pacemaker;
+import com.realityshard.container.utils.Pacemaker;
 import com.realityshard.container.gameapp.GameAppContext;
-import com.realityshard.container.gameapp.GameAppShardletConfig;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.Build;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildClassloader;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildDescription;
@@ -16,13 +15,13 @@ import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildName;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildPacemaker;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildShardlets;
+import com.realityshard.container.utils.ConfigFactory;
 import com.realityshard.schemas.gameapp.AppInfo;
 import com.realityshard.schemas.gameapp.InitParam;
 import com.realityshard.schemas.gameapp.ShardletConfig;
-import com.realityshard.shardlet.Config;
+import com.realityshard.shardlet.ConfigShardlet;
 import com.realityshard.shardlet.EventAggregator;
 import com.realityshard.shardlet.Shardlet;
-import com.realityshard.shardlet.ShardletException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -222,14 +221,14 @@ public final class GameAppContextFluentBuilder extends GameAppContext implements
      * @throws      ClassNotFoundException
      * @throws      InstantiationException
      * @throws      IllegalAccessException
-     * @throws      ShardletException  
+     * @throws      Exception 
      */
     @Override
     public Build useShardlets(List<ShardletConfig> shardletConfigs) throws 
             ClassNotFoundException, 
             InstantiationException,
             IllegalAccessException,
-            ShardletException
+            Exception
     {
         // Now, the last thing that's missing is the Shardlets of course
         // we can do that like we did with the protocol filters
@@ -249,7 +248,7 @@ public final class GameAppContextFluentBuilder extends GameAppContext implements
 
             // create a new generic config out of the info
             // found in the deployment descriptor
-            Config shardletConf = new GameAppShardletConfig(jaxbShardConf.getName(), this, jaxbShardConf.getInitParam());
+            ConfigShardlet shardletConf = ConfigFactory.produceConfigShardlet(jaxbShardConf.getName(), this, jaxbShardConf.getInitParam());
 
             @SuppressWarnings("unchecked")
             Class<Shardlet> clazz = (Class<Shardlet>) loader.loadClass(jaxbShardConf.getClazz());
@@ -305,5 +304,4 @@ public final class GameAppContextFluentBuilder extends GameAppContext implements
         // TODO: check if we got some cleanup to do here
         return this;
     }
-
 }

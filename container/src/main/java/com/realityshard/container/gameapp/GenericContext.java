@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 
  * @author _rusty
  */
-public abstract class GenericShardletContext implements ShardletContext
+public abstract class GenericContext implements ShardletContext
 {
     
     protected EventAggregator aggregator;
@@ -39,7 +39,7 @@ public abstract class GenericShardletContext implements ShardletContext
     /**
      * Constructor.
      */
-    protected GenericShardletContext()
+    protected GenericContext()
     {
         normalClientVerifiers = new ArrayList<>();
         persistantClientVerifiers = new ArrayList<>();

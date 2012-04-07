@@ -4,8 +4,6 @@
 
 package com.realityshard.shardlet;
 
-import com.realityshard.shardlet.ShardletAction;
-
 
 /**
  * Defines the transitions between encryption states.
@@ -39,4 +37,32 @@ public interface SessionEncryptionState
      * @param       action                  The action that's gonna be decrypted
      */
     public void decrypt(ShardletAction action);
+
+    
+    /**
+     * A default implementation of the encryption state.
+     * This simply does nothing with provided actions.
+     * (Meaning there's nothing to en/decrypt here)
+     */
+    public final class Unencrypted implements SessionEncryptionState
+    {
+
+        /**
+         * Do nothing
+         * 
+         * @param       action 
+         */
+        @Override
+        public void encrypt(ShardletAction action) {}
+
+        
+        /**
+         * Do nothing
+         * 
+         * @param       action 
+         */
+        @Override
+        public void decrypt(ShardletAction action) {}
+        
+    }
 }

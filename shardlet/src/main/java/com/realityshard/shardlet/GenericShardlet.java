@@ -15,9 +15,9 @@ import java.util.Enumeration;
  * 
  * @author _rusty
  */
-public abstract  class GenericShardlet implements Shardlet, Config
+public abstract  class GenericShardlet implements Shardlet, ConfigShardlet
 {    
-    private Config config;
+    private ConfigShardlet config;
     private ShardletContext context;
     private EventAggregator aggregator;
    
@@ -42,11 +42,10 @@ public abstract  class GenericShardlet implements Shardlet, Config
      * as it will be called by this method.
      * 
      * @param       config
-     * @throws      ShardletException 
      */
     @Override
-    public final void init(Config config) 
-            throws ShardletException 
+    public final void init(ConfigShardlet config) 
+            throws Exception 
     {
         // init the attributes
         this.config = config;
@@ -64,8 +63,12 @@ public abstract  class GenericShardlet implements Shardlet, Config
      * so just override this to ensure your code
      * gets loaded at shardlet-startup.
      * This method can also be left empty.
+     * 
+     * @throws      Exception               If anything went wrong during 
+     *                                      initialization.  
      */
-    protected abstract void init();
+    protected abstract void init()
+            throws Exception;
     
     
     /**
@@ -103,7 +106,7 @@ public abstract  class GenericShardlet implements Shardlet, Config
      * @return      The current config.
      */
     @Override
-    public Config getShardletConfig() 
+    public ConfigShardlet getShardletConfig() 
     {
         return config;
     }
@@ -134,14 +137,14 @@ public abstract  class GenericShardlet implements Shardlet, Config
 
     
     /**
-     * Getter..
+     * Getter.
      *
      * @return      The name of this shardlet instance
      */
     @Override
     public String getName() 
     {
-        Config sc = getShardletConfig();
+        ConfigShardlet sc = getShardletConfig();
         
         if (sc == null) 
         {
@@ -163,7 +166,7 @@ public abstract  class GenericShardlet implements Shardlet, Config
     @Override
     public String getInitParameter(String name) 
     {
-        Config sc = getShardletConfig();
+        ConfigShardlet sc = getShardletConfig();
         
         if (sc == null) 
         {
@@ -182,7 +185,7 @@ public abstract  class GenericShardlet implements Shardlet, Config
     @Override
     public Enumeration<String> getInitParameterNames() 
     {
-        Config sc = getShardletConfig();
+        ConfigShardlet sc = getShardletConfig();
         
         if (sc == null) 
         {

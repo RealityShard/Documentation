@@ -2,7 +2,7 @@
  * For copyright information see the LICENSE document.
  */
 
-package com.realityshard.container;
+package com.realityshard.container.utils;
 
 import com.realityshard.shardlet.Session;
 import com.realityshard.shardlet.ShardletAction;
@@ -25,22 +25,21 @@ import java.util.Map;
 public class GenericAction implements ShardletAction
 {
 
-    private final Map<String, Object> attributes;
+    private volatile Map<String, Object> attributes;
     private final String protocol;
     private final Session session;
     
-    private ByteBuffer buffer = null;
+    private volatile ByteBuffer buffer = null;
     
     
     /**
      * Constructor.
      * 
-     * @param       protocol 
      * @param       session 
      */
-    public GenericAction(String protocol, Session session)
+    public GenericAction(Session session)
     {
-        this.protocol = protocol;
+        this.protocol = session.getProtocol();
         this.session = session;
         
         attributes = new HashMap<>();

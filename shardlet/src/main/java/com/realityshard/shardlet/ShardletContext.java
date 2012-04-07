@@ -1,59 +1,5 @@
-/*
- * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
- *
- * Copyright (c) 1997-2011 Oracle and/or its affiliates. All rights reserved.
- *
- * The contents of this file are subject to the terms of either the GNU
- * General Public License Version 2 only ("GPL") or the Common Development
- * and Distribution License("CDDL") (collectively, the "License").  You
- * may not use this file except in compliance with the License.  You can
- * obtain a copy of the License at
- * https://glassfish.dev.java.net/public/CDDL+GPL_1_1.html
- * or packager/legal/LICENSE.txt.  See the License for the specific
- * language governing permissions and limitations under the License.
- *
- * When distributing the software, include this License Header Notice in each
- * file and include the License file at packager/legal/LICENSE.txt.
- *
- * GPL Classpath Exception:
- * Oracle designates this particular file as subject to the "Classpath"
- * exception as provided by Oracle in the GPL Version 2 section of the License
- * file that accompanied this code.
- *
- * Modifications:
- * If applicable, add the following below the License Header, with the fields
- * enclosed by brackets [] replaced by your own identifying information:
- * "Portions Copyright [year] [name of copyright owner]"
- *
- * Contributor(s):
- * If you wish your version of this file to be governed by only the CDDL or
- * only the GPL Version 2, indicate your decision by adding "[Contributor]
- * elects to include this software in this distribution under the [CDDL or GPL
- * Version 2] license."  If you don't indicate a single choice of license, a
- * recipient has the option to distribute your version of this file under
- * either the CDDL, the GPL Version 2 or to extend the choice of license to
- * its licensees as provided above.  However, if you add GPL Version 2 code
- * and therefore, elected the GPL Version 2 license, then the option applies
- * only if the new code is made subject to such option by the copyright
- * holder.
- *
- *
- * This file incorporates work covered by the following copyright and
- * permission notice:
- *
- * Copyright 2004 The Apache Software Foundation
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+/**
+ * For copyright information see the LICENSE document.
  */
 
 package com.realityshard.shardlet;
@@ -63,16 +9,10 @@ import java.util.Enumeration;
 
 
 /**
- * This file was edited by _rusty: no need for JSP
- */
-
-/**
  * Defines a set of methods that a shardlet uses to communicate with its
- * shardlet container, for example, dispatch requests, or write to a log file.
+ * shardlet context.
  *
- * There is one context per game app per JVM.  
- * 
- * Thx Oracle!
+ * There is one context per game app  
  *
  * @author     _rusty
  */
@@ -170,89 +110,73 @@ public interface ShardletContext
      */
     public void clearClientVerifiers(boolean persistantVerifiersOnly);
     
-
+    
     /**
-     * Returns a <code>String</code> containing the value of the named
-     * context-wide initialization parameter, or <code>null</code> if the 
-     * parameter does not exist.
+     * Getter.
      * 
-     * @param       name                    The parameter name.
-     * @return      The parameter value, if the parameter was found.
+     * @param       name                    The name of the (generic) parameter.
+     *                                      The object will try to find it based on that string.
+     * @return      The parameter's value if found
      */
     public String getInitParameter(String name);
 
 
     /**
-     * Returns the names of the context's initialization parameters as an
-     * <code>Enumeration</code> of <code>String</code> objects, or an
-     * empty <code>Enumeration</code> if the context has no initialization
-     * parameters.
-     *
-     * @return      An <code>Enumeration</code> of <code>String</code> 
-     *              objects containing the names of the context's
-     *              initialization parameters
+     * Getter.
+     * 
+     * @return      All parameter names (the keys without values)
      */
     public Enumeration<String> getInitParameterNames();
 
 
     /**
-     * Returns the Shardlet container attribute with the given name, 
-     * or <code>null</code> if there is no attribute by that name.
-     * Hint: To store stuff game-app wide.
+     * Getter.
+     * 
+     * Returns the object bound with the specified name in this session, or
+     * <code>null</code> if no object is bound under the name.
      *
-     * @param         name                     A <code>String</code> specifying the name 
-     *                                        of the attribute
-     * @return         The value-object or null.
+     * @param       name                    A string specifying the name of the object
+     * @return                              The object with the specified name
      */
     public Object getAttribute(String name);
-    
+            
 
     /**
-     * Returns an <code>Enumeration</code> containing the 
-     * attribute names available within this ShardletContext.
+     * Getter.
+     * 
+     * Returns an <code>Enumeration</code> of <code>String</code> objects
+     * containing the names of all the objects bound to this session. 
      *
-     * @return         An <code>Enumeration</code> of attribute 
-     *                names
-     */
+     * @return		The names of all currently available attributes
+     */    
     public Enumeration<String> getAttributeNames();
     
-    
-    /**
-     * Binds an object to a given attribute name in this ShardletContext. If
-     * the name specified is already used for an attribute, this
-     * method will replace the attribute with the new to the new attribute.
-     * <p>If listeners are configured on the <code>ShardletContext</code> the  
-     * container notifies them accordingly.
-     * <p>
-     * If a null value is passed, the effect is the same as calling 
-     * <code>removeAttribute()</code>.
-     * 
-     * <p>Attribute names should follow the same convention as package
-     * names. The Java Shardlet API specification reserves names
-     * matching <code>java.*</code>, <code>javax.*</code>, and
-     * <code>sun.*</code>.
-     *
-     * @param         name                     A <code>String</code> specifying the name 
-     *                                        of the attribute
-     * @param         object                     An <code>Object</code> representing the
-     *                                        attribute to be bound
-     */
-    public void setAttribute(String name, Object object);
-    
 
     /**
-     * Removes the attribute with the given name from 
-     * this ShardletContext. After removal, subsequent calls to
-     * {@link #getAttribute} to retrieve the attribute's value
-     * will return <code>null</code>.
+     * Binds an object to this session, using the name specified.
+     * If an object of the same name is already bound to the session,
+     * the object is replaced.
      *
-     * <p>If listeners are configured on the <code>ShardletContext</code> the 
-     * container notifies them accordingly.
+     * <p>If the value passed in is null, this has the same effect as calling 
+     * <code>removeAttribute()<code>.
      *
-     * @param         name                    A <code>String</code> specifying the name 
-     *                                         of the attribute to be removed
+     *
+     * @param       name                    The name to which the object is bound;
+     *					    cannot be null
+     * @param       value                   The object to be bound
      */
-    public void removeAttribute(String name);  
+    public void setAttribute(String name, Object value);
+
+
+    /**
+     * Removes the object bound with the specified name from
+     * this session. If the session does not have an object
+     * bound with the specified name, this method does nothing.
+     *
+     * @param       name                    The name of the object to
+     *                                      remove from this session
+     */
+    public void removeAttribute(String name);
 
 }
 

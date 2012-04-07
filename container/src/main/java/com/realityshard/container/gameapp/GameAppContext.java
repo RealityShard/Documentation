@@ -4,10 +4,12 @@
 
 package com.realityshard.container.gameapp;
 
-import com.realityshard.container.Pacemaker;
+import com.realityshard.container.utils.Pacemaker;
+import com.realityshard.shardlet.Session;
 import com.realityshard.shardlet.Shardlet;
 import com.realityshard.shardlet.ShardletAction;
 import com.realityshard.shardlet.events.context.ContextIncomingActionEvent;
+import com.realityshard.shardlet.events.network.NetworkClientDisconnectedEvent;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +26,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author _rusty
  */
-public class GameAppContext extends GenericShardletContext
+public class GameAppContext extends GenericContext
 {
     
     private final static Logger LOGGER = LoggerFactory.getLogger(GameAppContext.class);
@@ -86,4 +88,18 @@ public class GameAppContext extends GenericShardletContext
         manager.sendAction(action);
     }
     
+    
+    /**
+     * Inform the GameApp that we lost a client connection
+     * 
+     * Note that by the time this session reference arrives at the Shardlets of
+     * the context, the facade will have deleted it from its list already, so you cannot
+     * send any actions/packets to it anymore.
+     * 
+     * @param       session                 The session used to identify the client
+     */
+    public void handleLostClient(Session session)
+    {
+        aggregator.triggerEvent(new NetworkClientDisconnectedEvent(session));
+    }
 }

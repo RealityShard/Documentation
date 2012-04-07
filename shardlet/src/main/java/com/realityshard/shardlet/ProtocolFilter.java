@@ -15,9 +15,6 @@ import java.io.IOException;
  * filters are also used to implement different low-level protocol functionality.
  * These filters have to be added to the protocol definition within the deployment-descriptor.
  * 
- * Based on javax.servlet.ProtocolFilter
- * Thx Oracle!
- * 
  * @author _rusty
  */
 public interface ProtocolFilter
@@ -28,10 +25,11 @@ public interface ProtocolFilter
      * 
      * @param       filterConfig            The filter configuration object, created from
      *                                      the deployment-descriptor data
-     * @throws      ShardletException       When a shardlet-internal problem occured
+     * @throws      Exception               May be thrown if anything didn't work right during
+     *                                      initialization.
      */
-    public void init(Config filterConfig) 
-            throws ShardletException;
+    public void init(ConfigProtocolFilter filterConfig) 
+            throws Exception;
     
     
     /**
@@ -42,7 +40,7 @@ public interface ProtocolFilter
      * @throws      ShardletException       When a shardlet-internal problem occured
      */
     public void doInFilter(ShardletAction action)
-            throws IOException, ShardletException;
+            throws IOException;
     
     
     /**
@@ -53,5 +51,5 @@ public interface ProtocolFilter
      * @throws      ShardletException       When a shardlet-internal problem occured
      */
     public void doOutFilter(ShardletAction action)
-            throws IOException, ShardletException;
+            throws IOException;
 }

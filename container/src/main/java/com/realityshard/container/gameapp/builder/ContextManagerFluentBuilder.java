@@ -4,29 +4,29 @@
 
 package com.realityshard.container.gameapp.builder;
 
-import com.realityshard.container.gameapp.ProtocolChain;
+import com.realityshard.container.NetworkAdapter;
 import com.realityshard.container.gameapp.ContextManager;
-import com.realityshard.container.*;
-import com.realityshard.container.gameapp.ContextFilterConfig;
 import com.realityshard.container.gameapp.GameAppContext;
-import com.realityshard.container.gameapp.GameAppShardletConfig;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.Build;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildExecuter;
-import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildFacade;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildGameAppSchemaFile;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildGameAppStartup;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildGameApps;
+import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildNetworkAdapter;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildProtocolSchemaFile;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildProtocols;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildServerConfig;
+import com.realityshard.container.utils.ClassLoaderFactory;
+import com.realityshard.container.utils.ConfigFactory;
+import com.realityshard.container.utils.JaxbUtils;
+import com.realityshard.container.utils.ProtocolChain;
 import com.realityshard.schemas.gameapp.GameApp;
 import com.realityshard.schemas.gameapp.Start;
 import com.realityshard.schemas.protocol.Protocol;
 import com.realityshard.schemas.protocol.ProtocolFilterConfig;
 import com.realityshard.schemas.serverconfig.ServerConfig;
-import com.realityshard.shardlet.Config;
+import com.realityshard.shardlet.ConfigProtocolFilter;
 import com.realityshard.shardlet.ProtocolFilter;
-import com.realityshard.shardlet.ShardletException;
 import com.realityshard.shardlet.utils.ConcurrentEventAggregator;
 import java.io.File;
 import java.net.MalformedURLException;
@@ -43,7 +43,7 @@ import org.xml.sax.SAXException;
  * @author _rusty
  */
 public class ContextManagerFluentBuilder extends ContextManager implements
-        BuildFacade,
+        BuildNetworkAdapter,
         BuildExecuter,
         BuildServerConfig,
         BuildProtocolSchemaFile,
@@ -70,7 +70,7 @@ public class ContextManagerFluentBuilder extends ContextManager implements
      * 
      * @return 
      */
-    public static BuildFacade start()
+    public static BuildNetworkAdapter start()
     {
         return new ContextManagerFluentBuilder();
     }
@@ -79,13 +79,13 @@ public class ContextManagerFluentBuilder extends ContextManager implements
     /**
      * Step.
      * 
-     * @param       facade
+     * @param       adapter
      * @return 
      */
     @Override
-    public BuildExecuter useFacade(ContainerFacade facade) 
+    public BuildExecuter useAdapter(NetworkAdapter adapter) 
     {
-        this.facade = facade;
+        this.adapter = adapter;
         return this;
     }
 
@@ -230,7 +230,7 @@ public class ContextManagerFluentBuilder extends ContextManager implements
 
                             // create a new generic config out of the info
                             // found in the deployment descriptor
-                            Config filterConf = new ContextFilterConfig(jaxbProtFiltConf.getName(), jaxbProtFiltConf.getInitParam());
+                            ConfigProtocolFilter filterConf = ConfigFactory.produceConfigProtocolFilter(jaxbProtFiltConf.getName(), jaxbProtFiltConf.getInitParam());
 
                             // try constructing the filter class
                             @SuppressWarnings("unchecked")
@@ -392,7 +392,7 @@ public class ContextManagerFluentBuilder extends ContextManager implements
 
                 // thats all for now ;D
             } 
-            catch (MalformedURLException | ClassNotFoundException | InstantiationException | IllegalAccessException | ShardletException ex) 
+            catch (MalformedURLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) 
             {
                 throw new Exception("Unable to create a new game app.", ex);
             }

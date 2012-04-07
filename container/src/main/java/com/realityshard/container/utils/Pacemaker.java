@@ -2,7 +2,7 @@
  * For copyright information see the LICENSE document.
  */
 
-package com.realityshard.container;
+package com.realityshard.container.utils;
 
 import com.realityshard.shardlet.EventAggregator;
 import com.realityshard.shardlet.events.HeartBeatEvent;
@@ -12,11 +12,11 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * This class is used to create periodically reoccuring HeartBeat events
+ * This class is used to create periodically reoccuring HeartBeatEvents
  * 
  * @author _rusty
  */
-public class Pacemaker implements Runnable
+public class Pacemaker
 {
     
     private final ScheduledExecutorService excecutor;
@@ -32,8 +32,10 @@ public class Pacemaker implements Runnable
      * 
      * @param       executor                The scheduler that will trigger the pacemaker
      *                                      after a certain amount of time (2nd param)
-     * @param       outputEventAggregator   
-     * @param       milliSecondTimeIntervall 
+     * @param       outputEventAggregator   The aggregator that will recieve the HeartBeatEvents
+     * @param       milliSecondTimeIntervall
+     *                                      The time intervall in miliseconds, that this pacemaker will
+     *                                      be executed.
      */
     public Pacemaker(ScheduledExecutorService executor, EventAggregator outputEventAggregator, int milliSecondTimeIntervall)
     {
@@ -49,7 +51,7 @@ public class Pacemaker implements Runnable
     public void start()
     {
         lastInvocation = System.currentTimeMillis();
-        future = excecutor.scheduleAtFixedRate(this, milliSecondTimeIntervall, milliSecondTimeIntervall, TimeUnit.MILLISECONDS);
+        future = excecutor.scheduleAtFixedRate(getRunnable(), milliSecondTimeIntervall, milliSecondTimeIntervall, TimeUnit.MILLISECONDS);
     }
     
     
@@ -63,14 +65,27 @@ public class Pacemaker implements Runnable
 
     
     /**
-     * Does nothing else than trigger the HeartBeatEvent.
-     * The scheduler will execute this task after a certain amount
-     * of time, given at instantiation time.
+     * Getter.
+     * 
+     * @return      A new runnable that triggers the HeartBeatEvent
      */
-    @Override
-    public void run() 
+    private Runnable getRunnable() 
     {
-        outputEventAggregator.triggerEvent(
-                new HeartBeatEvent((int)(System.currentTimeMillis()-lastInvocation)));
+        // create a new anonymous object that implements
+        // Runnable, so it can be used with the scheduled executor service
+        return new Runnable() 
+        {
+            /**
+             * Triggers a heartbeat event that contains the time 
+             * between this and the last invocation.
+             */
+            @Override
+            public void run() 
+            {
+                outputEventAggregator.triggerEvent(
+                    new HeartBeatEvent(
+                        (int)(System.currentTimeMillis()-lastInvocation)));
+            }
+        };       
     }
 }

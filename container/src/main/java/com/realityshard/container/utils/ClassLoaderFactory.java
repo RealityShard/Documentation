@@ -2,7 +2,7 @@
  * For copyright information see the LICENSE document.
  */
 
-package com.realityshard.container;
+package com.realityshard.container.utils;
 
 import java.io.File;
 import java.io.FileFilter;
