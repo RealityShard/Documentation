@@ -8,7 +8,9 @@ import com.realityshard.container.utils.Pacemaker;
 import com.realityshard.shardlet.Session;
 import com.realityshard.shardlet.Shardlet;
 import com.realityshard.shardlet.ShardletAction;
+import com.realityshard.shardlet.ShardletActionVerifier;
 import com.realityshard.shardlet.events.context.ContextIncomingActionEvent;
+import com.realityshard.shardlet.events.network.NetworkClientConnectedEvent;
 import com.realityshard.shardlet.events.network.NetworkClientDisconnectedEvent;
 import java.util.List;
 import org.slf4j.Logger;
@@ -42,6 +44,7 @@ public class GameAppContext extends GenericContext
     
     /**
      * Constructor.
+     * 
      * @see GameAppFluentBuilder
      */
     protected GameAppContext()
@@ -51,6 +54,69 @@ public class GameAppContext extends GenericContext
         super();
     }
         
+    
+    /**
+     * Decide whether a client is accepted or not.
+     * 
+     * @param       action                  The first message send by the new client
+     * @return  
+     */
+    public boolean acceptClient(ShardletAction action)
+    {
+        ShardletActionVerifier acceptedVerifier = null;
+        
+        
+        // ask our verifiers...
+        // the non persistant first
+        for (ShardletActionVerifier shardletActionVerifier : normalClientVerifiers) 
+        {
+            if (shardletActionVerifier.check(action))
+            {
+                // a verifier accepted a new client!
+                // lets trigger the appropriate event
+                aggregator.triggerEvent(new NetworkClientConnectedEvent(action));
+                
+                // because the verfier is non persistant, we need to delete it from
+                // the list after we left the loop ;D
+                acceptedVerifier = shardletActionVerifier;
+                
+                break;
+            }
+        }
+        
+        
+        // check if we found one:
+        if (acceptedVerifier != null)
+        {
+            // we need to delete it from the list
+            normalClientVerifiers.remove(acceptedVerifier);
+            
+            // everything else is already done, so lets end this method
+            return true;
+        }
+        
+        
+        // now ask the persistant verifiers
+        for (ShardletActionVerifier shardletActionVerifier : persistantClientVerifiers) 
+        {
+            if (shardletActionVerifier.check(action))
+            {
+                // a verifier accepted a new client!
+                // lets trigger the appropriate event
+                aggregator.triggerEvent(new NetworkClientConnectedEvent(action));
+                
+                // we dont need to delete the verifier, so we can simply
+                // end this method directly here
+                return true;
+            }
+        }
+        
+        
+        // if this is executed, all verifiers of our lists denied the client
+        // so we can return false 
+        return false;
+    }
+    
     
     /**
      * Used by the ContextManager: provide this Context with a

@@ -4,7 +4,6 @@
 
 package com.realityshard.container.gameapp.builder;
 
-import com.realityshard.container.utils.Pacemaker;
 import com.realityshard.container.gameapp.GameAppContext;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.Build;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildClassloader;
@@ -16,6 +15,7 @@ import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildPacemaker;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildShardlets;
 import com.realityshard.container.utils.ConfigFactory;
+import com.realityshard.container.utils.Pacemaker;
 import com.realityshard.schemas.gameapp.AppInfo;
 import com.realityshard.schemas.gameapp.InitParam;
 import com.realityshard.schemas.gameapp.ShardletConfig;

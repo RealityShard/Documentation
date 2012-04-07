@@ -195,7 +195,22 @@ public class ContextManager
             // so we need to send it to every game app out there,
             // to check if they want to handle it.
             
-            // TODO: implement me and add the methods to the contexts.
+            for (GameAppContext gameAppContext : gameAppGeneral) 
+            {
+                if (gameAppContext.acceptClient(action))
+                {
+                    // we've found a game app that accepts the new client
+                    // so we can create the association
+                    gameAppBySession.put(action.getSession(), gameApp);
+                    
+                    // and we can end the search here
+                    break;
+                }
+            }
+            
+            // TODO check if this is the appropriate behaviour!
+            // if we didnt find any game app that want to accept this client
+            // we do nothing
         }
     }
 
@@ -228,10 +243,12 @@ public class ContextManager
      */
     public void handleLostClient(Session session)
     {
+        // try to get the context that handles this client
         GameAppContext context = gameAppBySession.get(session);
         
         if (context != null)
         {
+            // and send it a message, so it knows that lost a client
             context.handleLostClient(session);
         }
     }

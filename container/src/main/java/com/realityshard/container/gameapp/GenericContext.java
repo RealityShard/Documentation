@@ -31,8 +31,8 @@ public abstract class GenericContext implements ShardletContext
     protected String description;                  // TODO: not accessible from the shardlets... why?
     protected Map<String, String> initParams;
     
-    private List<ShardletActionVerifier> normalClientVerifiers;
-    private List<ShardletActionVerifier> persistantClientVerifiers;
+    protected List<ShardletActionVerifier> normalClientVerifiers;
+    protected List<ShardletActionVerifier> persistantClientVerifiers;
     private Map<String, Object> attributes;
     
     
@@ -145,9 +145,16 @@ public abstract class GenericContext implements ShardletContext
     @Override
     public void clearClientVerifiers(boolean persistantVerifiersOnly)
     {
+        // they will always be cleared:
+        persistantClientVerifiers.clear();
         
+        if (!persistantVerifiersOnly)
+        {
+            // clear them conditionally:
+            normalClientVerifiers.clear();
+        }
     }
-    
+        
     
     /**
      * Getter.
