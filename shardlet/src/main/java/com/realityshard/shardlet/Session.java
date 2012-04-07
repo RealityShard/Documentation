@@ -115,6 +115,15 @@ public interface Session
      */
     public void invalidate();
     
+    
+    /**
+     * Setter.
+     * Set a new encryption state of this session.
+     * 
+     * @param       state                   The new encryption state. 
+     */
+    public void setEncryptionState(SessionEncryptionState state);
+    
 
     /**
      * Getter.
