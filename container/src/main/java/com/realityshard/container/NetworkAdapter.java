@@ -47,6 +47,7 @@ public interface NetworkAdapter
      *                                      (meaning that the connection listener will use)
      * @throws      IOException             If the listener couldnt be created
      */
-    void tryCreateProtocolListener(String name, int port) throws IOException;
+    void tryCreateProtocolListener(String name, int port) 
+            throws IOException;
 
 }

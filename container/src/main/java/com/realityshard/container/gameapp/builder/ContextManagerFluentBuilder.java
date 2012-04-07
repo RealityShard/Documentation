@@ -29,6 +29,7 @@ import com.realityshard.shardlet.ConfigProtocolFilter;
 import com.realityshard.shardlet.ProtocolFilter;
 import com.realityshard.shardlet.utils.ConcurrentEventAggregator;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,8 @@ import org.xml.sax.SAXException;
 
 
 /**
- *
+ * This class is used to build a new Context Manager
+ * 
  * @author _rusty
  */
 public class ContextManagerFluentBuilder extends ContextManager implements
@@ -254,10 +256,17 @@ public class ContextManagerFluentBuilder extends ContextManager implements
                         // so lets finally create the protocolchain.
                         // note that we have a mapping for ProtocolName -> ProtocolChain
                         this.protocols.put(protConfig.getName(), new ProtocolChain(inFilters, outFilters));
+                        
+                        // CAUTION! DONT FORGET TO REGISTER THE PROTOCOLS WITH THE NETWORK ADAPTER:
+                        adapter.tryCreateProtocolListener(protConfig.getName(), (int)protConfig.getPort());
                     } 
                     catch (JAXBException | SAXException ex) 
                     {
                         throw new Exception("Unable to parse deployment descriptor of a protocol.", ex);
+                    }
+                    catch (IOException ex)
+                    {
+                        throw new Exception("Unable to register a protocol-listener.", ex);
                     }
                 }
             }
