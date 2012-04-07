@@ -9,8 +9,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,7 +24,7 @@ import org.slf4j.LoggerFactory;
  * @author _rusty
  */
 public final class ConcurrentNetworkManager 
-    implements NetworkManager, Runnable
+    implements NetworkLayer, Runnable
 {
       
     /**
@@ -56,7 +54,7 @@ public final class ConcurrentNetworkManager
     
     private final Map<UUID, ClientWrapper> clients;
     private final Map<String, ServerSocketChannel> listeners;
-    private final List<NetworkConnector> packetHandlers;
+    private NetworkConnector packetHandler;
     
 
     /**
@@ -66,7 +64,6 @@ public final class ConcurrentNetworkManager
     {
         clients = new ConcurrentHashMap<>();
         listeners = new ConcurrentHashMap<>();
-        packetHandlers = new ArrayList<>();
     }
     
     
@@ -129,26 +126,18 @@ public final class ConcurrentNetworkManager
                 // Check if an End-Of-Stream has been detected
                 if (numberOfBytesRead == -1) 
                 {
-                    // TODO inform any listeners of a disconnected client
-//                    logger.debug("Lost connection reading data (End-Of-Stream)");
-//                    throw new IOException("Lost connection reading data (End-Of-Stream)");
+                    // inform the handler that we have lost the connection to
+                    // a client
+                    packetHandler.lostClient(uuid);
+                    
+                    LOGGER.debug("Lost connection reading data (End-Of-Stream)");
                 }
 
                 LOGGER.debug("ByteBuffer has {} out of {} bytes filled. Bytes read this read(): {}", new Object[]{data.position(), data.limit(), numberOfBytesRead});
             }
             
-            // invoke the handlers
-            for (NetworkConnector networkPacketConnector : packetHandlers) 
-            {
-                try 
-                {
-                    networkPacketConnector.handlePacket(data, uuid);
-                } 
-                catch (IOException ex) 
-                {
-                    LOGGER.warn("Could not call a packet handler.");
-                }
-            }
+            // call the handler
+            packetHandler.handlePacket(data, uuid);
         }
     }
     
@@ -167,32 +156,18 @@ public final class ConcurrentNetworkManager
     {
         clients.get(clientUID).getChannel().write(rawData);
     }
-
-
-    /**
-     * Adds a listener to the list
-     * If this class emitts a packet, the listener's handle method is called.
-     * 
-     * @param       listener 
-     */
-    @Override
-    public void addPacketListener(NetworkConnector listener) 
-    {
-        packetHandlers.add(listener);
-    }
     
     
     /**
-     * Handle a new client or create a new client (depending on the context)
+     * Create a new client
      * 
      * @param       protocolName            The name of the protocol the client will use
      * @param       IP                      The IP of the new client
      * @param       port                    The port of the new client
-     * @param       clientUID               The UID of the new client
      * @throws      IOException             If the client could not be created
      */
     @Override
-    public void newClient(String protocolName, String IP, int port, UUID clientUID)
+    public UUID tryCreateClient(String protocolName, String IP, int port)
             throws IOException
     {
         SocketChannel chan = SocketChannel.open();
@@ -202,6 +177,16 @@ public final class ConcurrentNetworkManager
         {
             throw new IOException("Could not connect to client.");
         }
+        
+        // get some random identifier
+        UUID result = UUID.randomUUID();
+        
+        // add the new client to our list
+        clients.put(result, new ClientWrapper(protocolName, chan));
+        
+        // return the identifier, so the connector can identify packets from this
+        // client later on
+        return result;
     }
     
     
@@ -245,4 +230,20 @@ public final class ConcurrentNetworkManager
         // add it
         listeners.put(protocolName, chan);
     }
+
+    
+    /**
+     * Setter.
+     * 
+     * @param       connector               The connector that this network manager
+     *                                      will output stuff to
+     */
+    @Override
+    public void setPacketHandler(NetworkConnector connector) 
+    {
+        packetHandler = connector;
+    }
+    
+    
+    
 }

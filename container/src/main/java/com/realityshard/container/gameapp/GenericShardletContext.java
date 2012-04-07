@@ -4,11 +4,17 @@
 
 package com.realityshard.container.gameapp;
 
-import com.realityshard.shardlet.*;
+import com.realityshard.shardlet.EventAggregator;
+import com.realityshard.shardlet.ShardletAction;
+import com.realityshard.shardlet.ShardletActionVerifier;
+import com.realityshard.shardlet.ShardletContext;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -24,7 +30,21 @@ public abstract class GenericShardletContext implements ShardletContext
     protected String name;
     protected String description;                  // TODO: not accessible from the shardlets... why?
     protected Map<String, String> initParams;
-    protected Map<String, Object> attributes;
+    
+    private List<ShardletActionVerifier> normalClientVerifiers;
+    private List<ShardletActionVerifier> persistantClientVerifiers;
+    private Map<String, Object> attributes;
+    
+    
+    /**
+     * Constructor.
+     */
+    protected GenericShardletContext()
+    {
+        normalClientVerifiers = new ArrayList<>();
+        persistantClientVerifiers = new ArrayList<>();
+        attributes = new ConcurrentHashMap<>();
+    }
 
     
     /**
@@ -89,6 +109,43 @@ public abstract class GenericShardletContext implements ShardletContext
     public InputStream getResourceAsStream(String path) 
     {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    
+    /**
+     * Adds a new decider to the list. If we have a new client,
+     * the context will run through the deciders checking if one of them
+     * accepts the client.
+     * 
+     * @param       verifier                Checks whether we want to accept a new
+     *                                      client based on its first message
+     * @param       isPersistant            See above description. Should only be true
+     *                                      if you want to auto-accept new clients.
+     */
+    @Override
+    public void addClientVerifier(ShardletActionVerifier verifier, boolean isPersistant)
+    {
+        if (isPersistant)
+        {
+            persistantClientVerifiers.add(verifier);
+        }
+        else
+        {
+            normalClientVerifiers.add(verifier);
+        }
+    }
+    
+    
+    /**
+     * Clears the client verifiers list.
+     * 
+     * @param persistantVerifiersOnly       Determines whether the context should
+     *                                      delete only persistant verifiers.
+     */
+    @Override
+    public void clearClientVerifiers(boolean persistantVerifiersOnly)
+    {
+        
     }
     
     
@@ -165,5 +222,4 @@ public abstract class GenericShardletContext implements ShardletContext
     {
         attributes.remove(name);
     }
-
 }

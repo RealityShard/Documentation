@@ -5,11 +5,10 @@
 package com.realityshard.container.gameapp;
 
 import com.realityshard.container.Pacemaker;
-import com.realityshard.container.gameapp.builder.GameAppContextFluentBuilder;
-import com.realityshard.shardlet.*;
+import com.realityshard.shardlet.Shardlet;
+import com.realityshard.shardlet.ShardletAction;
 import com.realityshard.shardlet.events.context.ContextIncomingActionEvent;
-import java.io.IOException;
-import java.util.*;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +46,7 @@ public class GameAppContext extends GenericShardletContext
     {
         // this is empty, because we use a builder to
         // construct a new game app context
+        super();
     }
         
     
@@ -54,28 +54,25 @@ public class GameAppContext extends GenericShardletContext
      * Used by the ContextManager: provide this Context with a
      * new action, coming from a network client.
      * 
+     * The action will be published as a
+     * <code>ContextIncomingActionEvent</code>
+     * within the event aggregator of this game-app
+     * 
      * @param action 
      */
     public void handleIncomingAction(ShardletAction action)
     {
-//        try 
-//        {
-//            // try decrypt/parse packet (or whatever else is done by the filters
-//            protocols.get(action.getProtocol()).doInFilter(action);
-//            
-//            // invoke the shardlets, trigger the event that they are waiting for ;D
-//            aggregator.triggerEvent(new ContextIncomingActionEvent(action));
-//        } 
-//        catch (IOException | ShardletException ex) 
-//        {
-//            LOGGER.error("Failed to handle a client action (a packet was unkown)", ex);
-//        }
+        // send the event to the aggregator,
+        // indirectly invoking the shardlets that handle new
+        // incoming events
+        aggregator.triggerEvent(new ContextIncomingActionEvent(action));
     }
 
     
     /**
-     * Sends an action to client specified by Session object attached to the action
-     * if the client cannot be found, the action will not be transmitted and no error
+     * Sends an action to a client specified by the Session object 
+     * attached to the action.
+     * If the client cannot be found, the action will not be transmitted and no error
      * is thrown.
      * This means: whenever you want to send stuff, make sure that everything is
      * alright with your messages.
@@ -85,18 +82,8 @@ public class GameAppContext extends GenericShardletContext
     @Override
     public void sendAction(ShardletAction action) 
     {
-//        try 
-//        {
-//            // try encrypt/parse packet (or whatever else is done by the filters)
-//            protocols.get(action.getProtocol()).doOutFilter(action);
-//            
-//            // pass it to the context manager
-//            manager.sendAction(action);
-//        } 
-//        catch (IOException | ShardletException | NullPointerException ex) 
-//        {
-//            LOGGER.error("Failed to handle a client action (a packet or protocol was unkown)", ex);
-//        }
+        // redirect the action to the context manager
+        manager.sendAction(action);
     }
     
 }

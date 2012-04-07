@@ -7,7 +7,7 @@ package com.realityshard.container;
 import com.realityshard.container.gameapp.ContextManager;
 import com.realityshard.container.gameapp.builder.ContextManagerFluentBuilder;
 import com.realityshard.network.NetworkConnector;
-import com.realityshard.network.NetworkManager;
+import com.realityshard.network.NetworkLayer;
 import com.realityshard.schemas.serverconfig.ServerConfig;
 import com.realityshard.shardlet.Session;
 import com.realityshard.shardlet.ShardletAction;
@@ -29,49 +29,14 @@ import java.util.concurrent.ScheduledExecutorService;
 public final class ContainerFacade
     implements NetworkConnector
 {
-        
-    /**
-     * Hold client data.
-     * Currently undocumented as its a simple and passive class.
-     */
-    private final class ClientWrapper
-    {
-        
-        private final String protocolName;
-        private final String IP;
-        private final int port;
-        private final Session session;
-        private final UUID clientUID;
-        
-        
-        public ClientWrapper(String protocolName, String IP, int port, Session session, UUID clientUID)
-        {
-            this.protocolName = protocolName;
-            this.IP = IP;
-            this.port = port;
-            this.session = session;
-            this.clientUID = clientUID;
-
-        }
-
-        public String getIP() { return IP; }
-
-        public UUID getClientUID() { return clientUID; }
-
-        public int getPort() { return port; }
-
-        public String getProtocolName() { return protocolName; }
-
-        public Session getSession() { return session; }
-    }
-    
-    private final NetworkManager network;
+            
+    private final NetworkLayer network;
     
     private final ScheduledExecutorService executor;
     private final ContextManager contextManager;
     private final SessionManager sessionManager;
     
-    private final Map<UUID, ClientWrapper> clients;
+    private final Map<UUID, Session> clients;
     
     
     /**
@@ -88,7 +53,7 @@ public final class ContainerFacade
      * @throws      Exception               If there was any fatal error that keeps this
      *                                      container from being able to be executed
      */
-    public ContainerFacade(NetworkManager network, ScheduledExecutorService executor, File configPath, File schemaPath, File protocolsPath, File gameAppsPath) 
+    public ContainerFacade(NetworkLayer network, ScheduledExecutorService executor, File configPath, File schemaPath, File protocolsPath, File gameAppsPath) 
             throws Exception
     {
         // the network manager will handle the networking stuff,
@@ -98,7 +63,7 @@ public final class ContainerFacade
         // and the network manager, so we can plug them both together.
         // (They are both using almost equal methods of each other when it comes to signatures)
         this.network = network;
-        this.network.addPacketListener(this);
+        this.network.setPacketHandler(this);
         
         // the executor is responsible for multithreading of this server
         // every internal event listener below will automatically be running parallel
@@ -155,7 +120,6 @@ public final class ContainerFacade
      */
     @Override
     public void handlePacket(ByteBuffer rawData, UUID clientUID)
-        throws IOException
     {
         // we could do anything we want with this packet here,
         // but we don't
@@ -163,18 +127,6 @@ public final class ContainerFacade
         // basically, what we will be doing though
         // is let the session manager attach a session to it
         // and then delegate it to the ContextManager
-    }
-    
-    
-    /**
-     * Just the implementation of the interface.
-     * 
-     * @param       listener 
-     */
-    @Override
-    public void addPacketListener(NetworkConnector listener) 
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     
@@ -188,6 +140,7 @@ public final class ContainerFacade
     public void handleOutgoingNetworkAction(ShardletAction action)
     {
         // send this packet straight to the NetworkInterface
+        // TODO
     }
 
     
@@ -198,14 +151,12 @@ public final class ContainerFacade
      * @param       IP
      * @param       port
      * @param       clientUID
-     * @throws      IOException 
      */
     @Override
     public void newClient(String protocolName, String IP, int port, UUID clientUID) 
-            throws IOException 
     {
         // add the client here,
-        clients.put(clientUID, new ClientWrapper(protocolName, IP, port, null, clientUID));
+        //clients.put(clientUID, new ClientWrapper(protocolName, IP, port, null, clientUID));
         
         // and TODO: inform the contexts
     }
@@ -217,7 +168,7 @@ public final class ContainerFacade
      * @param       clientUID 
      */
     @Override
-    public void disconnectClient(UUID clientUID) 
+    public void lostClient(UUID clientUID) 
     {
         // remove the client here,
         clients.remove(clientUID);
