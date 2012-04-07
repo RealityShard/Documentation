@@ -70,7 +70,7 @@ public class ContextManager
     }
     
     
-    private final static Logger LOGGER = LoggerFactory.getLogger(GameAppContext.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ContextManager.class);
     
     protected NetworkAdapter adapter;
     
@@ -135,6 +135,7 @@ public class ContextManager
                 // although it still is quite verbose
                 GameAppContext context = GameAppContextFluentBuilder
                         .start()
+                        .useManager(this)
                         .useAggregator(new ConcurrentEventAggregator(executor))
                         .useClassloader(cl)
                         .useName(gaConf.getAppInfo().getDisplayName())
@@ -147,7 +148,10 @@ public class ContextManager
                 // add the context to our general context list
                 // because we do not yet know it's sessions
                 gameAppGeneral.add(context);
-
+                
+                // log that we'r staring a game app
+                LOGGER.debug("Starting a game app [name: " + context.getShardletContextName() + "]");
+                
                 // thats all for now ;D
             } 
             catch (MalformedURLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) 
@@ -175,7 +179,7 @@ public class ContextManager
         } 
         catch (IOException ex) 
         {
-            LOGGER.error("Failed to handle a client action (a packet was unkown)", ex);
+            LOGGER.error("Failed to handle a client (incoming) action (a packet was unkown)", ex);
             return;
         }
         
@@ -188,12 +192,18 @@ public class ContextManager
             // the session is already connected to one of our contexts, so lets
             // send it that new action so it can parse and distribute it
             gameApp.handleIncomingAction(action);
+            
+            // log that we'r staring a game app
+            LOGGER.debug("Successfully delegated a new action");
         }
         else
         {
             // the packet obviously comes from a new client
             // so we need to send it to every game app out there,
             // to check if they want to handle it.
+            
+            // log that we'r staring a game app
+            LOGGER.debug("We've got a new client!");
             
             for (GameAppContext gameAppContext : gameAppGeneral) 
             {
@@ -226,6 +236,18 @@ public class ContextManager
      */
     public void sendAction(ShardletAction action) 
     {
+        // try to encrypt and serialze the action before using it:
+        try 
+        {
+            // try encrypt/parse packet (or whatever else is done by the filters
+            protocols.get(action.getProtocol()).doOutFilter(action);
+        } 
+        catch (IOException ex) 
+        {
+            LOGGER.error("Failed to handle a shardlet (outgoing) action (a packet was unkown)", ex);
+            return;
+        }
+        
         // try to send the action to the ContainerFacade
         adapter.handleOutgoingNetworkAction(action);
     }

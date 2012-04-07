@@ -4,11 +4,11 @@
 
 package com.realityshard.container;
 
-import com.realityshard.container.utils.GenericAction;
-import com.realityshard.container.utils.JaxbUtils;
 import com.realityshard.container.gameapp.ContextManager;
 import com.realityshard.container.gameapp.builder.ContextManagerFluentBuilder;
 import com.realityshard.container.session.GameSession;
+import com.realityshard.container.utils.GenericAction;
+import com.realityshard.container.utils.JaxbUtils;
 import com.realityshard.network.NetworkConnector;
 import com.realityshard.network.NetworkLayer;
 import com.realityshard.schemas.serverconfig.ServerConfig;
@@ -151,8 +151,15 @@ public final class ContainerFacade
         try
         {
             // send this packet straight to the NetworkInterface
-            
-            network.handlePacket(action.getBuffer(), action.getSession().getId());
+            ByteBuffer buf = action.getBuffer();
+            if (buf != null)
+            {
+                network.handlePacket(buf, action.getSession().getId());
+            }
+            else
+            {
+                LOGGER.error("Recieved empty packet!");
+            }
         } 
         catch (IOException ex)
         {
@@ -205,7 +212,11 @@ public final class ContainerFacade
         
         if (session != null)
         {
-            contextManager.handleIncomingAction(new GenericAction(session));
+            GenericAction action = new GenericAction(session);
+            action.setBuffer(rawData);
+            
+            // delegate it!
+            contextManager.handleIncomingAction(action);
         }
         // TODO: what if we've got no session?
     }

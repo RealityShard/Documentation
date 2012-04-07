@@ -72,7 +72,7 @@ public class ProtocolChain implements ProtocolFilter
         for (ProtocolFilter protocolFilter : incomingFilters) 
         {
             // the action will be transformed by the filter
-            protocolFilter.doOutFilter(action);
+            protocolFilter.doInFilter(action);
         }
     }
 

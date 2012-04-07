@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <GameApp>
     
-    <DisplayName>TestGameApp</DisplayName>
-    <Description>This is used as a test only.</Description>
+    <AppInfo>
+        <DisplayName>TestGameApp</DisplayName>
+        <Description>This is used as a test only.</Description>
     
-    <Startup>WhenContainerStartupFinished</Startup>
-    <HeartBeat>50</HeartBeat>
+        <Startup>WhenContainerStartupFinished</Startup>
+        <HeartBeat>50</HeartBeat>
+    </AppInfo>
     
-    <Protocol name="FakeProtocol" port="7112">
-        <ProtocolFilter name="TestProtocolFilter" class="com.gamerevision.rusty.realityshard.shardlet.gameapp.ProtocolFilterTest" in="true" out="true">
-            <InitParam name="testParam" value="Log me, i'm a protocol filter init parameter!" />
-        </ProtocolFilter>
-    </Protocol>
-    
-    <Shardlet name="TestProtocolFilter" class="com.gamerevision.rusty.realityshard.shardlet.gameapp.ShardletTest">
+    <Shardlet name="TestProtocolFilter" class="com.realityshard.shardlet.gameapp.ShardletTest">
         <InitParam name="testParam" value="Log me, i'm a shardlet init parameter!" />
     </Shardlet>
     

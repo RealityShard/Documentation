@@ -3,6 +3,6 @@
     <ServerName>TestServer</ServerName>
     <Description>A test server configuration</Description>
     <Version>0.1.0 RC1 pre-Alpha</Version>
-    <OpenPorts cluster="6111" rmi="6112" ssh="6113" maintenance="6114"/>
+    <OpenPorts cluster="6211" rmi="6212" maintenance="6213"/>
     <ClusterInfo></ClusterInfo>
 </ServerConfig>

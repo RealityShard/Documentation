@@ -4,10 +4,11 @@
 
 package com.realityshard.shardlet.gameapp;
 
-import com.realityshard.shardlet.ProtocolFilter;
 import com.realityshard.shardlet.ConfigProtocolFilter;
+import com.realityshard.shardlet.ProtocolFilter;
 import com.realityshard.shardlet.ShardletAction;
 import java.io.IOException;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
@@ -18,11 +19,13 @@ import org.slf4j.LoggerFactory;
  */
 public class ProtocolFilterTest implements ProtocolFilter
 {
+    private final static Logger LOGGER = LoggerFactory.getLogger(ProtocolFilterTest.class);
 
     @Override
     public void init(ConfigProtocolFilter filterConfig) 
             throws Exception 
     {
+        LOGGER.debug("Filter initialized!");
     }
 
     @Override
@@ -30,13 +33,16 @@ public class ProtocolFilterTest implements ProtocolFilter
             throws IOException
     {
         action.setAttribute("ProtocolFilter.test", "It's a me, tha ProtocolFilter attribute!");
+        
+        LOGGER.debug("In filter method called!");
     }
 
     @Override
     public void doOutFilter(ShardletAction action) 
             throws IOException
     {
-        LoggerFactory.getLogger(ProtocolFilterTest.class).debug((String) action.getAttribute("ProtocolFilter.test"));
+        LOGGER.debug("Out filter method called!");
+        LOGGER.debug((String) action.getAttribute("ProtocolFilter.test"));
     }
 
 }

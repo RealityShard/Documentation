@@ -4,6 +4,7 @@
 
 package com.realityshard.container.gameapp.builder;
 
+import com.realityshard.container.gameapp.ContextManager;
 import com.realityshard.container.gameapp.GameAppContext;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.Build;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildClassloader;
@@ -11,6 +12,7 @@ import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildEventAggregator;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildInfo;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildInitParams;
+import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildManager;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildName;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildPacemaker;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildShardlets;
@@ -35,6 +37,7 @@ import java.util.concurrent.ScheduledExecutorService;
  * @author _rusty
  */
 public final class GameAppContextFluentBuilder extends GameAppContext implements
+        BuildManager,
         BuildEventAggregator,
         BuildClassloader,
         BuildInfo,
@@ -62,9 +65,23 @@ public final class GameAppContextFluentBuilder extends GameAppContext implements
      * 
      * @return 
      */
-    public static BuildEventAggregator start()
+    public static BuildManager start()
     {
         return new GameAppContextFluentBuilder();
+    }
+    
+    
+    /**
+     * Step.
+     * 
+     * @param       manager
+     * @return 
+     */
+    @Override
+    public BuildEventAggregator useManager(ContextManager manager) 
+    {
+        this.manager = manager;
+        return this;
     }
     
     

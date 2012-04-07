@@ -4,6 +4,7 @@
 
 package com.realityshard.container.gameapp.builder;
 
+import com.realityshard.container.gameapp.ContextManager;
 import com.realityshard.container.gameapp.GameAppContext;
 import com.realityshard.container.utils.Pacemaker;
 import com.realityshard.schemas.gameapp.AppInfo;
@@ -24,6 +25,15 @@ import java.util.concurrent.ScheduledExecutorService;
  */
 public interface GameAppContextBuildDescriptors 
 {
+    
+    /**
+     * Build step: add the context manager
+     */
+    public interface BuildManager
+    {
+        public BuildEventAggregator useManager(ContextManager manager);
+    }
+
     
     /**
      * Build step: add the event aggregator

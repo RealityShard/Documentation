@@ -95,7 +95,14 @@ public final class ConcurrentNetworkManager
             {
                 // we've got a new client!
                 // lets add him to our clients map
-                clients.put(UUID.randomUUID(), new ClientWrapper(prot, chan));
+                UUID uuid = UUID.randomUUID();
+                clients.put(uuid, new ClientWrapper(prot, chan));
+                
+                // log it
+                LOGGER.debug("We've got a new client! [uuid: {}]", uuid);
+                
+                // also tell the packet handler that we've got a new client
+                packetHandler.newClient(prot, chan.socket().getInetAddress().getHostAddress(), chan.socket().getPort(), uuid);
             }
         }
         
@@ -133,8 +140,11 @@ public final class ConcurrentNetworkManager
                     LOGGER.debug("Lost connection reading data (End-Of-Stream)");
                 }
 
-                LOGGER.debug("ByteBuffer has {} out of {} bytes filled. Bytes read this read(): {}", new Object[]{data.position(), data.limit(), numberOfBytesRead});
+                //LOGGER.debug("ByteBuffer has {} out of {} bytes filled. Bytes read this read(): {}", new Object[]{data.position(), data.limit(), numberOfBytesRead});
             }
+            
+            // log it
+            LOGGER.debug("IN  packet [data: " + getHexString(data.array()) + "]");
             
             // call the handler
             packetHandler.handlePacket(data, uuid);
@@ -155,6 +165,9 @@ public final class ConcurrentNetworkManager
             throws IOException 
     {
         clients.get(clientUID).getChannel().write(rawData);
+        
+        // log it
+            LOGGER.debug("OUT packet [data: " + getHexString(rawData.array()) + "]");
     }
     
     
@@ -173,7 +186,7 @@ public final class ConcurrentNetworkManager
         SocketChannel chan = SocketChannel.open();
         
         // try to connect
-        if (chan.connect(new java.net.InetSocketAddress(IP, port))) 
+        if (!chan.connect(new java.net.InetSocketAddress(IP, port))) 
         {
             throw new IOException("Could not connect to client.");
         }
@@ -183,6 +196,9 @@ public final class ConcurrentNetworkManager
         
         // add the new client to our list
         clients.put(result, new ClientWrapper(protocolName, chan));
+        
+        // log it
+        LOGGER.debug("Created a new client connection [uuid: " + result + "]");
         
         // return the identifier, so the connector can identify packets from this
         // client later on
@@ -202,6 +218,9 @@ public final class ConcurrentNetworkManager
         {
             clients.get(clientUID).getChannel().close();
             clients.remove(clientUID);
+            
+            // log it
+            LOGGER.debug("Forcefully disconnected a client [uuid: " + clientUID + "]");
         } 
         catch (IOException ex) 
         {
@@ -229,6 +248,9 @@ public final class ConcurrentNetworkManager
         
         // add it
         listeners.put(protocolName, chan);
+        
+        // log it
+        LOGGER.debug("Added new network listener [name: " + protocolName + " | port: " + port + "]");
     }
 
     
@@ -246,4 +268,27 @@ public final class ConcurrentNetworkManager
     
     
     
+    
+    
+    
+    
+    
+    
+    /**
+     * For debug purpose only.
+     * 
+     * @param       bytes
+     * @return 
+     */
+    private static String getHexString(byte[] bytes)
+    {
+        StringBuilder result = new StringBuilder();
+        
+        for (int i = 0; i < bytes.length; i++) 
+        {
+            result.append(Integer.toHexString(bytes[i]));
+        }
+        
+        return result.toString();
+    }
 }

@@ -80,6 +80,9 @@ public class GameAppContext extends GenericContext
                 // the list after we left the loop ;D
                 acceptedVerifier = shardletActionVerifier;
                 
+                // log it
+                LOGGER.debug("Accepted client");
+                
                 break;
             }
         }
@@ -105,12 +108,18 @@ public class GameAppContext extends GenericContext
                 // lets trigger the appropriate event
                 aggregator.triggerEvent(new NetworkClientConnectedEvent(action));
                 
+                // log it
+                LOGGER.debug("Accepted client");
+                
                 // we dont need to delete the verifier, so we can simply
                 // end this method directly here
                 return true;
             }
         }
         
+        
+        // log it
+        LOGGER.debug("Didn't accept client");
         
         // if this is executed, all verifiers of our lists denied the client
         // so we can return false 

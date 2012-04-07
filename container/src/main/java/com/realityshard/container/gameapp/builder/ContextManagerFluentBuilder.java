@@ -36,6 +36,8 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 import javax.xml.bind.JAXBException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 
@@ -55,6 +57,9 @@ public class ContextManagerFluentBuilder extends ContextManager implements
         BuildGameAppStartup,
         Build
 {
+    
+    private final static Logger LOGGER = LoggerFactory.getLogger(ContextManagerFluentBuilder.class);
+    
 
     /**
      * Constructor.
@@ -259,6 +264,9 @@ public class ContextManagerFluentBuilder extends ContextManager implements
                         
                         // CAUTION! DONT FORGET TO REGISTER THE PROTOCOLS WITH THE NETWORK ADAPTER:
                         adapter.tryCreateProtocolListener(protConfig.getName(), (int)protConfig.getPort());
+                        
+                        // Also, we might want to log our findings
+                        LOGGER.debug("Found a new protocol [name: " + protConfig.getName() + " | port: " + protConfig.getPort() + "]");
                     } 
                     catch (JAXBException | SAXException ex) 
                     {
@@ -342,6 +350,8 @@ public class ContextManagerFluentBuilder extends ContextManager implements
                         // lets add this game app to our list
                         gameAppsInfo.add(new ContextManager.GameAppInfo(gameConfig.getAppInfo().getDisplayName(), gameInfPath, gameConfig));
                         
+                        // Also, we might want to log our findings
+                        LOGGER.debug("Found a new game app [name: " + gameConfig.getAppInfo().getDisplayName() + "]");
                     } 
                     catch (JAXBException | SAXException ex) 
                     {
@@ -389,6 +399,7 @@ public class ContextManagerFluentBuilder extends ContextManager implements
                 // ...so that we can keep this clean:
                 GameAppContext context = GameAppContextFluentBuilder
                         .start()
+                        .useManager(this)
                         .useAggregator(new ConcurrentEventAggregator(executor))
                         .useClassloader(cl)
                         .useInfo(gaConf.getAppInfo(), executor)
@@ -399,6 +410,9 @@ public class ContextManagerFluentBuilder extends ContextManager implements
                 // because we do not yet know it's sessions
                 gameAppGeneral.add(context);
 
+                // log that we'r staring a game app
+                LOGGER.debug("Starting a game app [name: " + context.getShardletContextName() + "]");
+                
                 // thats all for now ;D
             } 
             catch (MalformedURLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) 
