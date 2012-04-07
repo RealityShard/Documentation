@@ -2,25 +2,22 @@
  * For copyright information see the LICENSE document.
  */
 
-package com.realityshard.container;
+package com.realityshard.container.gameapp;
 
-import com.realityshard.schemas.InitParam;
+import com.realityshard.schemas.protocol.InitParam;
 import com.realityshard.shardlet.Config;
 import com.realityshard.shardlet.ShardletContext;
 import java.util.*;
 
 
 /**
- * This is an implementation of shardlet.Config, which is used to
- * configurate the shardlets or filters of a game app
- * 
+ *
  * @author _rusty
  */
-public class GenericConfig implements Config
+public class ContextFilterConfig implements Config
 {
     
     private final String name;
-    private final ShardletContext context;
     private final Map<String, String> initParams;
     
     
@@ -28,13 +25,11 @@ public class GenericConfig implements Config
      * Constructor.
      * 
      * @param       name                    Name of the shardlet or filter
-     * @param       context                 The context of this shardlet or filter
      * @param       params                  InitParams of the shardlet or filter
      */
-    public GenericConfig(String name, ShardletContext context, List<InitParam> params)
+    public ContextFilterConfig(String name, List<InitParam> params)
     {
         this.name = name;
-        this.context = context;
         
         // try to add the init parameters
         initParams = new HashMap<>();
@@ -60,13 +55,15 @@ public class GenericConfig implements Config
 
     /**
      * Getter.
+     * This is returns null because filters bound to the context manager
+     * dont have a specific shardlet context
      * 
      * @return      The context of all shardlets that this app has.
      */
     @Override
     public ShardletContext getShardletContext()
     {
-        return context;
+        return null;
     }
     
     

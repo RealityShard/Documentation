@@ -30,30 +30,44 @@ public final class HostApplication
      */
     public static void main(String[] args)
     {
+        // temporary logger
         Logger logger = LoggerFactory.getLogger(HostApplication.class);
         
+        // init the file paths
+        // see the documentation diagrams on deployment
+        // for a reference on how this should look like
         File localPath = new File(HostApplication.class.getProtectionDomain().getCodeSource().getLocation().getPath());
         
-        File configPath = new File(localPath, "Config");
-        File schemaPath = new File(localPath, "Schema");
-        File gameAppsPath = new File(localPath, "GameApps");
+        File configPath = new File(localPath, "config");
+        File schemaPath = new File(localPath, "schema");
+        File protocolsPath = new File(localPath, "protocols");
+        File gameAppsPath = new File(localPath, "gameapps");
         
-        logger.info("Host application starting up...");
         
         // TODO process the args ;D
+        // we might want to show if any found args have actually 
+        // been used by this application
         
         
-        // make this variable
+        // output some smart info
+        logger.info("Host application starting up...");
+        
+        
+        // create the executor
+        // TODO: let the parameter be defined by command line args
+        // TODO: check if the implementation is appropriate
         ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(12);
         
-        // this is not implemented to the interface, but thats actually necessary here
+        // we need a new concurrent network manager here
+        // note that this has to be a concrete implementation atm
         ConcurrentNetworkManager netMan = new ConcurrentNetworkManager();
         executor.scheduleAtFixedRate(netMan, 0, 5, TimeUnit.MILLISECONDS);
         
+        // we've done anything we wanted to, so lets start the container!
         try 
         {
             // create the container
-            ContainerFacade container = new ContainerFacade(netMan, executor, configPath, schemaPath, gameAppsPath);
+            ContainerFacade container = new ContainerFacade(netMan, executor, configPath, schemaPath, protocolsPath, gameAppsPath);
         } 
         catch (Exception ex) 
         {

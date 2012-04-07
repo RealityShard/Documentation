@@ -4,45 +4,53 @@
 
 package com.realityshard.container.gameapp.builder;
 
-import com.realityshard.container.gameapp.GameAppContext;
-import com.realityshard.container.GenericConfig;
 import com.realityshard.container.Pacemaker;
-import com.realityshard.container.ProtocolChain;
-import com.realityshard.schemas.*;
+import com.realityshard.container.gameapp.GameAppContext;
+import com.realityshard.container.gameapp.GameAppShardletConfig;
+import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.Build;
+import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildClassloader;
+import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildDescription;
+import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildEventAggregator;
+import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildInfo;
+import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildInitParams;
+import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildName;
+import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildPacemaker;
+import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildShardlets;
+import com.realityshard.schemas.gameapp.AppInfo;
+import com.realityshard.schemas.gameapp.InitParam;
+import com.realityshard.schemas.gameapp.ShardletConfig;
 import com.realityshard.shardlet.Config;
 import com.realityshard.shardlet.EventAggregator;
-import com.realityshard.shardlet.ProtocolFilter;
 import com.realityshard.shardlet.Shardlet;
 import com.realityshard.shardlet.ShardletException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 
 
 /**
- *
+ * This class is used to build a new Game App Context
+ * 
  * @author _rusty
  */
-public final class GameAppFluentBuilder extends GameAppContext implements
-        GameAppBuildEventAggregator,
-        GameAppBuildClassloader,
-        GameAppBuildInfo,
-        GameAppBuildName,
-        GameAppBuildDescription,
-        GameAppBuildPacemaker,
-        GameAppBuildInitParams,
-        GameAppBuildProtocols,
-        GameAppBuildShardlets,
-        GameAppBuildFinish
+public final class GameAppContextFluentBuilder extends GameAppContext implements
+        BuildEventAggregator,
+        BuildClassloader,
+        BuildInfo,
+        BuildName,
+        BuildDescription,
+        BuildPacemaker,
+        BuildInitParams,
+        BuildShardlets,
+        Build
 {
 
     /**
      * Constructor.
      */
-    private GameAppFluentBuilder()
+    private GameAppContextFluentBuilder()
     {
         // private means
         // this will keep people from messing with this class.
@@ -55,9 +63,9 @@ public final class GameAppFluentBuilder extends GameAppContext implements
      * 
      * @return 
      */
-    public static GameAppBuildEventAggregator build()
+    public static BuildEventAggregator start()
     {
-        return new GameAppFluentBuilder();
+        return new GameAppContextFluentBuilder();
     }
     
     
@@ -68,7 +76,7 @@ public final class GameAppFluentBuilder extends GameAppContext implements
      * @return 
      */
     @Override
-    public GameAppBuildClassloader setAggregator(EventAggregator aggregator) 
+    public BuildClassloader useAggregator(EventAggregator aggregator) 
     {
         this.aggregator = aggregator;
         return this;
@@ -82,7 +90,7 @@ public final class GameAppFluentBuilder extends GameAppContext implements
      * @return 
      */
     @Override
-    public GameAppBuildInfo setClassloader(ClassLoader loader) 
+    public BuildInfo useClassloader(ClassLoader loader) 
     {
         this.loader = loader;
         return this;
@@ -91,21 +99,21 @@ public final class GameAppFluentBuilder extends GameAppContext implements
     
     /**
      * Step. 
-     * (Includes choices: setName, setDescription, setHeartBeat, setPacemaker, setInitParams)
+     * (Includes choices: useName, useDescription, useHeartBeat, usePacemaker, useInitParams)
      * 
      * @param       info
      * @param       executor 
      * @return 
      */
     @Override
-    public GameAppBuildProtocols setInfo(AppInfo info, ScheduledExecutorService executor) 
+    public BuildShardlets useInfo(AppInfo info, ScheduledExecutorService executor) 
     {
         // from what we got in the info we can build some of the
         // parts directly (but thats just an option)
-        return this.setName(info.getDisplayName())
-            .setDescription(info.getDescription())
-            .setHeartBeat(executor, info.getHeartBeat().intValue())
-            .setInitParams(info.getInitParam());
+        return this.useName(info.getDisplayName())
+            .useDescription(info.getDescription())
+            .useHeartBeat(executor, info.getHeartBeat().intValue())
+            .useInitParams(info.getInitParam());
     }
     
     
@@ -116,7 +124,7 @@ public final class GameAppFluentBuilder extends GameAppContext implements
      * @return 
      */
     @Override
-    public GameAppBuildDescription setName(String name) 
+    public BuildDescription useName(String name) 
     {
         this.name = name;
         return this;
@@ -130,7 +138,7 @@ public final class GameAppFluentBuilder extends GameAppContext implements
      * @return 
      */
     @Override
-    public GameAppBuildPacemaker setDescription(String description) 
+    public BuildPacemaker useDescription(String description) 
     {
         this.description = description;
         return this;
@@ -140,11 +148,12 @@ public final class GameAppFluentBuilder extends GameAppContext implements
     /**
      * Step.
      * 
+     * @param       executor 
      * @param       milliseconds
      * @return 
      */
     @Override
-    public GameAppBuildInitParams setHeartBeat(ScheduledExecutorService executor, int milliseconds) 
+    public BuildInitParams useHeartBeat(ScheduledExecutorService executor, int milliseconds) 
     {
         pacemaker = new Pacemaker(executor, aggregator, milliseconds);
         return this;
@@ -158,7 +167,7 @@ public final class GameAppFluentBuilder extends GameAppContext implements
      * @return 
      */
     @Override
-    public GameAppBuildInitParams setPacemaker(Pacemaker pacemaker) 
+    public BuildInitParams usePacemaker(Pacemaker pacemaker) 
     {
         this.pacemaker = pacemaker;
         return this;
@@ -172,9 +181,9 @@ public final class GameAppFluentBuilder extends GameAppContext implements
      * @return 
      */
     @Override
-    public GameAppBuildProtocols setInitParams(List<InitParam> mandatoryParams) 
+    public BuildShardlets useInitParams(List<InitParam> mandatoryParams) 
     {
-        return setInitParams(mandatoryParams, new HashMap<String, String>());
+        return useInitParams(mandatoryParams, new HashMap<String, String>());
     }
     
     
@@ -186,7 +195,7 @@ public final class GameAppFluentBuilder extends GameAppContext implements
      * @return 
      */
     @Override
-    public GameAppBuildProtocols setInitParams(List<InitParam> mandatoryParams, Map<String, String> additionalParams) 
+    public BuildShardlets useInitParams(List<InitParam> mandatoryParams, Map<String, String> additionalParams) 
     {
         // create a new map so we can mess with it
         initParams = new HashMap<>();
@@ -204,87 +213,7 @@ public final class GameAppFluentBuilder extends GameAppContext implements
         return this;
     }
 
-    
-    /**
-     * Step.
-     * 
-     * @param       protocols
-     * @return
-     * @throws      ClassNotFoundException
-     * @throws      InstantiationException
-     * @throws      IllegalAccessException
-     * @throws      ShardletException  
-     */
-    @Override
-    public GameAppBuildShardlets setProtocols(List<Protocol> protocols) throws 
-            ClassNotFoundException, 
-            InstantiationException,
-            IllegalAccessException,
-            ShardletException
-    {
-        this.protocols = new ConcurrentHashMap<>();
-        
-        for (Protocol jaxbProtConf : protocols)
-        {
-            // we've got a list of filters that do something with
-            // incoming packets, and we've got a list of those that
-            // handle outgoing packets
-            List<ProtocolFilter> inFilters = new ArrayList<>();
-            List<ProtocolFilter> outFilters = new ArrayList<>();
-            
-            // each protocol may consist of multiple protocol filters
-            for (ProtocolFilterConfig jaxbProtFiltConf : jaxbProtConf.getProtocolFilter())
-            {
-                // to create a new protocol filter, we need it's config
-                // and it's class
-                
-                // create a new generic config out of the info
-                // found in the deployment descriptor
-                Config filterConf = new GenericConfig(jaxbProtFiltConf.getName(), this, jaxbProtFiltConf.getInitParam());
-                
-                // try constructing the filter class
-                @SuppressWarnings("unchecked")
-                Class<ProtocolFilter> clazz = (Class<ProtocolFilter>) loader.loadClass(jaxbProtFiltConf.getClazz());
-
-                // create the filter!
-                ProtocolFilter newInst = clazz.newInstance();
-
-                // init it
-                newInst.init(filterConf);
-
-                // and add it to our lists, depending on its config
-                if (jaxbProtFiltConf.isIn()) { inFilters.add(newInst); }
-                // NOTE! THE OUTGOING FILTERS NEED TO BE PROCESSED IN 
-                // REVERSE ORDER, SO ALWAYS ADD OUT FILTERS TO THE FRONT
-                if (jaxbProtFiltConf.isOut()) { outFilters.add(0, newInst); }
-
-            }
-            
-            // we should have created a nice ProtocolFilter list for in and outgoing filters
-            // so lets finally create the protocolchain.
-            // note that we have a mapping for ProtocolName -> ProtocolChain
-            this.protocols.put(jaxbProtConf.getName(), new ProtocolChain(inFilters, outFilters));
-        }
-        
-        // we'r done, return the updated object
-        return this;
-    }
-    
-    
-    /**
-     * Step. (Choice)
-     * 
-     * @param       protocols
-     * @return 
-     */
-    @Override
-    public GameAppBuildShardlets setProtocols(Map<String, ProtocolChain> protocols) 
-    {
-        this.protocols = protocols;
-        return this;
-    }
-
-    
+ 
     /**
      * Step.
      * 
@@ -296,7 +225,7 @@ public final class GameAppFluentBuilder extends GameAppContext implements
      * @throws      ShardletException  
      */
     @Override
-    public GameAppBuildFinish setShardlets(List<ShardletConfig> shardletConfigs) throws 
+    public Build useShardlets(List<ShardletConfig> shardletConfigs) throws 
             ClassNotFoundException, 
             InstantiationException,
             IllegalAccessException,
@@ -320,7 +249,7 @@ public final class GameAppFluentBuilder extends GameAppContext implements
 
             // create a new generic config out of the info
             // found in the deployment descriptor
-            Config shardletConf = new GenericConfig(jaxbShardConf.getName(), this, jaxbShardConf.getInitParam());
+            Config shardletConf = new GameAppShardletConfig(jaxbShardConf.getName(), this, jaxbShardConf.getInitParam());
 
             @SuppressWarnings("unchecked")
             Class<Shardlet> clazz = (Class<Shardlet>) loader.loadClass(jaxbShardConf.getClazz());
@@ -350,7 +279,7 @@ public final class GameAppFluentBuilder extends GameAppContext implements
      * @return 
      */
     @Override
-    public GameAppBuildFinish setShardlets(Shardlet[] shardlets) 
+    public Build useShardlets(Shardlet[] shardlets) 
     {
         for (Shardlet shardlet : shardlets) 
         {
@@ -371,10 +300,10 @@ public final class GameAppFluentBuilder extends GameAppContext implements
      * @return 
      */
     @Override
-    public GameAppContext finish() 
+    public GameAppContext build() 
     {
         // TODO: check if we got some cleanup to do here
         return this;
     }
-    
+
 }

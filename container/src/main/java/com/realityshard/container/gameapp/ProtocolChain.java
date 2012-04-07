@@ -2,7 +2,7 @@
  * For copyright information see the LICENSE document.
  */
 
-package com.realityshard.container;
+package com.realityshard.container.gameapp;
 
 import com.realityshard.shardlet.Config;
 import com.realityshard.shardlet.ProtocolFilter;

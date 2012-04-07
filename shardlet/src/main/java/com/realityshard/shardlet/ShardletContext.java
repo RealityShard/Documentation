@@ -132,6 +132,44 @@ public interface ShardletContext
      */
     public InputStream getResourceAsStream(String path);
     
+    
+    /**
+     * Adds a new decider to the list. If we have a new client,
+     * the context will run through the deciders checking if one of them
+     * accepts the client.
+     * 
+     * If that decider accpeted the client, the context will check whether it is
+     * persistant and delete it if not.
+     * 
+     * A hint on the isPersistant boolean:
+     * It determines if the verifier will be deleted after it has
+     * accepted the first client or not. 
+     * If this is persistant,there will be no way of deleting it, 
+     * except by calling the <code>clearClientVerifiers</code> 
+     * method, that deletes every verifier of the list
+     * 
+     * @param       verifier                Checks whether we want to accept a new
+     *                                      client based on its first message
+     * @param       isPersistant            See above description. Should only be true
+     *                                      if you want to auto-accept new clients.
+     */
+    public void addClientVerifier(ShardletActionVerifier verifier, boolean isPersistant);
+    
+    
+    /**
+     * Clears the client verifiers list.
+     * 
+     * If the paramter is true, this will ignore any verifier that is not
+     * persistant and instead remove all persistant ones.
+     * (This is especially helpful when you want to autoaccept clients
+     *  only temporary, but dont want to loose any special non-persistant clients
+     *  when you decide to end the auto accept period)
+     * 
+     * @param persistantVerifiersOnly       Determines whether the context should
+     *                                      delete only persistant verifiers.
+     */
+    public void clearClientVerifiers(boolean persistantVerifiersOnly);
+    
 
     /**
      * Returns a <code>String</code> containing the value of the named

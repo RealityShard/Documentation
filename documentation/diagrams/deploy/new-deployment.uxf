@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="11.4">
+  <zoom_level>10</zoom_level>
+  <group>
+    <element>
+      <type>com.umlet.element.custom.PackageAggregationHierarchy</type>
+      <coordinates>
+        <x>410</x>
+        <y>170</y>
+        <w>370</w>
+        <h>630</h>
+      </coordinates>
+      <panel_attributes>RealityShard
+	lib
+	server
+		config
+		schema
+		protocols
+			MyProtocol
+				PROT-INF
+					lib
+					classes
+					resources
+			...
+		gameapps
+			MyGameApp
+				GAME-INF
+					lib
+					classes
+					resources
+			...</panel_attributes>
+      <additional_attributes/>
+    </element>
+    <group>
+      <element>
+        <type>com.umlet.element.Package</type>
+        <coordinates>
+          <x>830</x>
+          <y>170</y>
+          <w>190</w>
+          <h>300</h>
+        </coordinates>
+        <panel_attributes>MyProtocol/PROT-INF/
+--
+left:- protocol.xml
+ 
+- 
+ 
+ 
+ 
+ 
+- 
+ 
+ 
+ 
+ 
+-
+</panel_attributes>
+        <additional_attributes/>
+      </element>
+      <element>
+        <type>com.umlet.element.Package</type>
+        <coordinates>
+          <x>850</x>
+          <y>220</y>
+          <w>150</w>
+          <h>60</h>
+        </coordinates>
+        <panel_attributes>libs
+--
+left:3rd party libs here</panel_attributes>
+        <additional_attributes/>
+      </element>
+      <element>
+        <type>com.umlet.element.Package</type>
+        <coordinates>
+          <x>850</x>
+          <y>310</y>
+          <w>150</w>
+          <h>60</h>
+        </coordinates>
+        <panel_attributes>classes
+--
+left:your protocol
+handlers here</panel_attributes>
+        <additional_attributes/>
+      </element>
+      <element>
+        <type>com.umlet.element.Package</type>
+        <coordinates>
+          <x>850</x>
+          <y>390</y>
+          <w>150</w>
+          <h>60</h>
+        </coordinates>
+        <panel_attributes>ressources
+--
+left:your ressource 
+files here</panel_attributes>
+        <additional_attributes/>
+      </element>
+    </group>
+    <group>
+      <element>
+        <type>com.umlet.element.Package</type>
+        <coordinates>
+          <x>830</x>
+          <y>500</y>
+          <w>190</w>
+          <h>300</h>
+        </coordinates>
+        <panel_attributes>MyGameApp/GAME-INF/
+--
+left:- game.xml
+ 
+- 
+ 
+ 
+ 
+ 
+- 
+ 
+ 
+ 
+ 
+-
+</panel_attributes>
+        <additional_attributes/>
+      </element>
+      <element>
+        <type>com.umlet.element.Package</type>
+        <coordinates>
+          <x>850</x>
+          <y>550</y>
+          <w>150</w>
+          <h>60</h>
+        </coordinates>
+        <panel_attributes>libs
+--
+left:3rd party libs here</panel_attributes>
+        <additional_attributes/>
+      </element>
+      <element>
+        <type>com.umlet.element.Package</type>
+        <coordinates>
+          <x>850</x>
+          <y>640</y>
+          <w>150</w>
+          <h>60</h>
+        </coordinates>
+        <panel_attributes>classes
+--
+left:your shardlets and
+views / models here</panel_attributes>
+        <additional_attributes/>
+      </element>
+      <element>
+        <type>com.umlet.element.Package</type>
+        <coordinates>
+          <x>850</x>
+          <y>720</y>
+          <w>150</w>
+          <h>60</h>
+        </coordinates>
+        <panel_attributes>ressources
+--
+left:your ressource 
+files here</panel_attributes>
+        <additional_attributes/>
+      </element>
+    </group>
+  </group>
+</diagram>
