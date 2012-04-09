@@ -154,6 +154,8 @@ public final class ContainerFacade
             ByteBuffer buf = action.getBuffer();
             if (buf != null)
             {
+                // TODO: check if this is doing the right thing:
+                //buf.flip();
                 network.handlePacket(buf, action.getSession().getId());
             }
             else

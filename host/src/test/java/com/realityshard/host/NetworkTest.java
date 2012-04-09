@@ -7,6 +7,7 @@ package com.realityshard.host;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
+import java.util.Arrays;
 import org.junit.Test;
 
 
@@ -47,7 +48,7 @@ public class NetworkTest
         chan.configureBlocking(false);
         assert (0 == chan.read(ByteBuffer.allocate(10000)));
         
-        assert ("lol".getBytes() == buf.array());
+        assert (Arrays.equals("lol".getBytes(), buf.array()));
 
     }
     

@@ -227,6 +227,7 @@ public final class ConcurrentNetworkManager
             {
                 // casting is necessary here...
                 SocketChannel chan = (SocketChannel) key.channel();
+                final UUID clientUID = (UUID) key.attachment();
                 
                 // set the buffer for reading stuff
                 // use the bufferSize given at creating time of this object
@@ -235,38 +236,61 @@ public final class ConcurrentNetworkManager
                 final ByteBuffer readBuf = ByteBuffer.allocate(bufferSize);
                 
                 // read the data from the channel (that will also update our buffer)
-                chan.read(readBuf);
+                int count = chan.read(readBuf);
                 
-                // Hint: If the buffer was not big enough to handle all the data
-                // the selector will issue another read later on, (TODO check if correct)
-                // but that is NOT recommended! packet fragmentation is considered evil
-                // because the protocol filters will have a hard time trying to 
-                // complete the data for the packet
-                
-                // flip the buffer for reading lateron
-                readBuf.flip();
-                
-                // log it
-                LOGGER.debug("C -> S [DATA {}]", getHexString(readBuf));
-                
-                // finally call the handler
-                // CAUTION! WE WANT THIS TO BE IN A NEW THREAD!
-                // or at least let the pool manager decide if it's worth
-                // wasting a new thread for it ;D
-                
-                final UUID clientUID = (UUID) key.attachment();
-                
-                executor.execute(new Runnable() 
+                // check if we got an EndOfStream
+                // and simply kick the client if so
+                if (count == -1)
                 {
-                    /**
-                     * Does nothing else than dispatching that packet data.
-                     */
-                    @Override
-                    public void run() 
+                    try 
                     {
-                        packetHandler.handlePacket(readBuf, clientUID);
+                        // do the cleanup
+                        key.cancel();
+                        chan.close();
+                        channelKeys.remove(clientUID);
+
+                        // log it
+                        LOGGER.debug("Disconnected SocketChannel: [UUID: {}]", clientUID);
+                        
+                        // also, inform the container
+                        packetHandler.lostClient(clientUID);
+                    } 
+                    catch (IOException ex) 
+                    {
+                        LOGGER.error("Cloud not disconnect a SocketChannel.", ex);
                     }
-                });
+                }
+                else
+                {
+                    // Hint: If the buffer was not big enough to handle all the data
+                    // the selector will issue another read later on, (TODO check if correct)
+                    // but that is NOT recommended! packet fragmentation is considered evil
+                    // because the protocol filters will have a hard time trying to 
+                    // complete the data for the packet
+
+                    // flip the buffer for reading lateron
+                    readBuf.flip();
+
+                    // log it
+                    LOGGER.debug("C -> S [DATA {}]", getHexString(readBuf));
+
+                    // finally call the handler
+                    // CAUTION! WE WANT THIS TO BE IN A NEW THREAD!
+                    // or at least let the pool manager decide if it's worth
+                    // wasting a new thread for it ;D
+
+                    executor.execute(new Runnable() 
+                    {
+                        /**
+                        * Does nothing else than dispatching that packet data.
+                        */
+                        @Override
+                        public void run() 
+                        {
+                            packetHandler.handlePacket(readBuf, clientUID);
+                        }
+                    });
+                }
                 
                 // thats it, we'r done
             }
@@ -286,13 +310,18 @@ public final class ConcurrentNetworkManager
             throws IOException 
     {
         // get the right channel from our keys list
-        SocketChannel channel = (SocketChannel) channelKeys.get(clientUID).channel();
+        SelectionKey key = channelKeys.get(clientUID);
         
-        // write the data
-        channel.write(rawData);
-        
-        // log it
-        LOGGER.debug("C <- S [DATA {}]", getHexString(rawData));
+        if (key != null)
+        {
+            SocketChannel chan = (SocketChannel) key.channel();
+
+            // log it
+            LOGGER.debug("C <- S [DATA {}]", getHexString(rawData));
+
+            // write the data
+            chan.write(rawData);
+        }
     }
     
     
@@ -365,7 +394,7 @@ public final class ConcurrentNetworkManager
         } 
         catch (IOException ex) 
         {
-            LOGGER.error("Cloud not disconnect a SocketChannel.");
+            LOGGER.error("Cloud not disconnect a SocketChannel.", ex);
         }
     }
 
@@ -433,7 +462,7 @@ public final class ConcurrentNetworkManager
     {
         StringBuilder result = new StringBuilder();
         
-        for (int i = 0; i < bytes.limit(); i++) 
+        for (int i = 0; i < bytes.limit()-1; i++) 
         {
             result.append(Integer.toHexString(bytes.get()));
         }
