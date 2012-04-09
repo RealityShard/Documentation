@@ -10,8 +10,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,7 +63,7 @@ public final class HostApplication
         ConcurrentNetworkManager netMan = null;
         try 
         {
-            netMan = new ConcurrentNetworkManager(executor, 1024, 5);
+            netMan = new ConcurrentNetworkManager(executor, 512, 1);
         } 
         catch (IOException ex) 
         {

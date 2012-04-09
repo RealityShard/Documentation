@@ -77,7 +77,7 @@ public final class ConcurrentNetworkManager
         
         // after creating/doing all that stuff, 
         // lets create and run the main runnable object
-        executor.scheduleAtFixedRate(getRunnable(), 0, executionInterval, TimeUnit.MILLISECONDS);
+        executor.scheduleAtFixedRate(getRunnable(), 0, executionInterval, TimeUnit.MICROSECONDS);
     }
     
     
@@ -317,7 +317,7 @@ public final class ConcurrentNetworkManager
             SocketChannel chan = (SocketChannel) key.channel();
 
             // log it
-            LOGGER.debug("C <- S [DATA {}]", getHexString(rawData));
+            LOGGER.debug("S -> C [DATA {}]", getHexString(rawData));
 
             // write the data
             chan.write(rawData);

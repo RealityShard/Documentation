@@ -24,7 +24,7 @@ public class NetworkTest
      * @throws IOException
      * @throws InterruptedException
      */
-    @Test
+    //@Test
     public void testSocketChannel() throws IOException, InterruptedException
     {
         SocketChannel chan = SocketChannel.open();
@@ -36,19 +36,23 @@ public class NetworkTest
             throw new IOException("Could not connect to client.");
         }
         
-        // write stuff
-        chan.write(ByteBuffer.wrap("lol".getBytes()));
-        
-        // and wait till we got the same stuff back
-        ByteBuffer buf = ByteBuffer.allocate(3);
-        
-        chan.read(buf);
-        
-        // test if we still got more data
-        chan.configureBlocking(false);
-        assert (0 == chan.read(ByteBuffer.allocate(10000)));
-        
-        assert (Arrays.equals("lol".getBytes(), buf.array()));
+        for (int i = 0; i < 1000; i++) 
+        {        
+            // write stuff
+            chan.write(ByteBuffer.wrap("lol".getBytes()));
+
+            // and wait till we got the same stuff back
+            ByteBuffer buf = ByteBuffer.allocate(3);
+
+            chan.read(buf);
+
+            // test if we still got more data
+            chan.configureBlocking(false);
+            assert (0 == chan.read(ByteBuffer.allocate(10000)));
+            chan.configureBlocking(true);
+
+            assert (Arrays.equals("lol".getBytes(), buf.array()));
+        }
 
     }
     

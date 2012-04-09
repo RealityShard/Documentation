@@ -182,7 +182,17 @@ public class ContextManager
         try 
         {
             // try decrypt/parse packet (or whatever else is done by the filters
-            filteredActions = protocols.get(action.getProtocol()).doInFilter(action);
+            ProtocolChain prot = protocols.get(action.getProtocol());
+            
+            // failcheck
+            if (prot != null)
+            {
+                filteredActions = prot.doInFilter(action);
+            }
+            else
+            {
+                LOGGER.warn("Unkown protocol detected: {}", action.getProtocol());
+            }
         
         } 
         catch (IOException ex) 
@@ -227,7 +237,7 @@ public class ContextManager
                     {
                         // we've found a game app that accepts the new client
                         // so we can create the association
-                        gameAppBySession.put(action.getSession(), gameApp);
+                        gameAppBySession.put(action.getSession(), gameAppContext);
 
                         // and we can end the search here
                         break;
@@ -254,10 +264,21 @@ public class ContextManager
     public void sendAction(ShardletAction action) 
     {
         // try to encrypt and serialze the action before using it:
+        ShardletAction filteredAction = null;
         try 
         {
             // try encrypt/parse packet (or whatever else is done by the filters
-            protocols.get(action.getProtocol()).doOutFilter(action);
+            ProtocolChain prot = protocols.get(action.getProtocol());
+            
+            // failcheck
+            if (prot != null)
+            {
+                filteredAction = prot.doOutFilter(action);
+            }
+            else
+            {
+                LOGGER.warn("Unkown protocol detected: {}", action.getProtocol());
+            }
         } 
         catch (IOException ex) 
         {
@@ -266,7 +287,14 @@ public class ContextManager
         }
         
         // try to send the action to the ContainerFacade
-        adapter.handleOutgoingNetworkAction(action);
+        if (filteredAction != null)
+        {
+            adapter.handleOutgoingNetworkAction(filteredAction);
+        }
+        else
+        {
+            LOGGER.warn("Action is null after filtering, may the protocol filters have failed?");
+        }
     }
     
     
@@ -289,6 +317,9 @@ public class ContextManager
         {
             // and send it a message, so it knows that lost a client
             context.handleLostClient(session);
+            
+            // also remove the association
+            gameAppBySession.remove(session);
         }
     }
 }

@@ -70,10 +70,6 @@ public final class ContainerFacade
     {
         // the network manager will handle the networking stuff,
         // like sending and recieving data.
-        // TODO Check this:
-        // We currently use a two-ways interface implemented by both this container
-        // and the network manager, so we can plug them both together.
-        // (They are both using almost equal methods of each other when it comes to signatures)
         this.network = network;
         this.network.setPacketHandler(this);
         
@@ -154,13 +150,13 @@ public final class ContainerFacade
             ByteBuffer buf = action.getBuffer();
             if (buf != null)
             {
-                // TODO: check if this is doing the right thing:
-                //buf.flip();
+                // DO NOT TOUCH THE BUFFER HERE! EVERYTHING ON THAT LEVEL IS DONE
+                // BY THE NETWORK MANAGER!
                 network.handlePacket(buf, action.getSession().getId());
             }
             else
             {
-                LOGGER.error("Recieved empty packet!");
+                LOGGER.error("Recieved action with empty ByteBuffer! (Possible fail at the protocol filters?)");
             }
         } 
         catch (IOException ex)
@@ -172,7 +168,7 @@ public final class ContainerFacade
     
     /**
      * Kick a specified session.
-     * Can be called by the sessions themselfs (via Session.invalidate())
+     * Should be called by the sessions invalidate() indirectly
      * 
      * @param session 
      */
@@ -220,7 +216,10 @@ public final class ContainerFacade
             // delegate it!
             contextManager.handleIncomingAction(action);
         }
-        // TODO: what if we've got no session?
+        else
+        {
+            LOGGER.error("Got a message from an unkown client! (Its UUID is not registered with the Container)");
+        }
     }
 
     
@@ -254,9 +253,13 @@ public final class ContainerFacade
     @Override
     public void lostClient(UUID clientUID) 
     {
-        // remove the client here,
+        // temporarily get the session
+        Session session = sessions.get(clientUID);
+        
+        // only to remove it afterwards
         sessions.remove(clientUID);
         
-        // and TODO: inform the contexts
+        // and finally use that session to inform the contexts
+        contextManager.handleLostClient(session);
     }
 }
