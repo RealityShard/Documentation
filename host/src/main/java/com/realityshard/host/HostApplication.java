@@ -7,9 +7,11 @@ package com.realityshard.host;
 import com.realityshard.container.ContainerFacade;
 import com.realityshard.network.ConcurrentNetworkManager;
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,8 +62,16 @@ public final class HostApplication
         
         // we need a new concurrent network manager here
         // note that this has to be a concrete implementation atm
-        ConcurrentNetworkManager netMan = new ConcurrentNetworkManager();
-        executor.scheduleAtFixedRate(netMan, 0, 5, TimeUnit.MILLISECONDS);
+        ConcurrentNetworkManager netMan = null;
+        try 
+        {
+            netMan = new ConcurrentNetworkManager(executor, 1024, 5);
+        } 
+        catch (IOException ex) 
+        {
+            logger.error("Network manager failed to start up.", ex);
+            System.exit(1);
+        }
         
         // we've done anything we wanted to, so lets start the container!
         try 

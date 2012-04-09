@@ -8,6 +8,8 @@ import com.realityshard.shardlet.ConfigProtocolFilter;
 import com.realityshard.shardlet.ProtocolFilter;
 import com.realityshard.shardlet.ShardletAction;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -66,14 +68,47 @@ public class ProtocolChain implements ProtocolFilter
      * @throws      IOException             If any filter threw it.
      */
     @Override
-    public void doInFilter(ShardletAction action) 
+    public List<ShardletAction> doInFilter(ShardletAction action) 
             throws IOException
     {
+        // this system should work the following way:
+        // we have a new action for the start, and create a temporary list out of that action
+        // to save code later on.
+        
+        // for each filter in our list, we take the actions in the result list
+        // and feed it to the filter one after another
+        // each action may produce a new list of actions, so we need to temporarily store that list
+        // then when the filter has processed all action of our list,
+        // we'll save the content of our temporarily created list inside the result list
+        // that will be used as input for the next filter.
+        
+        // init the result list (that will transfer the actions between the filters)
+        List<ShardletAction> result = new ArrayList<>(Arrays.asList(action));
+        
+        // we need to save the results temporarily, so lets use a new list:
+        List<ShardletAction> tmpResult = new ArrayList<>();
+        
         for (ProtocolFilter protocolFilter : incomingFilters) 
-        {
-            // the action will be transformed by the filter
-            protocolFilter.doInFilter(action);
+        {           
+            // pass the action through the filters
+            // note that "result" may be filled with other actions that completed suddenly
+            // so we need to process each of them separately
+            for (ShardletAction tmpAction : result) 
+            {
+                // also, we cannot modify result while it is processed, so
+                // we'll temporarily save the results:
+                tmpResult.addAll(protocolFilter.doInFilter(tmpAction));
+            }
+            
+            // now, after processing the filter, we can copy the temporary stuff into our
+            // "result" array
+            result = tmpResult;
+            
+            // and now we can do the whole stuff for the next filter
         }
+        
+        // finally we can return the result
+        return result;
     }
 
     
@@ -86,14 +121,19 @@ public class ProtocolChain implements ProtocolFilter
      * @throws      IOException             If any filter threw it.
      */
     @Override
-    public void doOutFilter(ShardletAction action) 
+    public ShardletAction doOutFilter(ShardletAction action) 
             throws IOException
     {
+        ShardletAction result = null;
+        
+        // do the usual filtering (less complex because theres only ONE action)
         for (ProtocolFilter protocolFilter : outgoingFilters) 
         {
             // the action will be transformed by the filter
-            protocolFilter.doOutFilter(action);
+            result = protocolFilter.doOutFilter(action);
         }
+        
+        return result;
     }
 
 }

@@ -7,7 +7,7 @@ package com.realityshard.container;
 import com.realityshard.container.gameapp.ContextManager;
 import com.realityshard.container.gameapp.builder.ContextManagerFluentBuilder;
 import com.realityshard.container.session.GameSession;
-import com.realityshard.container.utils.GenericAction;
+import com.realityshard.shardlet.GenericAction;
 import com.realityshard.container.utils.JaxbUtils;
 import com.realityshard.network.NetworkConnector;
 import com.realityshard.network.NetworkLayer;

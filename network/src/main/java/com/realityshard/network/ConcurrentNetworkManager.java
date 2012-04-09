@@ -6,173 +6,298 @@ package com.realityshard.network;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
+import java.nio.channels.SelectionKey;
+import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 /**
- * An implementation of the network manager interface used by the container
+ * A concurrent implementation of a network layer object.
+ * This handles incoming and outgoing data by usage of 
+ * * ServerSocketChannels (as protocol-specific listeners)
+ * * SocketChannels (as the client connections)
+ * * Selectors (for managing the channels)
  * 
- * TODO: extends this to a more usable state
+ * CAUTION!
+ * The server sockets SelectionKey attachment is always its protocol name!
+ * The socket channel SelectionKey attachment is always its UUID!
  * 
  * @author _rusty
  */
-public final class ConcurrentNetworkManager 
-    implements NetworkLayer, Runnable
+public final class ConcurrentNetworkManager
+    implements NetworkLayer
 {
-      
-    /**
-     * Hold client data.
-     * Currently undocumented as its a simple and passive class.
-     */
-    private final class ClientWrapper
-    {
-        
-        private final String protocolName;
-        private final SocketChannel channel;
-        
-        
-        public ClientWrapper(String protocolName, SocketChannel channel)
-        {
-            this.protocolName = protocolName;
-            this.channel = channel;
-        }
-
-        public SocketChannel getChannel() { return channel; }
-
-        public String getProtocolName() { return protocolName; }
-    }
-    
     
     private final static Logger LOGGER = LoggerFactory.getLogger(ConcurrentNetworkManager.class);
-    
-    private final Map<UUID, ClientWrapper> clients;
-    private final Map<String, ServerSocketChannel> listeners;
     private NetworkConnector packetHandler;
     
-
+    private final Selector readSelector;
+    private final Selector protSelector;
+    
+    private final ScheduledExecutorService executor;
+    private final int bufferSize;
+    
+    private final Map<UUID, SelectionKey> channelKeys;
+    
+    
     /**
      * Constructor.
+     * 
+     * @param       executor                The executer used for this application
+     *                                      (The network manager will automatically
+     *                                      schedule new threads as needed)
+     * @param       bufferSize              The buffer size for reading from the network.
+     *                                      Should be enough to be able to parse at least
+     *                                      one of the biggest packets 
+     *                                      (Reducing packet fragmentation is a good thing)
+     * @param       executionInterval       Interval in milliseconds when this managers main method
+     *                                      will be scheduled.
+     * @throws      IOException             If the selector could not be created
      */
-    public ConcurrentNetworkManager()
+    public ConcurrentNetworkManager(ScheduledExecutorService executor, int bufferSize, int executionInterval) 
+            throws IOException
     {
-        clients = new ConcurrentHashMap<>();
-        listeners = new ConcurrentHashMap<>();
+        this.executor = executor;
+        this.bufferSize = bufferSize;
+        
+        readSelector = Selector.open();
+        protSelector = Selector.open();
+        
+        channelKeys = new ConcurrentHashMap<>();
+        
+        // after creating/doing all that stuff, 
+        // lets create and run the main runnable object
+        executor.scheduleAtFixedRate(getRunnable(), 0, executionInterval, TimeUnit.MILLISECONDS);
     }
     
     
     /**
-     * Execute the main loop of this manager
+     * Returns a thread that can be run to update this manager
+     * 
+     * @return      The object that holds runnable method (main loop in this case). 
      */
-    @Override
-    public void run() 
+    public Runnable getRunnable()
     {
-        // test the listeners for new connections
-        for (Map.Entry<String, ServerSocketChannel> entry : listeners.entrySet()) 
+        // simply create an anonymous object that is runnable
+        return new Runnable() 
         {
-            String prot = entry.getKey();
-            ServerSocketChannel serverSocketChannel = entry.getValue();
-            
-            SocketChannel chan = null;
-            try 
+            /**
+             * Will be called by our executor, so we dont need to care
+             * about threads here. (Always a good choice, threads are nasty ;D)
+             */
+            @Override
+            public void run() 
             {
-                chan = serverSocketChannel.accept();
-                // set the new channel to "not blocking"
-                chan.configureBlocking(false);
-            } 
-            catch (IOException ex) 
-            {
-                LOGGER.warn("NetworkManager: Client connection initiation failed.");
-            }
-            
-            if (chan != null)
-            {
-                // we've got a new client!
-                // lets add him to our clients map
-                UUID uuid = UUID.randomUUID();
-                clients.put(uuid, new ClientWrapper(prot, chan));
                 
-                // log it
-                LOGGER.debug("We've got a new client! [uuid: {}]", uuid);
-                
-                // also tell the packet handler that we've got a new client
-                packetHandler.newClient(prot, chan.socket().getInetAddress().getHostAddress(), chan.socket().getPort(), uuid);
-            }
-        }
-        
-        // test connections for new packets
-        for (Map.Entry<UUID, ClientWrapper> entry : clients.entrySet()) 
-        {
-            UUID uuid = entry.getKey();
-            ClientWrapper clientWrapper = entry.getValue();
-            
-            // Bytes arrive in little endian order
-            // and we always got a 2 bytes header sooo...
-            ByteBuffer data = ByteBuffer.allocate(2);
-            data.order(ByteOrder.LITTLE_ENDIAN);
-            
-            while (data.hasRemaining()) 
-            {
-                // Try to fill the ByteBuffer with data from the SocketChannel. This will read at least 1 byte of data
-                int numberOfBytesRead = 0;
                 try 
                 {
-                    numberOfBytesRead = clientWrapper.getChannel().read(data);
+                    // lets check if we got new clients first:
+                    
+                    // let the selector do its work internally
+                    // and save how many new clients we got
+                    int count = protSelector.selectNow();
+                    
+                    // if we got more than 0 new connection, we
+                    // will handle them now...
+                    if (count != 0)
+                    {
+                        gotNewClients(protSelector.selectedKeys());
+                    }
+                    
+                    // now lets check if we need to read any data:
+                    
+                    // let the selector do its work internally
+                    // and save how many clients got data
+                    count = readSelector.selectNow();
+                    
+                    // if we got more than 0 clients with new data,
+                    // we should handle them
+                    // Note: The method that handles the data will try to dipatch
+                    // stuff to a new thread, because we've got quite a long 
+                    // call stack that follows here (it ends at the GameApps
+                    // event-aggregator)
+                    if (count != 0)
+                    {
+                        gotNewData(readSelector.selectedKeys());
+                    }
+                    
                 } 
                 catch (IOException ex) 
                 {
-                    LOGGER.warn("Error recieving data from a client. Possible loss of connection?");
+                    LOGGER.error("The protocol listener selector failed at selection.", ex);
                 }
-
-                // Check if an End-Of-Stream has been detected
-                if (numberOfBytesRead == -1) 
-                {
-                    // inform the handler that we have lost the connection to
-                    // a client
-                    packetHandler.lostClient(uuid);
-                    
-                    LOGGER.debug("Lost connection reading data (End-Of-Stream)");
-                }
-
-                //LOGGER.debug("ByteBuffer has {} out of {} bytes filled. Bytes read this read(): {}", new Object[]{data.position(), data.limit(), numberOfBytesRead});
             }
+        };
+    }
+
+    
+    /**
+     * Register any new client we got.
+     * 
+     * @param       protListeners           The listeners (as SelectionKeys) that
+     *                                      have new client connections.
+     * @throws      IOException             If anything went wrong with adding the clients.
+     */
+    private void gotNewClients(Set<SelectionKey> protListeners) 
+            throws IOException
+    {
+        // we may have more than one new connection...
+        for (Iterator<SelectionKey> it = protListeners.iterator(); it.hasNext();) 
+        {
+            // so we'll process every server socket we got from the selector
+            SelectionKey key = it.next();
+            it.remove();
             
-            // log it
-            LOGGER.debug("IN  packet [data: " + getHexString(data.array()) + "]");
-            
-            // call the handler
-            packetHandler.handlePacket(data, uuid);
+            // failcheck here, to prevent false handling
+            if (key.isValid() && key.isAcceptable())
+            {
+                // casting is necessary here...
+                ServerSocketChannel chan = (ServerSocketChannel) key.channel();
+                
+                // now we can accept the new client
+                SocketChannel newChan = chan.accept();
+                
+                // configure it so it can be registered with our selector
+                newChan.configureBlocking(false);
+                
+                // finally, register it
+                SelectionKey newKey = newChan.register(readSelector, SelectionKey.OP_READ);
+                
+                // now, all thats left to do is get some unique ID for that new connection
+                // add it to our UUID->SelectionKey map, so we can write stuff to
+                // it easily, later on
+                // and finally notify the packetHandler (our container) that we've got a
+                // new client:
+                
+                // get a new unique client id
+                UUID uuid = UUID.randomUUID();
+                
+                // attach it to the client's key for later use
+                newKey.attach(uuid);
+                
+                // and add the client to our map
+                channelKeys.put(uuid, newKey);
+                
+                // log it
+                LOGGER.debug("New SocketChannel: [UUID {}]", uuid);
+                
+                // tell the packet handler that we've got a new client
+                String protocolName = (String) key.attachment();
+                packetHandler.newClient(
+                        protocolName, 
+                        newChan.socket().getInetAddress().getHostAddress(), 
+                        newChan.socket().getPort(), 
+                        uuid);
+                
+                // thats it, we'r done
+            }
         }
     }
     
     
     /**
-     * Handle an incoming or outgoing packet.
-     * (depending on the context of the implementing class)
+     * Try handling any new data we got.
+     * 
+     * @param       protListeners           The channels (as SelectionKeys) that
+     *                                      have new data from a client.
+     * @throws      IOException             If anything went wrong with reading stuff.
+     */
+    private void gotNewData(Set<SelectionKey> dataKeys) 
+            throws IOException
+    {
+        // we may have more than one channel with new data...
+        for (Iterator<SelectionKey> it = dataKeys.iterator(); it.hasNext();) 
+        {
+            // so we'll process every socket we got from the selector
+            SelectionKey key = it.next();
+            it.remove();
+            
+            // failcheck here, to prevent false handling
+            if (key.isValid() && key.isReadable())
+            {
+                // casting is necessary here...
+                SocketChannel chan = (SocketChannel) key.channel();
+                
+                // set the buffer for reading stuff
+                // use the bufferSize given at creating time of this object
+                // Note: This should be at least big enough to handle the biggest
+                // packet we can recieve (e.g. 512 bytes)
+                final ByteBuffer readBuf = ByteBuffer.allocate(bufferSize);
+                
+                // read the data from the channel (that will also update our buffer)
+                chan.read(readBuf);
+                
+                // Hint: If the buffer was not big enough to handle all the data
+                // the selector will issue another read later on, (TODO check if correct)
+                // but that is NOT recommended! packet fragmentation is considered evil
+                // because the protocol filters will have a hard time trying to 
+                // complete the data for the packet
+                
+                // flip the buffer for reading lateron
+                readBuf.flip();
+                
+                // log it
+                LOGGER.debug("C -> S [DATA {}]", getHexString(readBuf));
+                
+                // finally call the handler
+                // CAUTION! WE WANT THIS TO BE IN A NEW THREAD!
+                // or at least let the pool manager decide if it's worth
+                // wasting a new thread for it ;D
+                
+                final UUID clientUID = (UUID) key.attachment();
+                
+                executor.execute(new Runnable() 
+                {
+                    /**
+                     * Does nothing else than dispatching that packet data.
+                     */
+                    @Override
+                    public void run() 
+                    {
+                        packetHandler.handlePacket(readBuf, clientUID);
+                    }
+                });
+                
+                // thats it, we'r done
+            }
+        }
+    }
+
+    
+    /**
+     * Handle an outgoing packet.
      * 
      * @param       rawData                 The raw packet data
-     * @param       clientUID               A client UID (This should be introduced
+     * @param       clientUID               A client UUID (This should be introduced
      *                                      by the network manager)
      */
     @Override
     public void handlePacket(ByteBuffer rawData, UUID clientUID) 
             throws IOException 
     {
-        clients.get(clientUID).getChannel().write(rawData);
+        // get the right channel from our keys list
+        SocketChannel channel = (SocketChannel) channelKeys.get(clientUID).channel();
+        
+        // write the data
+        channel.write(rawData);
         
         // log it
-            LOGGER.debug("OUT packet [data: " + getHexString(rawData.array()) + "]");
+        LOGGER.debug("C <- S [DATA {}]", getHexString(rawData));
     }
     
     
     /**
-     * Create a new client
+     * Try to create a new client connection
      * 
      * @param       protocolName            The name of the protocol the client will use
      * @param       IP                      The IP of the new client
@@ -183,26 +308,35 @@ public final class ConcurrentNetworkManager
     public UUID tryCreateClient(String protocolName, String IP, int port)
             throws IOException
     {
+        // open a new socket channel and try to establish a connection to
+        // the given host
         SocketChannel chan = SocketChannel.open();
         
         // try to connect
         if (!chan.connect(new java.net.InetSocketAddress(IP, port))) 
         {
-            throw new IOException("Could not connect to client.");
+            throw new IOException(String.format("Could not connect to a new client: [IP: {} | PORT: {}]", IP, port));
         }
         
-        // get some random identifier
-        UUID result = UUID.randomUUID();
+        // configure it so it can be registered with our selector
+        chan.configureBlocking(false);
+
+        // finally, register it
+        SelectionKey newKey = chan.register(readSelector, SelectionKey.OP_READ);
         
-        // add the new client to our list
-        clients.put(result, new ClientWrapper(protocolName, chan));
-        
+        // now, all thats left to do is get some unique ID for that new connection
+        // add it to our UUID->SelectionKey map, so we can write stuff to
+        // it easily, later on
+
+        UUID uuid = UUID.randomUUID();
+        channelKeys.put(uuid, newKey);
+
         // log it
-        LOGGER.debug("Created a new client connection [uuid: " + result + "]");
+        LOGGER.debug("Created new SocketChannel: [UUID {}]", uuid);
         
         // return the identifier, so the connector can identify packets from this
         // client later on
-        return result;
+        return uuid;
     }
     
     
@@ -214,17 +348,24 @@ public final class ConcurrentNetworkManager
     @Override
     public void disconnectClient(UUID clientUID)
     {
+        // we'r going to forcefully disconnect the client
+        // and delete its key from our keys map
         try 
         {
-            clients.get(clientUID).getChannel().close();
-            clients.remove(clientUID);
+            SelectionKey key = channelKeys.get(clientUID);
+            SocketChannel chan = (SocketChannel) key.channel();
+            
+            // do the cleanup
+            key.cancel();
+            chan.close();
+            channelKeys.remove(clientUID);
             
             // log it
-            LOGGER.debug("Forcefully disconnected a client [uuid: " + clientUID + "]");
+            LOGGER.debug("Disconnected SocketChannel: [UUID: {}]", clientUID);
         } 
         catch (IOException ex) 
         {
-            LOGGER.warn("Cloud not diconnect client.");
+            LOGGER.error("Cloud not disconnect a SocketChannel.");
         }
     }
 
@@ -246,16 +387,23 @@ public final class ConcurrentNetworkManager
         ServerSocketChannel chan = ServerSocketChannel.open();
         chan.socket().bind(new java.net.InetSocketAddress(port));
         
-        // add it
-        listeners.put(protocolName, chan);
+        // set it non blocking, so we can add it to the selector
+        chan.configureBlocking(false);
+        
+        // add it to our selector
+        SelectionKey key = chan.register(protSelector, SelectionKey.OP_ACCEPT);
+        
+        // don't forget to save the protocol name
+        key.attach(protocolName);
         
         // log it
-        LOGGER.debug("Added new network listener [name: " + protocolName + " | port: " + port + "]");
+        LOGGER.debug("New protocol listener as ServerSocketChannel: [NAME {} | PORT {}]", protocolName, port);
     }
 
     
     /**
      * Setter.
+     * Used only once, when the container is registered with this manager.
      * 
      * @param       connector               The connector that this network manager
      *                                      will output stuff to
@@ -274,20 +422,24 @@ public final class ConcurrentNetworkManager
     
     
     
+    
     /**
      * For debug purpose only.
      * 
      * @param       bytes
      * @return 
      */
-    private static String getHexString(byte[] bytes)
+    private static String getHexString(ByteBuffer bytes)
     {
         StringBuilder result = new StringBuilder();
         
-        for (int i = 0; i < bytes.length; i++) 
+        for (int i = 0; i < bytes.limit(); i++) 
         {
-            result.append(Integer.toHexString(bytes[i]));
+            result.append(Integer.toHexString(bytes.get()));
         }
+        
+        // just in case ;D
+        bytes.rewind();
         
         return result.toString();
     }

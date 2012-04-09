@@ -2,7 +2,7 @@
  * For copyright information see the LICENSE document.
  */
 
-package com.realityshard.container.utils;
+package com.realityshard.shardlet;
 
 import com.realityshard.shardlet.Session;
 import com.realityshard.shardlet.ShardletAction;

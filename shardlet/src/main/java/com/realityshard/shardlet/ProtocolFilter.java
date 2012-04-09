@@ -5,6 +5,7 @@
 package com.realityshard.shardlet;
 
 import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -36,10 +37,12 @@ public interface ProtocolFilter
      * Filters an incoming action / network message
      * 
      * @param       action                  The action that will be filtered
+     * @return      The enumeration that contains all resulting actions.
+     *              The filter may store any incomplete actions inside, so that
+     *              you don't need to return broken packets / fragments.
      * @throws      IOException             The usual I/O stuff
-     * @throws      ShardletException       When a shardlet-internal problem occured
      */
-    public void doInFilter(ShardletAction action)
+    public List<ShardletAction> doInFilter(ShardletAction action)
             throws IOException;
     
     
@@ -47,9 +50,12 @@ public interface ProtocolFilter
      * Filters an outgoing action / network message
      * 
      * @param       action                  The action that will be filtered
+     * @return      In contrast to the doInFilter method, actions/packets 
+     *              coming from the game-apps are not fragmented and completely
+     *              deserialized, so one deserilized action also results in one
+     *              serialized action/packet
      * @throws      IOException             The usual I/O stuff
-     * @throws      ShardletException       When a shardlet-internal problem occured
      */
-    public void doOutFilter(ShardletAction action)
+    public ShardletAction doOutFilter(ShardletAction action)
             throws IOException;
 }

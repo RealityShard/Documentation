@@ -8,6 +8,8 @@ import com.realityshard.shardlet.ConfigProtocolFilter;
 import com.realityshard.shardlet.ProtocolFilter;
 import com.realityshard.shardlet.ShardletAction;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,20 +31,24 @@ public class ProtocolFilterTest implements ProtocolFilter
     }
 
     @Override
-    public void doInFilter(ShardletAction action) 
+    public List<ShardletAction> doInFilter(ShardletAction action) 
             throws IOException
     {
         action.setAttribute("ProtocolFilter.test", "It's a me, tha ProtocolFilter attribute!");
         
         LOGGER.debug("In filter method called!");
+        
+        return Arrays.asList(action);
     }
 
     @Override
-    public void doOutFilter(ShardletAction action) 
+    public ShardletAction doOutFilter(ShardletAction action) 
             throws IOException
     {
         LOGGER.debug("Out filter method called!");
-        LOGGER.debug((String) action.getAttribute("ProtocolFilter.test"));
+        LOGGER.debug("Found attribute: " + (String) action.getAttribute("ProtocolFilter.test"));
+        
+        return action;
     }
 
 }

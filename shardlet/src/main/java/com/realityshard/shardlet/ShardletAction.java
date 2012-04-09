@@ -22,6 +22,13 @@ import java.util.Enumeration;
 public interface ShardletAction
 {
     
+    public enum States 
+    {
+        SERIALIZED,
+        DESERIALIZED
+    }
+    
+    
     /**
      * Getter.
      * Use this when writing raw data into this action,

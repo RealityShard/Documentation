@@ -172,10 +172,18 @@ public class ContextManager
     {
         
         // try to decrypt and serialze the action before using it:
+        
+        // we want to pass it through the filter chain before useing it, 
+        // and because incoming network streams may contain more than one action
+        // we may have a list of action after using the protocol chain.
+        // we may also have no action at all 
+        // (if the packet send by the client was incomplete)
+        List<ShardletAction> filteredActions = new ArrayList<>();
         try 
         {
             // try decrypt/parse packet (or whatever else is done by the filters
-            protocols.get(action.getProtocol()).doInFilter(action);
+            filteredActions = protocols.get(action.getProtocol()).doInFilter(action);
+        
         } 
         catch (IOException ex) 
         {
@@ -183,44 +191,53 @@ public class ContextManager
             return;
         }
         
-        // try to delegate this action to a game app
-        // check if we got a game app for it:
-        GameAppContext gameApp = gameAppBySession.get(action.getSession());
         
-        if (gameApp != null)
+        // now, because we may have a list of actions...
+        // (remember: doInFilter may output more than one filter!)
+        // we need to delegate each action to the game app it was made for:
+        
+        for (ShardletAction filAction : filteredActions) 
         {
-            // the session is already connected to one of our contexts, so lets
-            // send it that new action so it can parse and distribute it
-            gameApp.handleIncomingAction(action);
-            
-            // log that we'r staring a game app
-            LOGGER.debug("Successfully delegated a new action");
-        }
-        else
-        {
-            // the packet obviously comes from a new client
-            // so we need to send it to every game app out there,
-            // to check if they want to handle it.
-            
-            // log that we'r staring a game app
-            LOGGER.debug("We've got a new client!");
-            
-            for (GameAppContext gameAppContext : gameAppGeneral) 
+        
+            // try to delegate this action to a game app
+            // check if we got a game app for it:
+            GameAppContext gameApp = gameAppBySession.get(action.getSession());
+
+            if (gameApp != null)
             {
-                if (gameAppContext.acceptClient(action))
-                {
-                    // we've found a game app that accepts the new client
-                    // so we can create the association
-                    gameAppBySession.put(action.getSession(), gameApp);
-                    
-                    // and we can end the search here
-                    break;
-                }
+                // the session is already connected to one of our contexts, so lets
+                // send it that new action so it can parse and distribute it
+                gameApp.handleIncomingAction(action);
+
+                // log that we'r staring a game app
+                LOGGER.debug("Successfully delegated a new action");
             }
-            
-            // TODO check if this is the appropriate behaviour!
-            // if we didnt find any game app that want to accept this client
-            // we do nothing
+            else
+            {
+                // the packet obviously comes from a new client
+                // so we need to send it to every game app out there,
+                // to check if they want to handle it.
+
+                // log that we'r staring a game app
+                LOGGER.debug("We've got a new client!");
+
+                for (GameAppContext gameAppContext : gameAppGeneral) 
+                {
+                    if (gameAppContext.acceptClient(action))
+                    {
+                        // we've found a game app that accepts the new client
+                        // so we can create the association
+                        gameAppBySession.put(action.getSession(), gameApp);
+
+                        // and we can end the search here
+                        break;
+                    }
+                }
+
+                // TODO check if this is the appropriate behaviour!
+                // if we didnt find any game app that want to accept this client
+                // we do nothing
+            }
         }
     }
 
