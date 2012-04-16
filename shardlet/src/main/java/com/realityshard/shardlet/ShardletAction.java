@@ -24,7 +24,14 @@ public interface ShardletAction
     
     public enum States 
     {
+        /**
+         * Meaning the action is only available as network-packet-bytes
+         */
         SERIALIZED,
+        
+        /**
+         * Meaning the action is available by accessing its attributes
+         */
         DESERIALIZED
     }
     

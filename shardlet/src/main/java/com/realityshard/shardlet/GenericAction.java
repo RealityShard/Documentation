@@ -4,8 +4,6 @@
 
 package com.realityshard.shardlet;
 
-import com.realityshard.shardlet.Session;
-import com.realityshard.shardlet.ShardletAction;
 import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -14,11 +12,9 @@ import java.util.Map;
 
 
 /**
- * A ShardletAction implementation used for
- * container internal messaging.
- * 
- * An object of this class may be converted to another action
- * later on, by the protocol handlers.
+ * A ShardletAction implementation.
+ * This class can be inherited if needed, but it can also be used as
+ * a fully functional action.
  * 
  * @author _rusty
  */

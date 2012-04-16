@@ -5,7 +5,6 @@
 package com.realityshard.container.session;
 
 import com.realityshard.shardlet.Session;
-import com.realityshard.shardlet.SessionEncryptionState;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
@@ -24,7 +23,7 @@ public abstract class GenericSession implements Session
     private final int port;
     private final String protocol;
     
-    private volatile SessionEncryptionState encState = new SessionEncryptionState.Unencrypted();
+    private volatile EncryptionStates encState = EncryptionStates.UNENCRYPTED;
     private volatile Map<String, Object> attributes;
     
     
@@ -112,7 +111,7 @@ public abstract class GenericSession implements Session
      * @param       state                   The new encryption state 
      */
     @Override
-    public void setEncryptionState(SessionEncryptionState state) 
+    public void setEncryptionState(EncryptionStates state) 
     {
         encState = state;
     }
@@ -124,7 +123,7 @@ public abstract class GenericSession implements Session
      * @return      The current encryption state 
      */
     @Override
-    public SessionEncryptionState getEncryptionState() 
+    public EncryptionStates getEncryptionState() 
     {
         return encState;
     }

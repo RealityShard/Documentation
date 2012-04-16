@@ -18,7 +18,47 @@ import java.util.UUID;
  */
 public interface Session 
 {
+    
+    public enum EncryptionStates 
+    {
+        /**
+         * Meaning the action is only available as network-packet-bytes
+         */
+        UNENCRYPTED,
         
+        /**
+         * Meaning the protocol filters should encrypt packets from this session
+         */
+        ENCRYPTED;
+        
+        private Object attachment;
+
+        
+        /**
+         * Stick your data for packet/stream encryption to this
+         * State object.
+         * 
+         * @return      Your data.
+         */
+        public Object getAttachment() 
+        {
+            return attachment;
+        }
+
+        
+        /**
+         * Stick your data for packet/stream encryption to this
+         * State object.
+         * 
+         * @param       attachment              Your data. 
+         */
+        public void setAttachment(Object attachment) 
+        {
+            this.attachment = attachment;
+        }
+    }
+    
+    
     /**
      * Getter.
      * 
@@ -69,7 +109,7 @@ public interface Session
      * 
      * @param       state                   The new encryption state. 
      */
-    public void setEncryptionState(SessionEncryptionState state);
+    public void setEncryptionState(EncryptionStates state);
     
     
     /**
@@ -78,7 +118,7 @@ public interface Session
      * 
      * @return       The current encryption state. 
      */
-    public SessionEncryptionState getEncryptionState();
+    public EncryptionStates getEncryptionState();
     
 
     /**
