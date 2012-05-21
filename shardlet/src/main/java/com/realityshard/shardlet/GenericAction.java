@@ -21,11 +21,19 @@ import java.util.Map;
 public class GenericAction implements ShardletAction
 {
 
-    private volatile Map<String, Object> attributes;
-    private final String protocol;
-    private final Session session;
+    private String protocol;
+    private Session session;
     
     private volatile ByteBuffer buffer = null;
+    
+    /**
+     * Constructor.
+     */
+    public GenericAction()
+    {
+        protocol = null;
+        session = null;
+    }
     
     
     /**
@@ -37,58 +45,20 @@ public class GenericAction implements ShardletAction
     {
         this.protocol = session.getProtocol();
         this.session = session;
-        
-        attributes = new HashMap<>();
     }
     
     
     /**
-     * Getter.
+     * Initialize the ShardletAction by serving the Session object that
+     * this it will be distributed to, or that it is coming from.
      * 
-     * @param       name
-     * @return      The value of the attribute if found
+     * @param       session                 The session object as a reference.
      */
     @Override
-    public Object getAttribute(String name) 
+    public void init(Session session)
     {
-        return attributes.get(name);
-    }
-
-    
-    /**
-     * Getter.
-     * 
-     * @return      A list of all possible attribute names
-     */
-    @Override
-    public Enumeration<String> getAttributeNames() 
-    {
-        return Collections.enumeration(attributes.keySet());
-    }
-
-    
-    /**
-     * Setter.
-     * 
-     * @param       name                    The name of the new attribute
-     * @param       object                  The value of the attribute
-     */
-    @Override
-    public void setAttribute(String name, Object object) 
-    {
-        attributes.put(name, object);
-    }
-    
-    
-    /**
-     * Deletes an attribute from the attribute collection, if it exists
-     * 
-     * @param       name                    Name of the attribute that will be deleted.
-     */
-    @Override
-    public void removeAttribute(String name) 
-    {
-        attributes.remove(name);
+        this.protocol = session.getProtocol();
+        this.session = session;
     }
     
     

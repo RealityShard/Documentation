@@ -51,7 +51,7 @@ public class ShardletTest extends GenericShardlet
     {
         LOGGER.debug("Incoming action!");
         
-        event.getAction().setAttribute("ProtocolFilter.test", "Shardlet was here!");
+        //event.getAction().setAttribute("ProtocolFilter.test", "Shardlet was here!");
         
         sendAction(event.getAction());
     }
@@ -63,7 +63,7 @@ public class ShardletTest extends GenericShardlet
     {
         LOGGER.debug("Incoming client!");
         
-        event.getAction().setAttribute("ProtocolFilter.test", "Shardlet was here!");
+        //event.getAction().setAttribute("ProtocolFilter.test", "Shardlet was here!");
         
         sendAction(event.getAction());
     }

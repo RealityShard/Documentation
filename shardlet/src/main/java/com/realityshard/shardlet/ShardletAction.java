@@ -37,6 +37,15 @@ public interface ShardletAction
     
     
     /**
+     * Initialize the ShardletAction by serving the Session object that
+     * this it will be distributed to, or that it is coming from.
+     * 
+     * @param       session                 The session object as a reference.
+     */
+    public void init(Session session);
+    
+    
+    /**
      * Getter.
      * Use this when writing raw data into this action,
      * or reading raw data from this action
@@ -72,49 +81,5 @@ public interface ShardletAction
      * @return      The network session object.
      */
     public Session getSession();
-    
-    
-    /**
-     * Returns the value of the named attribute as an <code>Object</code>,
-     * or <code>null</code> if no attribute of the given name exists. 
-     *
-     * @param       name                    A <code>String</code> specifying the name 
-     *                                      of the attribute
-     * @return      The value-object or null.
-     */
-    public Object getAttribute(String name);
-    
-    
-    /**
-     * Stores an attribute in this action.
-     * Attributes are reset between actions.
-     *
-     * @param       name                    A <code>String</code> specifying 
-     *                                      the name of the attribute
-     * @param       o                       The <code>Object</code> to be stored
-     */
-    public void setAttribute(String name, Object o);
-    
-
-    /**
-     * Returns an <code>Enumeration</code> containing the
-     * names of the attributes available to this action.
-     *
-     * @return      An <code>Enumeration</code> of attribute 
-     *              names
-     */
-    public Enumeration<String> getAttributeNames();
-    
-    
-    /**
-     *
-     * Removes an attribute from this action.  This method is not
-     * generally needed as attributes only persist as long as the action
-     * is being handled.
-     *
-     * @param       name                    A <code>String</code> specifying 
-     *                                      the name of the attribute to remove
-     */
-    public void removeAttribute(String name);
 
 }

@@ -34,7 +34,7 @@ public class ProtocolFilterTest implements ProtocolFilter
     public List<ShardletAction> doInFilter(ShardletAction action) 
             throws IOException
     {
-        action.setAttribute("ProtocolFilter.test", "It's a me, tha ProtocolFilter attribute!");
+        //action.setAttribute("ProtocolFilter.test", "It's a me, tha ProtocolFilter attribute!");
         
         LOGGER.debug("In filter method called!");
         
@@ -46,7 +46,7 @@ public class ProtocolFilterTest implements ProtocolFilter
             throws IOException
     {
         LOGGER.debug("Out filter method called!");
-        LOGGER.debug("Found attribute: " + (String) action.getAttribute("ProtocolFilter.test"));
+        //LOGGER.debug("Found attribute: " + (String) action.getAttribute("ProtocolFilter.test"));
         
         return action;
     }
