@@ -112,10 +112,10 @@ public class GenericAction implements ShardletAction
      * Serialize this action, using a hardcoded serialization method
      */
     @Override
-    public void serialize() 
+    public boolean serialize() 
     {
         // this should never be called directly, but if it is, we will want to
-        // throw an exception to indicate that the user made a severe mistake somwhere
+        // throw an exception to indicate that the user made a severe mistake somewhere
         throw new NotImplementedException();
     }
 
@@ -124,10 +124,10 @@ public class GenericAction implements ShardletAction
      * Deserialize this action, using a hardcoded deserialization method
      */
     @Override
-    public void deserialize() 
+    public boolean deserialize() 
     {
         // this should never be called directly, but if it is, we will want to
-        // throw an exception to indicate that the user made a severe mistake somwhere
+        // throw an exception to indicate that the user made a severe mistake somewhere
         throw new NotImplementedException();
     }
     

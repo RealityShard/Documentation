@@ -85,11 +85,11 @@ public interface ShardletAction
     /**
      * Serialize this action, using a hardcoded serialization method
      */
-    public void serialize();
+    public boolean serialize();
     
     
     /**
      * Deserialize this action, using a hardcoded deserialization method
      */
-    public void deserialize();
+    public boolean deserialize();
 }
