@@ -13,6 +13,7 @@ import com.realityshard.schemas.gameapp.GameApp;
 import com.realityshard.schemas.serverconfig.ServerConfig;
 import com.realityshard.shardlet.Session;
 import com.realityshard.shardlet.ShardletAction;
+import com.realityshard.shardlet.ShardletEventAction;
 import com.realityshard.shardlet.utils.ConcurrentEventAggregator;
 import java.io.File;
 import java.io.IOException;
@@ -178,7 +179,7 @@ public class ContextManager
         // we may have a list of action after using the protocol chain.
         // we may also have no action at all 
         // (if the packet send by the client was incomplete)
-        List<ShardletAction> filteredActions = new ArrayList<>();
+        List<ShardletEventAction> filteredActions = new ArrayList<>();
         try 
         {
             // try decrypt/parse packet (or whatever else is done by the filters
@@ -187,7 +188,8 @@ public class ContextManager
             // failcheck
             if (prot != null)
             {
-                filteredActions = prot.doInFilter(action);
+                // possible BUG TODO is this cast necessary?
+                filteredActions = prot.doInFilter((ShardletEventAction)action);
             }
             else
             {
@@ -206,7 +208,7 @@ public class ContextManager
         // (remember: doInFilter may output more than one filter!)
         // we need to delegate each action to the game app it was made for:
         
-        for (ShardletAction filAction : filteredActions) 
+        for (ShardletEventAction filAction : filteredActions) 
         {
         
             // try to delegate this action to a game app
@@ -217,7 +219,7 @@ public class ContextManager
             {
                 // the session is already connected to one of our contexts, so lets
                 // send it that new action so it can parse and distribute it
-                gameApp.handleIncomingAction(action);
+                gameApp.handleIncomingAction(filAction);
 
                 // log that we'r staring a game app
                 LOGGER.debug("Successfully delegated a new action");
@@ -233,7 +235,7 @@ public class ContextManager
 
                 for (GameAppContext gameAppContext : gameAppGeneral) 
                 {
-                    if (gameAppContext.acceptClient(action))
+                    if (gameAppContext.acceptClient(filAction))
                     {
                         // we've found a game app that accepts the new client
                         // so we can create the association

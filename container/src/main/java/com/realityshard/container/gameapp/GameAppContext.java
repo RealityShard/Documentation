@@ -5,12 +5,7 @@
 package com.realityshard.container.gameapp;
 
 import com.realityshard.container.utils.Pacemaker;
-import com.realityshard.shardlet.Session;
-import com.realityshard.shardlet.Shardlet;
-import com.realityshard.shardlet.ShardletAction;
-import com.realityshard.shardlet.ShardletActionVerifier;
-import com.realityshard.shardlet.events.context.ContextIncomingActionEvent;
-import com.realityshard.shardlet.events.network.NetworkClientConnectedEvent;
+import com.realityshard.shardlet.*;
 import com.realityshard.shardlet.events.network.NetworkClientDisconnectedEvent;
 import java.util.List;
 import org.slf4j.Logger;
@@ -61,7 +56,7 @@ public class GameAppContext extends GenericContext
      * @param       action                  The first message send by the new client
      * @return  
      */
-    public boolean acceptClient(ShardletAction action)
+    public boolean acceptClient(ShardletEventAction action)
     {
         ShardletActionVerifier acceptedVerifier = null;
         
@@ -74,7 +69,7 @@ public class GameAppContext extends GenericContext
             {
                 // a verifier accepted a new client!
                 // lets trigger the appropriate event
-                aggregator.triggerEvent(new NetworkClientConnectedEvent(action));
+                action.triggerEvent(aggregator);
                 
                 // because the verfier is non persistant, we need to delete it from
                 // the list after we left the loop ;D
@@ -106,7 +101,7 @@ public class GameAppContext extends GenericContext
             {
                 // a verifier accepted a new client!
                 // lets trigger the appropriate event
-                aggregator.triggerEvent(new NetworkClientConnectedEvent(action));
+                action.triggerEvent(aggregator);
                 
                 // log it
                 LOGGER.debug("Accepted client");
@@ -137,12 +132,12 @@ public class GameAppContext extends GenericContext
      * 
      * @param action 
      */
-    public void handleIncomingAction(ShardletAction action)
+    public void handleIncomingAction(ShardletEventAction action)
     {
         // send the event to the aggregator,
         // indirectly invoking the shardlets that handle new
         // incoming events
-        aggregator.triggerEvent(new ContextIncomingActionEvent(action));
+        action.triggerEvent(aggregator);
     }
 
     
