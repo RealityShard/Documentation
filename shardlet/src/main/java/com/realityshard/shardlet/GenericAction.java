@@ -5,6 +5,7 @@
 package com.realityshard.shardlet;
 
 import java.nio.ByteBuffer;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 
 /**
@@ -105,4 +106,31 @@ public class GenericAction implements ShardletAction
     {
         return session;
     }
+
+    
+    /**
+     * Serialize this action, using a hardcoded serialization method
+     */
+    @Override
+    public void serialize() 
+    {
+        // this should never be called directly, but if it is, we will want to
+        // throw an exception to indicate that the user made a severe mistake somwhere
+        throw new NotImplementedException();
+    }
+
+    
+    /**
+     * Deserialize this action, using a hardcoded deserialization method
+     */
+    @Override
+    public void deserialize() 
+    {
+        // this should never be called directly, but if it is, we will want to
+        // throw an exception to indicate that the user made a severe mistake somwhere
+        throw new NotImplementedException();
+    }
+    
+    
+    
 }

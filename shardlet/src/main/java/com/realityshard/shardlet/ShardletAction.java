@@ -80,5 +80,16 @@ public interface ShardletAction
      * @return      The network session object.
      */
     public Session getSession();
-
+    
+    
+    /**
+     * Serialize this action, using a hardcoded serialization method
+     */
+    public void serialize();
+    
+    
+    /**
+     * Deserialize this action, using a hardcoded deserialization method
+     */
+    public void deserialize();
 }
