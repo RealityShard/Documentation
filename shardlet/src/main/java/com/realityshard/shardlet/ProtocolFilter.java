@@ -42,7 +42,7 @@ public interface ProtocolFilter
      *              you don't need to return broken packets / fragments.
      * @throws      IOException             The usual I/O stuff
      */
-    public List<ShardletAction> doInFilter(ShardletAction action)
+    public List<ShardletEventAction> doInFilter(ShardletEventAction action)
             throws IOException;
     
     

@@ -8,7 +8,7 @@ import com.realityshard.shardlet.EventHandler;
 import com.realityshard.shardlet.GenericShardlet;
 import com.realityshard.shardlet.ShardletAction;
 import com.realityshard.shardlet.ShardletActionVerifier;
-import com.realityshard.shardlet.events.context.ContextIncomingActionEvent;
+//import com.realityshard.shardlet.events.context.ContextIncomingActionEvent;
 import com.realityshard.shardlet.events.network.NetworkClientConnectedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,26 +45,26 @@ public class ShardletTest extends GenericShardlet
     }
     
     
-    // some random handler
-    @EventHandler
-    public void handleIncoming(ContextIncomingActionEvent event)
-    {
-        LOGGER.debug("Incoming action!");
-        
-        //event.getAction().setAttribute("ProtocolFilter.test", "Shardlet was here!");
-        
-        sendAction(event.getAction());
-    }
-
-    
-    // some random handler
-    @EventHandler
-    public void handleNewClient(NetworkClientConnectedEvent event)
-    {
-        LOGGER.debug("Incoming client!");
-        
-        //event.getAction().setAttribute("ProtocolFilter.test", "Shardlet was here!");
-        
-        sendAction(event.getAction());
-    }
+//    // some random handler
+//    @EventHandler
+//    public void handleIncoming(ContextIncomingActionEvent event)
+//    {
+//        LOGGER.debug("Incoming action!");
+//        
+//        //event.getAction().setAttribute("ProtocolFilter.test", "Shardlet was here!");
+//        
+//        sendAction(event.getAction());
+//    }
+//
+//    
+//    // some random handler
+//    @EventHandler
+//    public void handleNewClient(NetworkClientConnectedEvent event)
+//    {
+//        LOGGER.debug("Incoming client!");
+//        
+//        //event.getAction().setAttribute("ProtocolFilter.test", "Shardlet was here!");
+//        
+//        sendAction(event.getAction());
+//    }
 }

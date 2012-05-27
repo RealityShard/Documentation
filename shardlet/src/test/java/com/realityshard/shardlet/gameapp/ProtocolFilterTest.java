@@ -7,6 +7,7 @@ package com.realityshard.shardlet.gameapp;
 import com.realityshard.shardlet.ConfigProtocolFilter;
 import com.realityshard.shardlet.ProtocolFilter;
 import com.realityshard.shardlet.ShardletAction;
+import com.realityshard.shardlet.ShardletEventAction;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +32,7 @@ public class ProtocolFilterTest implements ProtocolFilter
     }
 
     @Override
-    public List<ShardletAction> doInFilter(ShardletAction action) 
+    public List<ShardletEventAction> doInFilter(ShardletEventAction action) 
             throws IOException
     {
         //action.setAttribute("ProtocolFilter.test", "It's a me, tha ProtocolFilter attribute!");
