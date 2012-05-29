@@ -235,6 +235,9 @@ public final class ConcurrentNetworkManager
                 // packet we can recieve (e.g. 512 bytes)
                 final ByteBuffer readBuf = ByteBuffer.allocate(bufferSize);
                 
+                // we want this bytebuffer to interpret data in the little-endian byteorder
+                readBuf.order(ByteOrder.LITTLE_ENDIAN);
+                
                 // read the data from the channel (that will also update our buffer)
                 int count = chan.read(readBuf);
                 
@@ -462,9 +465,17 @@ public final class ConcurrentNetworkManager
     {
         StringBuilder result = new StringBuilder();
         
-        for (int i = 0; i < bytes.limit()-1; i++) 
+        for (int i = 0; i < bytes.limit(); i++) 
         {
-            result.append(Integer.toHexString(bytes.get()));
+            // this workaround abuses the larger 'integer' values,
+            // to get unsigned byte-hexcode
+            // note that there are no unsigned values in java
+            String integerHex = Integer.toHexString(bytes.get());
+            integerHex = integerHex.length() < 2 ? "0" + integerHex : integerHex;
+            String byteHex = integerHex.substring(integerHex.length() - 2, integerHex.length());
+            
+            // we cann append this hex string representation of the byte to the debug string now
+            result.append(byteHex);
         }
         
         // just in case ;D
