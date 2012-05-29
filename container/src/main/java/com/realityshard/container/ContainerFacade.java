@@ -190,7 +190,7 @@ public final class ContainerFacade
     }
     
     
-    /**
+   /**
      * Just the implementation of the interface.
      * This will be called by the network manager!
      * 
@@ -210,7 +210,8 @@ public final class ContainerFacade
         
         if (session != null)
         {
-            GenericAction action = new GenericAction(session);
+            GenericEventAction action = new GenericEventAction();
+            action.init(session);
             action.setBuffer(rawData);
             
             // delegate it!
@@ -221,7 +222,7 @@ public final class ContainerFacade
             LOGGER.error("Got a message from an unkown client! (Its UUID is not registered with the Container)");
         }
     }
-
+    
     
     /**
      * Called by the network manager when a client connects
