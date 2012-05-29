@@ -18,7 +18,7 @@ package com.realityshard.shardlet;
  * 
  * @author _rusty
  */
-public abstract class GenericEventAction extends GenericAction implements ShardletEventAction
+public class GenericEventAction extends GenericAction implements ShardletEventAction
 {
     
     /**
@@ -28,5 +28,10 @@ public abstract class GenericEventAction extends GenericAction implements Shardl
      *                                      this action to be published on
      */
     @Override
-    public abstract void triggerEvent(EventAggregator aggregator);
+    public void triggerEvent(EventAggregator aggregator)
+    {
+        // this should never be called directly, but if it is, we will want to
+        // throw an exception to indicate that the user made a severe mistake somewhere
+        throw new NotImplementedException();
+    }
 }
