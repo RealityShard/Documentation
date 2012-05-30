@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -43,6 +44,8 @@ public abstract class GenericSession implements Session
         this.IP = IP;
         this.port = port;
         this.protocol = protocol;
+        
+        this.attributes = new ConcurrentHashMap<>();
     }
     
     

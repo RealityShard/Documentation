@@ -313,6 +313,9 @@ public final class ConcurrentNetworkManager
     public void handlePacket(ByteBuffer rawData, UUID clientUID) 
             throws IOException 
     {
+        // make sure the buffer we send is set to position 0
+        rawData.rewind();
+        
         // get the right channel from our keys list
         SelectionKey key = channelKeys.get(clientUID);
         
