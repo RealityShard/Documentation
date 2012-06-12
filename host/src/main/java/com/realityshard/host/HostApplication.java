@@ -63,7 +63,9 @@ public final class HostApplication
         ConcurrentNetworkManager netMan = null;
         try 
         {
-            netMan = new ConcurrentNetworkManager(executor, 512, 1);
+            // using a CPU - load reducing looping here atm
+            // (will have to switch to some more sophisticated implementation of NetMan in the future)
+            netMan = new ConcurrentNetworkManager(executor, 512, 1000);
         } 
         catch (IOException ex) 
         {
