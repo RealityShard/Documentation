@@ -6,11 +6,14 @@ package com.realityshard.container.gameapp;
 
 import com.realityshard.container.utils.Pacemaker;
 import com.realityshard.shardlet.*;
-import com.realityshard.shardlet.events.network.NetworkClientDisconnectedEvent;
+import com.realityshard.shardlet.intershardcom.ParentContextEventAction;
+import com.realityshard.shardlet.events.NetworkClientDisconnectedEvent;
+import java.nio.ByteBuffer;
 import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 
 /**
@@ -170,7 +173,7 @@ public class GameAppContext extends GenericContext
      * @return      The game app as a remote context reference
      */
     @Override
-    public RemoteShardletContext tryCreateGameApp(String gameApp, Map<String, String> parameters)
+    public ShardletContext tryCreateGameApp(String gameApp, Map<String, String> parameters)
             throws Exception
     {
         // Call the context manager to check if it has a game app with that name
@@ -179,6 +182,10 @@ public class GameAppContext extends GenericContext
         
         // Failcheck
         if (newContext == null) { return newContext; }
+        
+        // We will want to inform the context of it's parent
+        // so we simply 'indirectly' invoke an event
+        newContext.sendRemoteEventAction(new ParentContextEventAction(this));
         
         // Return the reference of that context
         // Note that because or GenericContext implements 'RemoteShardletContext'
