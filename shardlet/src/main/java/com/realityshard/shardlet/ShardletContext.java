@@ -121,7 +121,8 @@ public interface ShardletContext
      *                                      you don't want to set directly within the game.xml deployment-descriptor)
      * @return      The game app as a remote context reference
      */
-    public RemoteShardletContext tryCreateGameApp(String gameApp, Map<String, String> parameters);
+    public RemoteShardletContext tryCreateGameApp(String gameApp, Map<String, String> parameters)
+            throws Exception;
     
     
     /**
