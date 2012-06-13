@@ -8,6 +8,7 @@ import com.realityshard.container.utils.Pacemaker;
 import com.realityshard.shardlet.*;
 import com.realityshard.shardlet.events.network.NetworkClientDisconnectedEvent;
 import java.util.List;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -156,6 +157,53 @@ public class GameAppContext extends GenericContext
     {
         // redirect the action to the context manager
         manager.sendAction(action);
+    }
+    
+    
+    /**
+     * Tries to create a new game app, CURRENTLY ONLY ON THE SAME SERVER!
+     * TODO: add ability to specify specific remote R:S server
+     * 
+     * @param       gameApp                 The 'display name' of the game app that we'll try to load
+     * @param       parameters              Init-Params of the new game app (e.g. variable parameters that
+     *                                      you don't want to set directly within the game.xml deployment-descriptor)
+     * @return      The game app as a remote context reference
+     */
+    @Override
+    public RemoteShardletContext tryCreateGameApp(String gameApp, Map<String, String> parameters)
+            throws Exception
+    {
+        // Call the context manager to check if it has a game app with that name
+        // and create it (returns null when no game app with that name was found)
+        GameAppContext newContext = manager.createNewGameApp(gameApp, initParams);
+        
+        // Failcheck
+        if (newContext == null) { return newContext; }
+        
+        // Return the reference of that context
+        // Note that because or GenericContext implements 'RemoteShardletContext'
+        // we can simply return the reference to that newly created context.
+        return newContext;
+    }
+    
+    
+    /**
+     * Sends a new shardlet-event-action (meaning an action that
+     * can be triggered as an event ;D)
+     * 
+     * Use this method to trigger events directly within the remote context,
+     * by providing an action that creates these events.
+     * 
+     * Think of the 'event-action' as an event-wrapper.
+     * 
+     * @param       action                  The event-action that will be used in the remote
+     *                                      context to trigger the desired concrete event
+     */
+    @Override
+    public void sendRemoteEventAction(ShardletEventAction action) 
+    {
+        // :D
+        handleIncomingAction(action);
     }
     
     

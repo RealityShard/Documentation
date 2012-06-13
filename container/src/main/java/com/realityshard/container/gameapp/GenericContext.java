@@ -4,16 +4,9 @@
 
 package com.realityshard.container.gameapp;
 
-import com.realityshard.shardlet.EventAggregator;
-import com.realityshard.shardlet.ShardletAction;
-import com.realityshard.shardlet.ShardletActionVerifier;
-import com.realityshard.shardlet.ShardletContext;
+import com.realityshard.shardlet.*;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -23,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 
  * @author _rusty
  */
-public abstract class GenericContext implements ShardletContext
+public abstract class GenericContext implements ShardletContext, RemoteShardletContext
 {
     
     protected EventAggregator aggregator;
@@ -154,6 +147,19 @@ public abstract class GenericContext implements ShardletContext
             normalClientVerifiers.clear();
         }
     }
+    
+    
+    /**
+     * Tries to create a new game app, CURRENTLY ONLY ON THE SAME SERVER!
+     * TODO: add ability to specify specific remote R:S server
+     * 
+     * @param       gameApp                 The 'display name' of the game app that we'll try to load
+     * @param       parameters              Init-Params of the new game app (e.g. variable parameters that
+     *                                      you don't want to set directly within the game.xml deployment-descriptor)
+     * @return      The game app as a remote context reference
+     */
+    public abstract RemoteShardletContext tryCreateGameApp(String gameApp, Map<String, String> parameters)
+            throws Exception;
         
     
     /**

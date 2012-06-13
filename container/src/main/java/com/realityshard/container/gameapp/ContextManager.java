@@ -110,7 +110,7 @@ public class ContextManager
      * @param       additionalParams        Any additional init parameters that will be globally available for the app
      * @throws      Exception               If aynthing went wrong with the creation of the game app
      */
-    public void createNewGameApp(String name, Map<String, String> additionalParams)
+    public GameAppContext createNewGameApp(String name, Map<String, String> additionalParams)
             throws Exception
     {
         // lets try to find the app with the "name"
@@ -154,12 +154,16 @@ public class ContextManager
                 LOGGER.debug("Starting a game app [name: " + context.getShardletContextName() + "]");
                 
                 // thats all for now ;D
+                return context;
             } 
             catch (MalformedURLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) 
             {
                 throw new Exception("Unable to create a new game app.", ex);
             }
         }
+        
+        // if nothing (no game app with that name) was found, return null
+        return null;
     }
     
     
