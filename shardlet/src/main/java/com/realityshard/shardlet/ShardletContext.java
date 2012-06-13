@@ -6,6 +6,7 @@ package com.realityshard.shardlet;
 
 import java.io.InputStream;
 import java.util.Enumeration;
+import java.util.Map;
 
 
 /**
@@ -109,6 +110,18 @@ public interface ShardletContext
      *                                      delete only persistant verifiers.
      */
     public void clearClientVerifiers(boolean persistantVerifiersOnly);
+    
+    
+    /**
+     * Tries to create a new game app, CURRENTLY ONLY ON THE SAME SERVER!
+     * TODO: add ability to specify specific remote R:S server
+     * 
+     * @param       gameApp                 The 'display name' of the game app that we'll try to load
+     * @param       parameters              Init-Params of the new game app (e.g. variable parameters that
+     *                                      you don't want to set directly within the game.xml deployment-descriptor)
+     * @return      The game app as a remote context reference
+     */
+    public RemoteShardletContext tryCreateGameApp(String gameApp, Map<String, String> parameters);
     
     
     /**
