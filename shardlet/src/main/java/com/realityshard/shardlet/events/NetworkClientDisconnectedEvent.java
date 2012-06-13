@@ -2,10 +2,10 @@
  * For copyright information see the LICENSE document.
  */
 
-package com.realityshard.shardlet.events.network;
+package com.realityshard.shardlet.events;
 
+import com.realityshard.shardlet.Event;
 import com.realityshard.shardlet.Session;
-import com.realityshard.shardlet.events.GenericNetworkEvent;
 
 
 /**
@@ -14,7 +14,7 @@ import com.realityshard.shardlet.events.GenericNetworkEvent;
  * 
  * @author _rusty
  */
-public final class NetworkClientDisconnectedEvent extends GenericNetworkEvent
+public final class NetworkClientDisconnectedEvent implements Event
 {
     private final Session session;
     

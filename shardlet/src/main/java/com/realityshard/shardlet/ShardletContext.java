@@ -120,9 +120,27 @@ public interface ShardletContext
      * @param       parameters              Init-Params of the new game app (e.g. variable parameters that
      *                                      you don't want to set directly within the game.xml deployment-descriptor)
      * @return      The game app as a remote context reference
+     * @throws      Exception               If something went wrong with creating the game app
+     *                                      (Does not indicate that the game app doesnt exist,
+     *                                      because in that case the returned reference would simply be null)
      */
-    public RemoteShardletContext tryCreateGameApp(String gameApp, Map<String, String> parameters)
+    public ShardletContext tryCreateGameApp(String gameApp, Map<String, String> parameters)
             throws Exception;
+    
+    
+    /**
+     * Sends a new shardlet-event-action (meaning an action that
+     * can be triggered as an event ;D)
+     * 
+     * Use this method to trigger events directly within the remote context,
+     * by providing an action that creates these events.
+     * 
+     * Think of the 'event-action' as an event-wrapper.
+     * 
+     * @param       action                  The event-action that will be used in the remote
+     *                                      context to trigger the desired concrete event
+     */
+    public void sendRemoteEventAction(ShardletEventAction action);
     
     
     /**

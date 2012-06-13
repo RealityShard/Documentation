@@ -9,7 +9,7 @@ import com.realityshard.shardlet.GenericShardlet;
 import com.realityshard.shardlet.ShardletAction;
 import com.realityshard.shardlet.ShardletActionVerifier;
 //import com.realityshard.shardlet.events.context.ContextIncomingActionEvent;
-import com.realityshard.shardlet.events.network.NetworkClientConnectedEvent;
+import com.realityshard.shardlet.events.NetworkClientConnectedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

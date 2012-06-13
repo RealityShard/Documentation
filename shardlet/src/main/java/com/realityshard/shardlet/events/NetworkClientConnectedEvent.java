@@ -2,11 +2,10 @@
  * For copyright information see the LICENSE document.
  */
 
-package com.realityshard.shardlet.events.network;
+package com.realityshard.shardlet.events;
 
 import com.realityshard.shardlet.ActionEvent;
 import com.realityshard.shardlet.ShardletAction;
-import com.realityshard.shardlet.events.GenericNetworkEvent;
 
 
 /**
@@ -15,8 +14,7 @@ import com.realityshard.shardlet.events.GenericNetworkEvent;
  * 
  * @author _rusty
  */
-public final class NetworkClientConnectedEvent extends GenericNetworkEvent
-    implements ActionEvent
+public final class NetworkClientConnectedEvent implements ActionEvent
 {
     
     private final ShardletAction action;
