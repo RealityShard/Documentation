@@ -200,6 +200,8 @@ public final class ConcurrentEventAggregator implements EventAggregator
     /**
      * Trigger an event, the aggregator will try to distribute 
      * it to the appropriate listeners
+     * 
+     * @param       event                   The concrete event     
      */
     @Override
     public void triggerEvent(Event event)
@@ -210,7 +212,7 @@ public final class ConcurrentEventAggregator implements EventAggregator
         // failcheck
         if (listeners == null) return;
         
-        for (ObjectMethodPair pair: eventMapping.get(event.getClass()))
+        for (ObjectMethodPair pair: listeners)
         {
             // for each listener in the listener collection,
             // try to invoke the handler with
