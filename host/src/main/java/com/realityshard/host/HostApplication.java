@@ -7,7 +7,9 @@ package com.realityshard.host;
 import com.realityshard.container.ContainerFacade;
 import com.realityshard.network.ConcurrentNetworkManager;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import org.slf4j.Logger;
@@ -26,12 +28,15 @@ public final class HostApplication
     /**
      * Runs the application.
      * 
-     * @param       args 
+     * @param       args
+     * @throws      MalformedURLException   Should never happen.
      */
-    public static void main(String[] args)
+    public static void main(String[] args) 
+            throws MalformedURLException
     {
         // temporary logger
         Logger logger = LoggerFactory.getLogger(HostApplication.class);
+  
         
         // init the file paths
         // see the documentation diagrams on deployment
@@ -42,6 +47,12 @@ public final class HostApplication
         File schemaPath = new File(localPath, "schema");
         File protocolsPath = new File(localPath, "protocols");
         File gameAppsPath = new File(localPath, "gameapps");
+        
+        File libsPath = new File(localPath, "lib");
+        
+        
+        // init the additional classpaths
+        ClassLoaderExtension.addLibs(libsPath);
         
         
         // TODO process the args ;D
