@@ -2,7 +2,7 @@
  * For copyright information see the LICENSE document.
  */
 
-package com.realityshard.shardlet.intershardcom;
+package com.realityshard.shardlet.events;
 
 import com.realityshard.shardlet.EventAggregator;
 import com.realityshard.shardlet.GenericEventAction;
@@ -10,12 +10,14 @@ import com.realityshard.shardlet.ShardletContext;
 
 
 /**
- * Triggered when the ShardletContext of a game-app has been created successfully.
- * This may be the time to load anything of a context-global scope into it.
+ * This Event is triggered when the ShardletContext of a game-app 
+ * has been created successfully, meaning all Shardlets have been initialized.
+ * 
+ * This may be the right time to distribute any context-global references.
  * 
  * @author _rusty
  */
-public final class ParentContextEventAction extends GenericEventAction
+public final class GameAppCreatedEvent extends GenericEventAction
 {
     
     private final ShardletContext parent;
@@ -28,7 +30,7 @@ public final class ParentContextEventAction extends GenericEventAction
      *                                      requested the creation of this Context
      *                                      (Meaning the one where this is event is thrown)
      */
-    public ParentContextEventAction(ShardletContext parent)
+    public GameAppCreatedEvent(ShardletContext parent)
     {
         this.parent = parent;
         
