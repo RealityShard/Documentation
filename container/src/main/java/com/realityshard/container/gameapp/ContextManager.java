@@ -14,6 +14,7 @@ import com.realityshard.schemas.serverconfig.ServerConfig;
 import com.realityshard.shardlet.Session;
 import com.realityshard.shardlet.ShardletAction;
 import com.realityshard.shardlet.ShardletEventAction;
+import com.realityshard.shardlet.events.GameAppCreatedEvent;
 import com.realityshard.shardlet.utils.ConcurrentEventAggregator;
 import java.io.File;
 import java.io.IOException;
@@ -149,6 +150,11 @@ public class ContextManager
                 // add the context to our general context list
                 // because we do not yet know it's sessions
                 gameAppGeneral.add(context);
+                
+                // let the game app know that it's been started and initialized
+                // note that this could also be done by the fluent builder...
+                // but as this is the place where we create the game app, we'll simply add it here
+                context.handleIncomingAction(new GameAppCreatedEvent(context));
                 
                 // log that we'r staring a game app
                 LOGGER.debug("Starting a game app [name: " + context.getShardletContextName() + "]");
