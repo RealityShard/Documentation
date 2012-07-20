@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
@@ -386,39 +387,9 @@ public class ContextManagerFluentBuilder extends ContextManager implements
                 continue;
             }
             
-            try 
-            {
-                // we need to create a new setClassloader for them first
-                // because the class loader depends on the path to the classes that it needs to load
-                // so we create a new one with the path to our game app
-                ClassLoader cl = ClassLoaderFactory.produceGameAppClassLoader(gameAppInfo.getPath(), ClassLoader.getSystemClassLoader());
-
-                // now lets create the context
-                // we need the config first...
-                GameApp gaConf = gameAppInfo.getConfig();
-                // ...so that we can keep this clean:
-                GameAppContext context = GameAppContextFluentBuilder
-                        .start()
-                        .useManager(this)
-                        .useAggregator(new ConcurrentEventAggregator(executor))
-                        .useClassloader(cl)
-                        .useInfo(gaConf.getAppInfo(), executor)
-                        .useShardlets(gaConf.getShardlet())
-                        .build();
-
-                // add the context to our general context list
-                // because we do not yet know it's sessions
-                gameAppGeneral.add(context);
-
-                // log that we'r staring a game app
-                LOGGER.debug("Starting a game app [name: " + context.getShardletContextName() + "]");
-                
-                // thats all for now ;D
-            } 
-            catch (MalformedURLException | ClassNotFoundException | InstantiationException | IllegalAccessException ex) 
-            {
-                throw new Exception("Unable to create a new game app.", ex);
-            }
+            // we've inherited a nice method for starting game apps, so lets use that instead of 
+            // creating redundant stuff here.
+            createNewGameApp(gameAppInfo.getName(), new HashMap<String, String>(), null);
         }
         
         // we'r done, return the updated object

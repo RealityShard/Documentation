@@ -13,6 +13,7 @@ import com.realityshard.schemas.gameapp.GameApp;
 import com.realityshard.schemas.serverconfig.ServerConfig;
 import com.realityshard.shardlet.Session;
 import com.realityshard.shardlet.ShardletAction;
+import com.realityshard.shardlet.ShardletContext;
 import com.realityshard.shardlet.ShardletEventAction;
 import com.realityshard.shardlet.events.GameAppCreatedEvent;
 import com.realityshard.shardlet.utils.ConcurrentEventAggregator;
@@ -111,7 +112,7 @@ public class ContextManager
      * @param       additionalParams        Any additional init parameters that will be globally available for the app
      * @throws      Exception               If aynthing went wrong with the creation of the game app
      */
-    public GameAppContext createNewGameApp(String name, Map<String, String> additionalParams)
+    public GameAppContext createNewGameApp(String name, Map<String, String> additionalParams, ShardletContext parent)
             throws Exception
     {
         // lets try to find the app with the "name"
@@ -154,7 +155,7 @@ public class ContextManager
                 // let the game app know that it's been started and initialized
                 // note that this could also be done by the fluent builder...
                 // but as this is the place where we create the game app, we'll simply add it here
-                context.handleIncomingAction(new GameAppCreatedEvent(context));
+                context.handleIncomingAction(new GameAppCreatedEvent(parent));
                 
                 // log that we'r staring a game app
                 LOGGER.debug("Starting a game app [name: " + context.getShardletContextName() + "]");
