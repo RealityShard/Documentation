@@ -10,4 +10,5 @@ Reality:Shard is a generic online server that is based on the design of the `jav
 
 
 ### Install notes for Developers:
- - _Have a look at the existing guide here:_  [The Developer's Guide](http://github.com/GameRevision/GWLP-R/wiki/Dev-HowTo)
+ - _Have a look at the existing guide here:_  [The Developer's Guide](https://github.com/rusty-gr/Reality-Shard/wiki/Dev-HowTo)
+ - _Check out our glossary, if you'r lost in translation:_ [The Glossary](https://github.com/rusty-gr/Reality-Shard/wiki/Glossary)
