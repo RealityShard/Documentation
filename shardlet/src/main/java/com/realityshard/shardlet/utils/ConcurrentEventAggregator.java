@@ -34,12 +34,12 @@ public final class ConcurrentEventAggregator implements EventAggregator
     
     /**
      * Used for keeping the listener-object/listener-method
-     * stuff within a pair. (Needed for invokation of the method lateron)
+     * stuff within a pair. (Needed for invokation of the method later on)
      */
-    private static final class ObjectMethodPair
+    private static final class EventHandlerReference
     {
         private Object object;
-        private Method method;
+        private Method handler;
         
         
         /**
@@ -48,10 +48,10 @@ public final class ConcurrentEventAggregator implements EventAggregator
          * @param       object
          * @param       method 
          */
-        public ObjectMethodPair(Object object, Method method)
+        public EventHandlerReference(Object object, Method method)
         {
             this.object = object;
-            this.method = method;
+            this.handler = method;
         }
 
         
@@ -71,9 +71,9 @@ public final class ConcurrentEventAggregator implements EventAggregator
          * 
          * @return      The method declared within the class of the object
          */
-        public Method getMethod() 
+        public Method getHandler() 
         {
-            return method;
+            return handler;
         }     
     }
     
@@ -84,19 +84,19 @@ public final class ConcurrentEventAggregator implements EventAggregator
     private static final class Invokable implements Runnable
     {
         
-        private final ObjectMethodPair invokablePair;
+        private final EventHandlerReference invokableHandler;
         private final Event parameter;
         
         
         /**
          * Constructor.
          * 
-         * @param       invokablePair
+         * @param       invokableHandler
          * @param       parameter 
          */
-        public Invokable(ObjectMethodPair invokablePair, Event parameter)
+        public Invokable(EventHandlerReference invokableHandler, Event parameter)
         {
-            this.invokablePair = invokablePair;
+            this.invokableHandler = invokableHandler;
             this.parameter = parameter;
             
         }
@@ -110,8 +110,8 @@ public final class ConcurrentEventAggregator implements EventAggregator
         {
             try 
             {
-                invokablePair.getMethod()
-                        .invoke(invokablePair.getObject(), parameter);
+                invokableHandler.getHandler()
+                        .invoke(invokableHandler.getObject(), parameter);
             } 
             catch (    IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) 
             {
@@ -122,7 +122,7 @@ public final class ConcurrentEventAggregator implements EventAggregator
     
     
     private static final Logger LOGGER = LoggerFactory.getLogger(ConcurrentEventAggregator.class);
-    private final Map<Class<? extends Event>, List<ObjectMethodPair>> eventMapping;
+    private final Map<Class<? extends Event>, List<EventHandlerReference>> eventMapping;
     private final Executor executor;
     
     
@@ -168,7 +168,7 @@ public final class ConcurrentEventAggregator implements EventAggregator
                 }
                 else
                 {
-                    LOGGER.warn("Listener has a method that is annotated as EventListener but doesnt follow the signature.", listener);
+                    LOGGER.warn("Listener has a method that is annotated as EventHandler but doesnt follow the signature.", listener);
                 }
             }
         }
@@ -177,12 +177,12 @@ public final class ConcurrentEventAggregator implements EventAggregator
         for (Map.Entry<Class<? extends Event>, Method> entry : listenerMethods.entrySet()) 
         {
             Class<? extends Event> clazz = entry.getKey();
-            ObjectMethodPair pair = new ObjectMethodPair(listener, entry.getValue());
+            EventHandlerReference handler = new EventHandlerReference(listener, entry.getValue());
         
             // we want to add the listener methods to a list of methods that have the same
             // signature, and thus listen for the same event
             // so try to get the list
-            List<ObjectMethodPair> list = eventMapping.get(clazz);
+            List<EventHandlerReference> list = eventMapping.get(clazz);
 
             if (list == null)
             {
@@ -192,7 +192,7 @@ public final class ConcurrentEventAggregator implements EventAggregator
             }
 
             // finally add the listener
-            list.add(pair);
+            list.add(handler);
         }
     }
     
@@ -207,17 +207,17 @@ public final class ConcurrentEventAggregator implements EventAggregator
     public void triggerEvent(Event event)
     {
         // get the listeners of the event
-        List<ObjectMethodPair> listeners = eventMapping.get(event.getClass());
+        List<EventHandlerReference> listeners = eventMapping.get(event.getClass());
         
         // failcheck
-        if (listeners == null) return;
+        if (listeners == null) { return; }
         
-        for (ObjectMethodPair pair: listeners)
+        for (EventHandlerReference handler: listeners)
         {
             // for each listener in the listener collection,
             // try to invoke the handler with
             // the object that holds it and the event
-            executor.execute(new Invokable(pair, event));
+            executor.execute(new Invokable(handler, event));
         }
     }
 } 
