@@ -176,7 +176,7 @@ public class GameAppContext extends GenericContext
         // Call the context manager to check if it has a game app with that name
         // and create it (returns null when no game app with that name was found)
         // also reference this context as the parent context ;D
-        GameAppContext newContext = manager.createNewGameApp(gameApp, initParams, this);
+        GameAppContext newContext = manager.createNewGameApp(gameApp, parameters, this);
         
         // Failcheck
         if (newContext == null) { return newContext; }
