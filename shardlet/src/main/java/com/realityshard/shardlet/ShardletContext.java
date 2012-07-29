@@ -163,52 +163,25 @@ public interface ShardletContext
 
     /**
      * Getter.
+     * Returns your context-specific data that you attached to this context,
+     * or null if there was nothing attached.
      * 
-     * Returns the object bound with the specified name in this session, or
-     * <code>null</code> if no object is bound under the name.
-     *
-     * @param       name                    A string specifying the name of the object
-     * @return                              The object with the specified name
+     * @return      The context-specific data.
      */
-    public Object getAttribute(String name);
-            
+    public Object getAttachment();
+
 
     /**
-     * Getter.
+     * Setter.
+     * This adds any context specific data to this session.
      * 
-     * Returns an <code>Enumeration</code> of <code>String</code> objects
-     * containing the names of all the objects bound to this session. 
-     *
-     * @return		The names of all currently available attributes
-     */    
-    public Enumeration<String> getAttributeNames();
-    
-
-    /**
-     * Binds an object to this session, using the name specified.
-     * If an object of the same name is already bound to the session,
-     * the object is replaced.
-     *
-     * <p>If the value passed in is null, this has the same effect as calling 
-     * <code>removeAttribute()<code>.
-     *
-     *
-     * @param       name                    The name to which the object is bound;
-     *					    cannot be null
-     * @param       value                   The object to be bound
+     * Beware of casting exceptions! You may want to have a single class
+     * that manages all context specific data and only use that one as
+     * an attachment
+     * 
+     * @param       attachment              The context-specific data. 
      */
-    public void setAttribute(String name, Object value);
-
-
-    /**
-     * Removes the object bound with the specified name from
-     * this session. If the session does not have an object
-     * bound with the specified name, this method does nothing.
-     *
-     * @param       name                    The name of the object to
-     *                                      remove from this session
-     */
-    public void removeAttribute(String name);
+    public void setAttachment(Object attachment);
 
 }
 
