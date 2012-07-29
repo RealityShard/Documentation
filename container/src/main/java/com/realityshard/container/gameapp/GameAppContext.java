@@ -6,7 +6,6 @@ package com.realityshard.container.gameapp;
 
 import com.realityshard.container.utils.Pacemaker;
 import com.realityshard.shardlet.*;
-import com.realityshard.shardlet.events.GameAppCreatedEvent;
 import com.realityshard.shardlet.events.NetworkClientDisconnectedEvent;
 import java.util.List;
 import java.util.Map;

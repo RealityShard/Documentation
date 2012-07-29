@@ -7,7 +7,6 @@ package com.realityshard.container.gameapp;
 import com.realityshard.shardlet.*;
 import java.io.InputStream;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -26,7 +25,7 @@ public abstract class GenericContext implements ShardletContext
     
     protected List<ShardletActionVerifier> normalClientVerifiers;
     protected List<ShardletActionVerifier> persistantClientVerifiers;
-    private Map<String, Object> attributes;
+    private volatile Object attachment;
     
     
     /**
@@ -36,7 +35,6 @@ public abstract class GenericContext implements ShardletContext
     {
         normalClientVerifiers = new ArrayList<>();
         persistantClientVerifiers = new ArrayList<>();
-        attributes = new ConcurrentHashMap<>();
     }
 
     
@@ -206,53 +204,27 @@ public abstract class GenericContext implements ShardletContext
         return Collections.enumeration(initParams.keySet());
     }
 
-    
+  
     /**
      * Getter.
      * 
-     * @param       name
-     * @return      The value of the attribute if found
+     * @return
      */
     @Override
-    public Object getAttribute(String name) 
+    public Object getAttachment() 
     {
-        return attributes.get(name);
+        return attachment;
     }
 
-    
-    /**
-     * Getter.
-     * 
-     * @return      A list of all possible attribute names
-     */
-    @Override
-    public Enumeration<String> getAttributeNames() 
-    {
-        return Collections.enumeration(attributes.keySet());
-    }
 
-    
     /**
      * Setter.
      * 
-     * @param       name                    The name of the new attribute
-     * @param       object                  The value of the attribute
+     * @param       attachment
      */
     @Override
-    public void setAttribute(String name, Object object) 
+    public void setAttachment(Object attachment) 
     {
-        attributes.put(name, object);
-    }
-    
-    
-    /**
-     * Deletes an attribute from the attribute collection, if it exists
-     * 
-     * @param       name                    Name of the attribute that will be deleted.
-     */
-    @Override
-    public void removeAttribute(String name) 
-    {
-        attributes.remove(name);
+        this.attachment = attachment;
     }
 }
