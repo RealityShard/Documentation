@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Protocol name="FakeProtocol" port="7112">
-    
-    <ProtocolFilter name="TestProtocolFilter" class="com.realityshard.shardlet.gameapp.ProtocolFilterTest" in="true" out="true">
-        <InitParam name="testParam" value="Log me, i'm a protocol filter init parameter!" />
-    </ProtocolFilter>
-    
-</Protocol>
-
