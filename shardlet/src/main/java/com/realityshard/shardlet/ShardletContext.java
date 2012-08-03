@@ -7,6 +7,7 @@ package com.realityshard.shardlet;
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Map;
+import java.util.concurrent.ScheduledExecutorService;
 
 
 /**
@@ -60,6 +61,17 @@ public interface ShardletContext
      * @return      The event aggregator bound to this context. 
      */
     public EventAggregator getAggregator();
+    
+    
+    /**
+     * Getter.
+     * 
+     * Beware of this method! This is not to be abused!
+     * 
+     * @return      The reference to the application-global executor.
+     *              that's the actual thread pool manager.
+     */
+    public ScheduledExecutorService getExecutor();
     
     
     /**

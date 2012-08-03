@@ -140,6 +140,7 @@ public class ContextManager
                         .start()
                         .useManager(this)
                         .useAggregator(new ConcurrentEventAggregator(executor))
+                        .useExecutor(executor)
                         .useClassloader(cl)
                         .useName(gaConf.getAppInfo().getDisplayName())
                         .useDescription(gaConf.getAppInfo().getDescription())

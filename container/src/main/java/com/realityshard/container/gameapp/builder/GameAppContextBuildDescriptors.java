@@ -40,7 +40,16 @@ public interface GameAppContextBuildDescriptors
      */
     public interface BuildEventAggregator 
     {
-        public BuildClassloader useAggregator(EventAggregator aggregator);
+        public BuildExecutor useAggregator(EventAggregator aggregator);
+    }
+    
+    
+    /**
+     * Build step: add the executor
+     */
+    public interface BuildExecutor
+    {
+        public BuildClassloader useExecutor(ScheduledExecutorService executor);
     }
     
     

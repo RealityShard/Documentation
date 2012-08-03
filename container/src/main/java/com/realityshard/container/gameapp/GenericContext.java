@@ -7,6 +7,7 @@ package com.realityshard.container.gameapp;
 import com.realityshard.shardlet.*;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.ScheduledExecutorService;
 
 
 /**
@@ -19,6 +20,7 @@ public abstract class GenericContext implements ShardletContext
 {
     
     protected EventAggregator aggregator;
+    protected ScheduledExecutorService executor;
     protected String name;
     protected String description;                  // TODO: not accessible from the shardlets... why?
     protected Map<String, String> initParams;
@@ -86,6 +88,18 @@ public abstract class GenericContext implements ShardletContext
     public EventAggregator getAggregator() 
     {
         return aggregator;
+    }
+    
+    
+    /**
+     * Getter.
+     * 
+     * @return      The global executor (a thread pool manager)
+     */
+    @Override
+    public ScheduledExecutorService getExecutor()
+    {
+        return executor;
     }
 
     

@@ -10,6 +10,7 @@ import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildClassloader;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildDescription;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildEventAggregator;
+import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildExecutor;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildInfo;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildInitParams;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildManager;
@@ -39,6 +40,7 @@ import java.util.concurrent.ScheduledExecutorService;
 public final class GameAppContextFluentBuilder extends GameAppContext implements
         BuildManager,
         BuildEventAggregator,
+        BuildExecutor,
         BuildClassloader,
         BuildInfo,
         BuildName,
@@ -92,9 +94,23 @@ public final class GameAppContextFluentBuilder extends GameAppContext implements
      * @return 
      */
     @Override
-    public BuildClassloader useAggregator(EventAggregator aggregator) 
+    public BuildExecutor useAggregator(EventAggregator aggregator) 
     {
         this.aggregator = aggregator;
+        return this;
+    }
+    
+    
+    /**
+     * Step.
+     * 
+     * @param       executor
+     * @return 
+     */
+    @Override
+    public BuildClassloader useExecutor(ScheduledExecutorService executor) 
+    {
+        this.executor = executor;
         return this;
     }
 
