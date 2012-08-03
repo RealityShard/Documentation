@@ -5,7 +5,6 @@
 package com.realityshard.container.gameapp;
 
 import com.realityshard.shardlet.*;
-import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -27,7 +26,6 @@ public abstract class GenericContext implements ShardletContext
     
     protected List<ShardletActionVerifier> normalClientVerifiers;
     protected List<ShardletActionVerifier> persistantClientVerifiers;
-    private volatile Object attachment;
     
     
     /**
@@ -100,20 +98,6 @@ public abstract class GenericContext implements ShardletContext
     public ScheduledExecutorService getExecutor()
     {
         return executor;
-    }
-
-    
-    /**
-     * Getter.
-     * Not supported yet.
-     * 
-     * @param       path                    The relative path to the ressource
-     * @return      The ressource as input stream
-     */
-    @Override
-    public InputStream getResourceAsStream(String path) 
-    {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     
@@ -216,29 +200,5 @@ public abstract class GenericContext implements ShardletContext
     public Enumeration<String> getInitParameterNames() 
     {
         return Collections.enumeration(initParams.keySet());
-    }
-
-  
-    /**
-     * Getter.
-     * 
-     * @return
-     */
-    @Override
-    public Object getAttachment() 
-    {
-        return attachment;
-    }
-
-
-    /**
-     * Setter.
-     * 
-     * @param       attachment
-     */
-    @Override
-    public void setAttachment(Object attachment) 
-    {
-        this.attachment = attachment;
     }
 }

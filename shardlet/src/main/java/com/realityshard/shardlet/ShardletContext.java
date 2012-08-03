@@ -4,7 +4,6 @@
 
 package com.realityshard.shardlet;
 
-import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
@@ -72,18 +71,6 @@ public interface ShardletContext
      *              that's the actual thread pool manager.
      */
     public ScheduledExecutorService getExecutor();
-    
-    
-    /**
-     * Returns the resource located at the named path as
-     * an <code>InputStream</code> object. 
-     *
-     * @param       path                    The resource path
-     * @return      The <code>InputStream</code> returned to the 
-     *              Shardlet, or <code>null</code> if no resource
-     *              exists at the specified path 
-     */
-    public InputStream getResourceAsStream(String path);
     
     
     /**
@@ -171,30 +158,6 @@ public interface ShardletContext
      * @return      All parameter names (the keys without values)
      */
     public Enumeration<String> getInitParameterNames();
-
-
-    /**
-     * Getter.
-     * Returns your context-specific data that you attached to this context,
-     * or null if there was nothing attached.
-     * 
-     * @return      The context-specific data.
-     */
-    public Object getAttachment();
-
-
-    /**
-     * Setter.
-     * This adds any context specific data to this session.
-     * 
-     * Beware of casting exceptions! You may want to have a single class
-     * that manages all context specific data and only use that one as
-     * an attachment
-     * 
-     * @param       attachment              The context-specific data. 
-     */
-    public void setAttachment(Object attachment);
-
 }
 
 
