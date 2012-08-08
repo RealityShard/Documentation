@@ -2,8 +2,10 @@
  * For copyright information see the LICENSE document.
  */
 
-package com.realityshard.shardlet;
+package com.realityshard.shardlet.utils;
 
+import com.realityshard.shardlet.EventAggregator;
+import com.realityshard.shardlet.TriggerableAction;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 
@@ -20,7 +22,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  * 
  * @author _rusty
  */
-public class GenericEventAction extends GenericAction implements ShardletEventAction
+public class GenericTriggerableAction extends GenericAction implements TriggerableAction
 {
     
     /**

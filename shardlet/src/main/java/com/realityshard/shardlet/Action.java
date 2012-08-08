@@ -18,7 +18,7 @@ import java.nio.ByteBuffer;
  * 
  * @author _rusty
  */
-public interface ShardletAction
+public interface Action
 {
     
     public enum States 

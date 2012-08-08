@@ -27,7 +27,7 @@ public interface ShardletContext
      * 
      * @param       action 
      */
-    public void sendAction(ShardletAction action);
+    public void sendAction(Action action);
     
 
     /**
@@ -63,17 +63,6 @@ public interface ShardletContext
     
     
     /**
-     * Getter.
-     * 
-     * Beware of this method! This is not to be abused!
-     * 
-     * @return      The reference to the application-global executor.
-     *              that's the actual thread pool manager.
-     */
-    public ScheduledExecutorService getExecutor();
-    
-    
-    /**
      * Adds a new decider to the list. If we have a new client,
      * the context will run through the deciders checking if one of them
      * accepts the client.
@@ -93,7 +82,7 @@ public interface ShardletContext
      * @param       isPersistant            See above description. Should only be true
      *                                      if you want to auto-accept new clients.
      */
-    public void addClientVerifier(ShardletActionVerifier verifier, boolean isPersistant);
+    public void addClientVerifier(ClientVerifier verifier, boolean isPersistant);
     
     
     /**
@@ -139,7 +128,7 @@ public interface ShardletContext
      * @param       action                  The event-action that will be used in the remote
      *                                      context to trigger the desired concrete event
      */
-    public void sendRemoteEventAction(ShardletEventAction action);
+    public void sendRemoteEventAction(TriggerableAction action);
     
     
     /**

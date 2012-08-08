@@ -2,7 +2,10 @@
  * For copyright information see the LICENSE document.
  */
 
-package com.realityshard.shardlet;
+package com.realityshard.shardlet.events;
+
+import com.realityshard.shardlet.Event;
+import com.realityshard.shardlet.Action;
 
 /**
  * An event that is able to hold a ShardletAction payload
@@ -18,5 +21,5 @@ public interface ActionEvent extends Event
      * 
      * @return      The <code>ShardletAction</code> of the event (a.k.a. the network message or payload)
      */
-    public ShardletAction getAction();
+    public Action getAction();
 }

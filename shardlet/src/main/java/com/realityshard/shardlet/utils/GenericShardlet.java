@@ -2,8 +2,14 @@
  * For copyright information see the LICENSE document.
  */
 
-package com.realityshard.shardlet;
+package com.realityshard.shardlet.utils;
 
+import com.realityshard.shardlet.Action;
+import com.realityshard.shardlet.ConfigShardlet;
+import com.realityshard.shardlet.Event;
+import com.realityshard.shardlet.EventAggregator;
+import com.realityshard.shardlet.Shardlet;
+import com.realityshard.shardlet.ShardletContext;
 import java.util.Enumeration;
 
 
@@ -94,7 +100,7 @@ public abstract  class GenericShardlet implements Shardlet, ConfigShardlet
      * @param       action                  A valid action with attached Session
      *                                      and a valid protocol string.
      */
-    protected final void sendAction(ShardletAction action)
+    protected final void sendAction(Action action)
     {
         context.sendAction(action);
     }

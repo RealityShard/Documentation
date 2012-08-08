@@ -4,8 +4,7 @@
 
 package com.realityshard.shardlet.events;
 
-import com.realityshard.shardlet.ActionEvent;
-import com.realityshard.shardlet.ShardletAction;
+import com.realityshard.shardlet.Action;
 
 
 /**
@@ -17,7 +16,7 @@ import com.realityshard.shardlet.ShardletAction;
 public final class NetworkClientConnectedEvent implements ActionEvent
 {
     
-    private final ShardletAction action;
+    private final Action action;
 
     
     /**
@@ -25,7 +24,7 @@ public final class NetworkClientConnectedEvent implements ActionEvent
      * 
      * @param       action                  The first message from the new client
      */
-    public NetworkClientConnectedEvent(ShardletAction action)
+    public NetworkClientConnectedEvent(Action action)
     {
         this.action = action;
     }
@@ -37,7 +36,7 @@ public final class NetworkClientConnectedEvent implements ActionEvent
      * @return      The action that carries the first message from the client 
      */
     @Override
-    public ShardletAction getAction() 
+    public Action getAction() 
     {
         return action;
     }

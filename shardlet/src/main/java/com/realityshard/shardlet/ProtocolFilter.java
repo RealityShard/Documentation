@@ -42,7 +42,7 @@ public interface ProtocolFilter
      *              you don't need to return broken packets / fragments.
      * @throws      IOException             The usual I/O stuff
      */
-    public List<ShardletEventAction> doInFilter(ShardletEventAction action)
+    public List<TriggerableAction> doInFilter(TriggerableAction action)
             throws IOException;
     
     
@@ -56,6 +56,6 @@ public interface ProtocolFilter
      *              serialized action/packet
      * @throws      IOException             The usual I/O stuff
      */
-    public ShardletAction doOutFilter(ShardletAction action)
+    public Action doOutFilter(Action action)
             throws IOException;
 }

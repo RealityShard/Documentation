@@ -5,8 +5,8 @@
 package com.realityshard.shardlet.events;
 
 import com.realityshard.shardlet.EventAggregator;
-import com.realityshard.shardlet.GenericEventAction;
 import com.realityshard.shardlet.ShardletContext;
+import com.realityshard.shardlet.utils.GenericTriggerableAction;
 
 
 /**
@@ -17,7 +17,7 @@ import com.realityshard.shardlet.ShardletContext;
  * 
  * @author _rusty
  */
-public final class GameAppCreatedEvent extends GenericEventAction
+public final class GameAppCreatedEvent extends GenericTriggerableAction
 {
     
     private final ShardletContext parent;

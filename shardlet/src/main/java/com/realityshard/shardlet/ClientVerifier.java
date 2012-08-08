@@ -12,7 +12,7 @@ package com.realityshard.shardlet;
  * 
  * @author _rusty
  */
-public interface ShardletActionVerifier 
+public interface ClientVerifier 
 {
     
     /**
@@ -25,5 +25,5 @@ public interface ShardletActionVerifier
      *                                      new client.
      * @return      True if we want to accept the client, and false if we don't
      */
-    public boolean check(ShardletAction action);
+    public boolean check(Action action);
 }

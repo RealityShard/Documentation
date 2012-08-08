@@ -2,8 +2,10 @@
  * For copyright information see the LICENSE document.
  */
 
-package com.realityshard.shardlet;
+package com.realityshard.shardlet.utils;
 
+import com.realityshard.shardlet.Session;
+import com.realityshard.shardlet.Action;
 import java.nio.ByteBuffer;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -15,7 +17,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  * 
  * @author _rusty
  */
-public class GenericAction implements ShardletAction
+public class GenericAction implements Action
 {
 
     private String protocol;

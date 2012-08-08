@@ -16,7 +16,7 @@ package com.realityshard.shardlet;
  * 
  * @author _rusty
  */
-public interface ShardletEventAction extends Event, ShardletAction
+public interface TriggerableAction extends Event, Action
 {
     
     /**
