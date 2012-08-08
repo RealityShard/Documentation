@@ -6,8 +6,8 @@ package com.realityshard.container.utils;
 
 import com.realityshard.shardlet.ConfigProtocolFilter;
 import com.realityshard.shardlet.ProtocolFilter;
-import com.realityshard.shardlet.ShardletAction;
-import com.realityshard.shardlet.ShardletEventAction;
+import com.realityshard.shardlet.Action;
+import com.realityshard.shardlet.TriggerableAction;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,7 +69,7 @@ public class ProtocolChain implements ProtocolFilter
      * @throws      IOException             If any filter threw it.
      */
     @Override
-    public List<ShardletEventAction> doInFilter(ShardletEventAction action) 
+    public List<TriggerableAction> doInFilter(TriggerableAction action) 
             throws IOException
     {
         // this system should work the following way:
@@ -84,17 +84,17 @@ public class ProtocolChain implements ProtocolFilter
         // that will be used as input for the next filter.
         
         // init the result list (that will transfer the actions between the filters)
-        List<ShardletEventAction> result = new ArrayList<>(Arrays.asList(action));
+        List<TriggerableAction> result = new ArrayList<>(Arrays.asList(action));
         
         // we need to save the results temporarily, so lets use a new list:
-        List<ShardletEventAction> tmpResult = new ArrayList<>();
+        List<TriggerableAction> tmpResult = new ArrayList<>();
         
         for (ProtocolFilter protocolFilter : incomingFilters) 
         {           
             // pass the action through the filters
             // note that "result" may be filled with other actions that completed suddenly
             // so we need to process each of them separately
-            for (ShardletEventAction tmpAction : result) 
+            for (TriggerableAction tmpAction : result) 
             {
                 // also, we cannot modify result while it is processed, so
                 // we'll temporarily save the results:
@@ -122,10 +122,10 @@ public class ProtocolChain implements ProtocolFilter
      * @throws      IOException             If any filter threw it.
      */
     @Override
-    public ShardletAction doOutFilter(ShardletAction action) 
+    public Action doOutFilter(Action action) 
             throws IOException
     {
-        ShardletAction result = null;
+        Action result = null;
         
         // do the usual filtering (less complex because theres only ONE action)
         for (ProtocolFilter protocolFilter : outgoingFilters) 

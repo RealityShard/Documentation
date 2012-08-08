@@ -10,10 +10,21 @@
     <parent>
         <groupId>com.realityshard</groupId>
         <artifactId>reality-shard</artifactId>
-        <version>0.1.0_RC2</version>
+        <version>0.1.1</version>
     </parent>
 
 
     <description>The network manager, that provides a network interface.</description>
+    
+    
+    <dependencies>
+        <!--the Shardlet API-->
+        <dependency>
+            <groupId>com.realityshard</groupId>
+            <artifactId>shardlet</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
 
 </project> 

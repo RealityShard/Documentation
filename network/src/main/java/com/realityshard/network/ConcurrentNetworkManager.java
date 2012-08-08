@@ -4,6 +4,7 @@
 
 package com.realityshard.network;
 
+import com.realityshard.shardlet.GlobalExecutor;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -65,10 +66,10 @@ public final class ConcurrentNetworkManager
      *                                      will be scheduled.
      * @throws      IOException             If the selector could not be created
      */
-    public ConcurrentNetworkManager(ScheduledExecutorService executor, int bufferSize, int executionInterval) 
+    public ConcurrentNetworkManager(int bufferSize, int executionInterval) 
             throws IOException
     {
-        this.executor = executor;
+        this.executor = GlobalExecutor.get();
         this.bufferSize = bufferSize;
         
         readSelector = Selector.open();

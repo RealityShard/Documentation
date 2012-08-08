@@ -6,7 +6,6 @@ package com.realityshard.container.gameapp;
 
 import com.realityshard.shardlet.*;
 import java.util.*;
-import java.util.concurrent.ScheduledExecutorService;
 
 
 /**
@@ -19,13 +18,12 @@ public abstract class GenericContext implements ShardletContext
 {
     
     protected EventAggregator aggregator;
-    protected ScheduledExecutorService executor;
     protected String name;
     protected String description;                  // TODO: not accessible from the shardlets... why?
     protected Map<String, String> initParams;
     
-    protected List<ShardletActionVerifier> normalClientVerifiers;
-    protected List<ShardletActionVerifier> persistantClientVerifiers;
+    protected List<ClientVerifier> normalClientVerifiers;
+    protected List<ClientVerifier> persistantClientVerifiers;
     
     
     /**
@@ -48,7 +46,7 @@ public abstract class GenericContext implements ShardletContext
      * @param       action 
      */
     @Override
-    public abstract void sendAction(ShardletAction action);
+    public abstract void sendAction(Action action);
     
     
     /**
@@ -90,18 +88,6 @@ public abstract class GenericContext implements ShardletContext
     
     
     /**
-     * Getter.
-     * 
-     * @return      The global executor (a thread pool manager)
-     */
-    @Override
-    public ScheduledExecutorService getExecutor()
-    {
-        return executor;
-    }
-    
-    
-    /**
      * Adds a new decider to the list. If we have a new client,
      * the context will run through the deciders checking if one of them
      * accepts the client.
@@ -112,7 +98,7 @@ public abstract class GenericContext implements ShardletContext
      *                                      if you want to auto-accept new clients.
      */
     @Override
-    public void addClientVerifier(ShardletActionVerifier verifier, boolean isPersistant)
+    public void addClientVerifier(ClientVerifier verifier, boolean isPersistant)
     {
         if (isPersistant)
         {
@@ -175,7 +161,7 @@ public abstract class GenericContext implements ShardletContext
      *                                      context to trigger the desired concrete event
      */
     @Override
-    public abstract void sendRemoteEventAction(ShardletEventAction action);
+    public abstract void sendRemoteEventAction(TriggerableAction action);
         
     
     /**

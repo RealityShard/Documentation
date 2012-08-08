@@ -11,9 +11,10 @@ import com.realityshard.container.utils.JaxbUtils;
 import com.realityshard.network.NetworkConnector;
 import com.realityshard.network.NetworkLayer;
 import com.realityshard.schemas.serverconfig.ServerConfig;
-import com.realityshard.shardlet.GenericEventAction;
+import com.realityshard.shardlet.Action;
+import com.realityshard.shardlet.GlobalExecutor;
 import com.realityshard.shardlet.Session;
-import com.realityshard.shardlet.ShardletAction;
+import com.realityshard.shardlet.utils.GenericTriggerableAction;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -55,8 +56,6 @@ public final class ContainerFacade
      * Constructor.
      * 
      * @param       network                 The network manager of this application
-     * @param       executor                The default thread scheduler, provided and
-     *                                      created by the host application
      * @param       configPath              The path to the server config file
      * @param       schemaPath              The path to the schema file to validate the
      *                                      XML server config file
@@ -65,7 +64,7 @@ public final class ContainerFacade
      * @throws      Exception               If there was any fatal error that keeps this
      *                                      container from being able to be executed
      */
-    public ContainerFacade(NetworkLayer network, ScheduledExecutorService executor, File configPath, File schemaPath, File protocolsPath, File gameAppsPath) 
+    public ContainerFacade(NetworkLayer network, File configPath, File schemaPath, File protocolsPath, File gameAppsPath) 
             throws Exception
     {
         // the network manager will handle the networking stuff,
@@ -77,7 +76,7 @@ public final class ContainerFacade
         // every internal event listener below will automatically be running parallel
         // depending on the executors decision, because when an event is triggered,
         // the event-aggregator will direct the event-handler invocations to the executor
-        this.executor = executor;
+        this.executor = GlobalExecutor.get();
         
         // try to load the server config
         // as this is usually where the most errors come from,
@@ -100,7 +99,6 @@ public final class ContainerFacade
         contextManager = ContextManagerFluentBuilder
                 .start()
                 .useAdapter(this)          // can this be avoided?
-                .useExecuter(executor)
                 .useServerConfig(serverConfig)
                 .useProtocolSchema(concreteProtocolSchema)
                 .useGameAppSchema(concreteGameAppSchema)
@@ -142,7 +140,7 @@ public final class ContainerFacade
      * @param       action 
      */
     @Override
-    public void handleOutgoingNetworkAction(ShardletAction action)
+    public void handleOutgoingNetworkAction(Action action)
     {
         try
         {
@@ -210,7 +208,7 @@ public final class ContainerFacade
         
         if (session != null)
         {
-            GenericEventAction action = new GenericEventAction();
+            GenericTriggerableAction action = new GenericTriggerableAction();
             action.init(session);
             action.setBuffer(rawData);
             

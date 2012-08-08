@@ -57,14 +57,14 @@ public class GameAppContext extends GenericContext
      * @param       action                  The first message send by the new client
      * @return  
      */
-    public boolean acceptClient(ShardletEventAction action)
+    public boolean acceptClient(TriggerableAction action)
     {
-        ShardletActionVerifier acceptedVerifier = null;
+        ClientVerifier acceptedVerifier = null;
         
         
         // ask our verifiers...
         // the non persistant first
-        for (ShardletActionVerifier shardletActionVerifier : normalClientVerifiers) 
+        for (ClientVerifier shardletActionVerifier : normalClientVerifiers) 
         {
             if (shardletActionVerifier.check(action))
             {
@@ -96,7 +96,7 @@ public class GameAppContext extends GenericContext
         
         
         // now ask the persistant verifiers
-        for (ShardletActionVerifier shardletActionVerifier : persistantClientVerifiers) 
+        for (ClientVerifier shardletActionVerifier : persistantClientVerifiers) 
         {
             if (shardletActionVerifier.check(action))
             {
@@ -133,7 +133,7 @@ public class GameAppContext extends GenericContext
      * 
      * @param action 
      */
-    public void handleIncomingAction(ShardletEventAction action)
+    public void handleIncomingAction(TriggerableAction action)
     {
         // send the event to the aggregator,
         // indirectly invoking the shardlets that handle new
@@ -153,7 +153,7 @@ public class GameAppContext extends GenericContext
      * @param       action 
      */
     @Override
-    public void sendAction(ShardletAction action) 
+    public void sendAction(Action action) 
     {
         // redirect the action to the context manager
         manager.sendAction(action);
@@ -201,7 +201,7 @@ public class GameAppContext extends GenericContext
      *                                      context to trigger the desired concrete event
      */
     @Override
-    public void sendRemoteEventAction(ShardletEventAction action) 
+    public void sendRemoteEventAction(TriggerableAction action) 
     {
         // :D
         handleIncomingAction(action);

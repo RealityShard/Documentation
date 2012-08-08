@@ -6,6 +6,7 @@ package com.realityshard.host;
 
 import com.realityshard.container.ContainerFacade;
 import com.realityshard.network.ConcurrentNetworkManager;
+import com.realityshard.shardlet.GlobalExecutor;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -69,14 +70,18 @@ public final class HostApplication
         // TODO: check if the implementation is appropriate
         ScheduledExecutorService executor = new ScheduledThreadPoolExecutor(12);
         
+        // ok, we can now define the executor as global...
+        // this can actually be done within the API
+        GlobalExecutor.init(executor);
+        
         // we need a new concurrent network manager here
         // note that this has to be a concrete implementation atm
         ConcurrentNetworkManager netMan = null;
         try 
         {
-            // using a CPU - load reducing looping here atm
+            // TODO: BUG! using a CPU - load reducing looping here atm
             // (will have to switch to some more sophisticated implementation of NetMan in the future)
-            netMan = new ConcurrentNetworkManager(executor, 512, 1000);
+            netMan = new ConcurrentNetworkManager(512, 1000);
         } 
         catch (IOException ex) 
         {
@@ -88,7 +93,7 @@ public final class HostApplication
         try 
         {
             // create the container
-            ContainerFacade container = new ContainerFacade(netMan, executor, configPath, schemaPath, protocolsPath, gameAppsPath);
+            ContainerFacade container = new ContainerFacade(netMan, configPath, schemaPath, protocolsPath, gameAppsPath);
         } 
         catch (Exception ex) 
         {

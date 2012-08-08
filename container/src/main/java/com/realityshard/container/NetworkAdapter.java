@@ -5,7 +5,7 @@
 package com.realityshard.container;
 
 import com.realityshard.shardlet.Session;
-import com.realityshard.shardlet.ShardletAction;
+import com.realityshard.shardlet.Action;
 import java.io.IOException;
 
 
@@ -34,7 +34,7 @@ public interface NetworkAdapter
      *
      * @param       action
      */
-    void handleOutgoingNetworkAction(ShardletAction action);
+    void handleOutgoingNetworkAction(Action action);
 
     
     /**

@@ -11,10 +11,10 @@ import com.realityshard.container.utils.ClassLoaderFactory;
 import com.realityshard.container.utils.ProtocolChain;
 import com.realityshard.schemas.gameapp.GameApp;
 import com.realityshard.schemas.serverconfig.ServerConfig;
+import com.realityshard.shardlet.Action;
 import com.realityshard.shardlet.Session;
-import com.realityshard.shardlet.ShardletAction;
 import com.realityshard.shardlet.ShardletContext;
-import com.realityshard.shardlet.ShardletEventAction;
+import com.realityshard.shardlet.TriggerableAction;
 import com.realityshard.shardlet.events.GameAppCreatedEvent;
 import com.realityshard.shardlet.utils.ConcurrentEventAggregator;
 import java.io.File;
@@ -77,8 +77,6 @@ public class ContextManager
     
     protected NetworkAdapter adapter;
     
-    protected ScheduledExecutorService executor;
-    
     protected File protocolSchema;
     protected File gameAppSchema;
     
@@ -139,12 +137,11 @@ public class ContextManager
                 GameAppContext context = GameAppContextFluentBuilder
                         .start()
                         .useManager(this)
-                        .useAggregator(new ConcurrentEventAggregator(executor))
-                        .useExecutor(executor)
+                        .useAggregator(new ConcurrentEventAggregator())
                         .useClassloader(cl)
                         .useName(gaConf.getAppInfo().getDisplayName())
                         .useDescription(gaConf.getAppInfo().getDescription())
-                        .useHeartBeat(executor, gaConf.getAppInfo().getHeartBeat().intValue())
+                        .useHeartBeat(gaConf.getAppInfo().getHeartBeat().intValue())
                         .useInitParams(gaConf.getAppInfo().getInitParam(), additionalParams)
                         .useShardlets(gaConf.getShardlet())
                         .build();
@@ -181,7 +178,7 @@ public class ContextManager
      * 
      * @param       action 
      */
-    public void handleIncomingAction(ShardletAction action)
+    public void handleIncomingAction(Action action)
     {
         
         // try to decrypt and serialze the action before using it:
@@ -191,7 +188,7 @@ public class ContextManager
         // we may have a list of action after using the protocol chain.
         // we may also have no action at all 
         // (if the packet send by the client was incomplete)
-        List<ShardletEventAction> filteredActions = new ArrayList<>();
+        List<TriggerableAction> filteredActions = new ArrayList<>();
         try 
         {
             // try decrypt/parse packet (or whatever else is done by the filters
@@ -201,7 +198,7 @@ public class ContextManager
             if (prot != null)
             {
                 // possible BUG TODO is this cast necessary?
-                filteredActions = prot.doInFilter((ShardletEventAction)action);
+                filteredActions = prot.doInFilter((TriggerableAction)action);
             }
             else
             {
@@ -220,7 +217,7 @@ public class ContextManager
         // (remember: doInFilter may output more than one filter!)
         // we need to delegate each action to the game app it was made for:
         
-        for (ShardletEventAction filAction : filteredActions) 
+        for (TriggerableAction filAction : filteredActions) 
         {
         
             // try to delegate this action to a game app
@@ -275,10 +272,10 @@ public class ContextManager
      * 
      * @param       action 
      */
-    public void sendAction(ShardletAction action) 
+    public void sendAction(Action action) 
     {
         // try to encrypt and serialze the action before using it:
-        ShardletAction filteredAction = null;
+        Action filteredAction = null;
         try 
         {
             // try encrypt/parse packet (or whatever else is done by the filters

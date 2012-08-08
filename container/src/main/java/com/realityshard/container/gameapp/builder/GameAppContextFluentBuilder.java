@@ -10,7 +10,6 @@ import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildClassloader;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildDescription;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildEventAggregator;
-import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildExecutor;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildInfo;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildInitParams;
 import com.realityshard.container.gameapp.builder.GameAppContextBuildDescriptors.BuildManager;
@@ -40,7 +39,6 @@ import java.util.concurrent.ScheduledExecutorService;
 public final class GameAppContextFluentBuilder extends GameAppContext implements
         BuildManager,
         BuildEventAggregator,
-        BuildExecutor,
         BuildClassloader,
         BuildInfo,
         BuildName,
@@ -94,23 +92,9 @@ public final class GameAppContextFluentBuilder extends GameAppContext implements
      * @return 
      */
     @Override
-    public BuildExecutor useAggregator(EventAggregator aggregator) 
+    public BuildClassloader useAggregator(EventAggregator aggregator) 
     {
         this.aggregator = aggregator;
-        return this;
-    }
-    
-    
-    /**
-     * Step.
-     * 
-     * @param       executor
-     * @return 
-     */
-    @Override
-    public BuildClassloader useExecutor(ScheduledExecutorService executor) 
-    {
-        this.executor = executor;
         return this;
     }
 
@@ -144,7 +128,7 @@ public final class GameAppContextFluentBuilder extends GameAppContext implements
         // parts directly (but thats just an option)
         return this.useName(info.getDisplayName())
             .useDescription(info.getDescription())
-            .useHeartBeat(executor, info.getHeartBeat().intValue())
+            .useHeartBeat(info.getHeartBeat().intValue())
             .useInitParams(info.getInitParam());
     }
     
@@ -185,9 +169,9 @@ public final class GameAppContextFluentBuilder extends GameAppContext implements
      * @return 
      */
     @Override
-    public BuildInitParams useHeartBeat(ScheduledExecutorService executor, int milliseconds) 
+    public BuildInitParams useHeartBeat(int milliseconds) 
     {
-        pacemaker = new Pacemaker(executor, aggregator, milliseconds);
+        pacemaker = new Pacemaker(aggregator, milliseconds);
         return this;
     }
     
@@ -296,7 +280,7 @@ public final class GameAppContextFluentBuilder extends GameAppContext implements
             shardlets.add(newInst);
 
             // add it to the aggregator
-            aggregator.addListener(newInst);
+            aggregator.register(newInst);
         }
         
         // we'r done, return the updated object
@@ -319,7 +303,7 @@ public final class GameAppContextFluentBuilder extends GameAppContext implements
             this.shardlets.add(shardlet);
 
             // add it to the aggregator
-            aggregator.addListener(shardlet);
+            aggregator.register(shardlet);
         }
         
         return this;

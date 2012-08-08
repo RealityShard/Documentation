@@ -40,16 +40,7 @@ public interface GameAppContextBuildDescriptors
      */
     public interface BuildEventAggregator 
     {
-        public BuildExecutor useAggregator(EventAggregator aggregator);
-    }
-    
-    
-    /**
-     * Build step: add the executor
-     */
-    public interface BuildExecutor
-    {
-        public BuildClassloader useExecutor(ScheduledExecutorService executor);
+        public BuildClassloader useAggregator(EventAggregator aggregator);
     }
     
     
@@ -102,7 +93,7 @@ public interface GameAppContextBuildDescriptors
      */
     public interface BuildPacemaker 
     {
-        public BuildInitParams useHeartBeat(ScheduledExecutorService executor, int milliseconds);
+        public BuildInitParams useHeartBeat(int milliseconds);
         public BuildInitParams usePacemaker(Pacemaker pacemaker);
     }
     

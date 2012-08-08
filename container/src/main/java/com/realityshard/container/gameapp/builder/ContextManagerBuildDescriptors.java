@@ -25,16 +25,7 @@ public interface ContextManagerBuildDescriptors
      */
     public interface BuildNetworkAdapter
     {
-        public BuildExecuter useAdapter(NetworkAdapter adapter);
-    }
-    
-    
-    /**
-     * Build step: set excuter
-     */
-    public interface BuildExecuter
-    {
-        public BuildServerConfig useExecuter(ScheduledExecutorService executor);
+        public BuildServerConfig useAdapter(NetworkAdapter adapter);
     }
     
     

@@ -5,6 +5,7 @@
 package com.realityshard.container.utils;
 
 import com.realityshard.shardlet.EventAggregator;
+import com.realityshard.shardlet.GlobalExecutor;
 import com.realityshard.shardlet.events.HeartBeatEvent;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -37,9 +38,9 @@ public class Pacemaker
      *                                      The time intervall in miliseconds, that this pacemaker will
      *                                      be executed.
      */
-    public Pacemaker(ScheduledExecutorService executor, EventAggregator outputEventAggregator, int milliSecondTimeIntervall)
+    public Pacemaker(EventAggregator outputEventAggregator, int milliSecondTimeIntervall)
     {
-        this.excecutor = executor;
+        this.excecutor = GlobalExecutor.get();
         this.outputEventAggregator = outputEventAggregator;
         this.milliSecondTimeIntervall = milliSecondTimeIntervall;
     }

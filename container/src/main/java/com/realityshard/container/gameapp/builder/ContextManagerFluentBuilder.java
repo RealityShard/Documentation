@@ -6,9 +6,7 @@ package com.realityshard.container.gameapp.builder;
 
 import com.realityshard.container.NetworkAdapter;
 import com.realityshard.container.gameapp.ContextManager;
-import com.realityshard.container.gameapp.GameAppContext;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.Build;
-import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildExecuter;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildGameAppSchemaFile;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildGameAppStartup;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildGameApps;
@@ -27,15 +25,12 @@ import com.realityshard.schemas.protocol.ProtocolFilterConfig;
 import com.realityshard.schemas.serverconfig.ServerConfig;
 import com.realityshard.shardlet.ConfigProtocolFilter;
 import com.realityshard.shardlet.ProtocolFilter;
-import com.realityshard.shardlet.utils.ConcurrentEventAggregator;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ScheduledExecutorService;
 import javax.xml.bind.JAXBException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +44,6 @@ import org.xml.sax.SAXException;
  */
 public class ContextManagerFluentBuilder extends ContextManager implements
         BuildNetworkAdapter,
-        BuildExecuter,
         BuildServerConfig,
         BuildProtocolSchemaFile,
         BuildGameAppSchemaFile,
@@ -91,23 +85,9 @@ public class ContextManagerFluentBuilder extends ContextManager implements
      * @return 
      */
     @Override
-    public BuildExecuter useAdapter(NetworkAdapter adapter) 
+    public BuildServerConfig useAdapter(NetworkAdapter adapter) 
     {
         this.adapter = adapter;
-        return this;
-    }
-
-    
-    /**
-     * Step.
-     * 
-     * @param       executor
-     * @return 
-     */
-    @Override
-    public BuildServerConfig useExecuter(ScheduledExecutorService executor) 
-    {
-        this.executor = executor;
         return this;
     }
 

@@ -7,6 +7,7 @@ package com.realityshard.shardlet.utils;
 import com.realityshard.shardlet.Event;
 import com.realityshard.shardlet.EventAggregator;
 import com.realityshard.shardlet.EventHandler;
+import com.realityshard.shardlet.GlobalExecutor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -159,11 +160,10 @@ public final class ConcurrentEventAggregator implements EventAggregator
     /**
      * Constructor.
      */
-    public ConcurrentEventAggregator(Executor executor)
+    public ConcurrentEventAggregator()
     {
         // get the executor defined by the application
-        this.executor = executor;
-        
+        this.executor = GlobalExecutor.get();
         eventMapping = new ConcurrentHashMap<>();
     }
     
