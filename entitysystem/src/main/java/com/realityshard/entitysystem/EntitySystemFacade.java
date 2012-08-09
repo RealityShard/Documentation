@@ -7,8 +7,7 @@ package com.realityshard.entitysystem;
 import com.realityshard.shardlet.Event;
 import com.realityshard.shardlet.EventAggregator;
 import com.realityshard.shardlet.utils.ConcurrentEventAggregator;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.List;
 
 
 /**
@@ -17,13 +16,11 @@ import java.util.concurrent.ConcurrentHashMap;
  * 
  * @author _rusty
  */
-public class EntitySystemFacade 
+public final class EntitySystemFacade 
 {
     
     private final EventAggregator aggregator;
-    
     private final ComponentManager compman;
-    private final Map<String, EntityBuildingStrategy> builders;
     
     
     /**
@@ -37,8 +34,7 @@ public class EntitySystemFacade
         // start the aggregator
         aggregator = new ConcurrentEventAggregator();
         
-        compman = new ComponentManager();
-        builders = new ConcurrentHashMap<>();
+        compman = new ComponentManager(aggregator);
     }
     
     
@@ -50,9 +46,20 @@ public class EntitySystemFacade
      *                                      (or whatever we use to describe entities)
      * @return      The newly created entity, or null if nothing has been created.
      */
-    public void buildEntity(EntityBuildingStrategy strategy)
+    public void registerEntity(Entity entity, List<AttributeComponent> attribs, List<BehaviourComponent> behavs)
     {
-        Entity entity = strategy.createEntity(compman, aggregator);
+        // register the single components with the component manager
+        
+        for (AttributeComponent attr : attribs) 
+        {
+            // initialize (step 2) here?
+            compman.registerAttribute(entity, attr);
+        }
+        
+        for (BehaviourComponent behav : behavs)
+        {
+            compman.registerBehaviour(entity, behav);
+        }
     }
     
     
@@ -67,7 +74,7 @@ public class EntitySystemFacade
      */
     public void unregisterEntity(Entity entity)
     {
-        // TODO
+        compman.unregisterComponents(entity);
     }
     
     
@@ -79,8 +86,8 @@ public class EntitySystemFacade
      * @param       entity                  The entity that this event concerns (or null if it concerns all entities)
      * @param       event                   The event that you want to trigger within the E/S
      */
-    public void triggerEntityEvent(Entity entity, Event event)
+    public void triggerEntityEvent(Event event)
     {
-        //aggregator.triggerEntityEvent(entity, event);
+        //TODO
     }
 }

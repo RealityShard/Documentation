@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Controls the components (Attributes/Behaviours)
- * This class is used to access components by entities
+ * This class is used to access components by providing their entities
  * 
  * The ComponentManager currently makes use of several Maps that will
  * be accessible by either the entity or the class of components you are looking for
@@ -27,6 +27,18 @@ public final class ComponentManager
     private final Map<Entity, List<BehaviourComponent>> entityBehavs                                = new ConcurrentHashMap<>();
     private final Map<Class<? extends AttributeComponent>, List<AttributeComponent>> attribs        = new ConcurrentHashMap<>();
     private final Map<Class<? extends BehaviourComponent>, List<BehaviourComponent>> behavs         = new ConcurrentHashMap<>();
+    private final EventAggregator aggregator;
+    
+    
+    /**
+     * Constructor.
+     * 
+     * @param       aggregator              The aggregator of the entity system
+     */
+    public ComponentManager(EventAggregator aggregator)
+    {
+        this.aggregator = aggregator;
+    }
     
     
     /**
@@ -38,6 +50,10 @@ public final class ComponentManager
      */
     public void registerAttribute(Entity entity, AttributeComponent component)
     {
+        // before doing anything, we will call the components init method,
+        // so we can be sure it is actually ready to be used
+        component.init(this, aggregator);
+        
         // check if we already got a record of this entity/component
         List<AttributeComponent> recEntity = entityAttribs.get(entity);
         List<AttributeComponent> recClazz = attribs.get(component.getClass());
@@ -69,6 +85,10 @@ public final class ComponentManager
      */
     public void registerBehaviour(Entity entity, BehaviourComponent component)
     {
+        // before doing anything, we will call the components init method,
+        // so we can be sure it is actually ready to be used
+        component.init(this, aggregator);
+        
         // check if we already got a record of this entity/component
         List<BehaviourComponent> recEntity = entityBehavs.get(entity);
         List<BehaviourComponent> recClazz = behavs.get(component.getClass());
@@ -111,12 +131,20 @@ public final class ComponentManager
         {
             List<AttributeComponent> list = attribs.get(attr.getClass());
             list.remove(attr);
+            
+            // dont forget to remove the handlers from the event aggregator...
+            aggregator.unregisterByImpl(attr);
         }
         for (BehaviourComponent beha : behavsToDel) 
         {
             List<BehaviourComponent> list = behavs.get(beha.getClass());
             list.remove(beha);
+            
+            // dont forget to remove the handlers from the event aggregator...
+            aggregator.unregisterByImpl(beha);
         }
+        
+        
     }
     
     
