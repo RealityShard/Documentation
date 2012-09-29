@@ -25,7 +25,6 @@
         <module>network</module>
         <module>container</module>
         <module>host</module>
-        <module>entitysystem</module>
     </modules>
 
 
