@@ -14,6 +14,8 @@ import java.util.List;
  * Controls the EntitySystem.
  * Use this class to create new entities and manage the EntitySystem.
  * 
+ * Note that an instance of this class will register a new EventAggregator.
+ * 
  * @author _rusty
  */
 public final class EntitySystemFacade 
@@ -25,13 +27,11 @@ public final class EntitySystemFacade
     
     /**
      * Constructor.
-     * 
-     * @param       executor                The global thread pool manager. Use this
-     *                                      parameter to avoid flooding by new-thread-creation.
      */
     public EntitySystemFacade()
     {
         // start the aggregator
+        // NEW: this can now be done by the Aggregator constructor itself
         aggregator = new ConcurrentEventAggregator();
         
         compman = new ComponentManager(aggregator);
@@ -39,7 +39,9 @@ public final class EntitySystemFacade
     
     
     /**
-     * Creates a new entity and returns it's identifier
+     * Register a new entity.
+     * Note: It is recommended to use a class that is derived from GenericEntity.
+     * (Or in most cases, GenericEntity is just fine too)
      * 
      * @param       name                    The name of the entity-type.
      *                                      See the entity builders or XML file
@@ -53,6 +55,7 @@ public final class EntitySystemFacade
         for (AttributeComponent attr : attribs) 
         {
             // initialize (step 2) here?
+            // nope. compman will initialize the components when they are given to it.
             compman.registerAttribute(entity, attr);
         }
         
@@ -66,9 +69,9 @@ public final class EntitySystemFacade
     /**
      * Removes an entity and deletes all its components.
      * 
-     * Note that the builder that created the entity will decide on how to delete it
-     * correctly. (Because the builder knows what the entity consists of, and where
-     * it needs to delete / unsubscribe etc.)
+     * This is done by searching for the components linked to that entity,
+     * and then deleting them from the aggregator and compman (compman actually
+     * does all this automatically)
      * 
      * @param       entity                  The entity reference that we will use to delete the entity
      */
@@ -82,6 +85,8 @@ public final class EntitySystemFacade
      * Trigger an event within the Entity-System.
      * 
      * This is the only interface to the entities of the system!
+     * 
+     * THIS IS NOT YET IMPLEMENTED. PLEASE REMOVE THIS LINE IF THIS ACTUALLY WORKS.
      * 
      * @param       entity                  The entity that this event concerns (or null if it concerns all entities)
      * @param       event                   The event that you want to trigger within the E/S

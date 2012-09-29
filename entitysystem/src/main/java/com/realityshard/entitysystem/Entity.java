@@ -12,9 +12,11 @@ import java.util.UUID;
  * This interface is used for convienience. The component manager
  * uses it's ID to access its components.
  * 
+ * This will not carry any references to its actual components for now. (Sep.2012)
+ * 
  * @author _rusty
  */
-public interface Entity extends Comparable<Entity>
+public interface Entity
 {
     
     /**
@@ -26,9 +28,21 @@ public interface Entity extends Comparable<Entity>
     
     
     /**
-     * Getter.
+     * Performance:
+     * Use the UUID as an identifier.
      * 
-     * @return      The name of the entity-type (e.g. "Player" or "Mob" or "Signpost" etc.)
+     * @return      The hash code of the uuid.
      */
-    public String getName();
+    @Override
+    public int hashCode();
+    
+    
+    /**
+     * Performance:
+     * Use the UUID as an identifier.
+     * 
+     * @return      True if the UUID's hash code equals that of the given object.
+     */
+    @Override
+    public boolean equals(Object obj);
 }

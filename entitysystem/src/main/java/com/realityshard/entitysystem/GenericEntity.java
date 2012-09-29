@@ -16,7 +16,6 @@ public class GenericEntity implements Entity
 {
     
     private final UUID uuid;
-    private final String name;
     
     
     /**
@@ -26,10 +25,9 @@ public class GenericEntity implements Entity
      * @param       name                    The name of the entity-type 
      *                                      (e.g. "Player" or "Mob" or "Signpost" etc.)
      */
-    public GenericEntity(UUID uuid, String name)
+    public GenericEntity(UUID uuid)
     {
         this.uuid = uuid;
-        this.name = name;
     }
 
     
@@ -43,29 +41,49 @@ public class GenericEntity implements Entity
     {
         return uuid;
     }
+    
+    
+    /**
+     * Performance:
+     * Use the UUID as an identifier.
+     *  
+     * @return      The hash code of the uuid.
+     */
+    @Override
+    public int hashCode()
+    {
+        return this.uuid.hashCode();
+    }
 
     
     /**
-     * Getter.
+     * Performance:
+     * Use the UUID as an identifier.
      * 
-     * @return      The name of the entity-type (e.g. "Player" or "Mob" or "Signpost" etc.)
+     * @return      True if the UUID's equals(obj) returned true.
      */
     @Override
-    public String getName() 
+    public boolean equals(Object obj) 
     {
-        return name;
-    }
-    
-    
-    /**
-     * Check if this is the same entity (if it has the same UUID)
-     * 
-     * @param       entity                  Another entity instance
-     * @return      True if this entities UUID equals the other entities UUID.
-     */
-    @Override
-    public int compareTo(Entity entity)
-    {
-        return this.uuid.compareTo(entity.getUuid());
+        // auto-generated comparison stuff...
+        
+        if (obj == null) 
+        {
+            return false;
+        }
+        
+        if (getClass() != obj.getClass()) 
+        {
+            return false;
+        }
+        
+        final GenericEntity other = (GenericEntity) obj;
+        
+        if (this.uuid != other.uuid && (this.uuid == null || !this.uuid.equals(other.uuid))) 
+        {
+            return false;
+        }
+        
+        return true;
     }
 }
