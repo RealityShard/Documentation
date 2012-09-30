@@ -26,6 +26,14 @@
             <type>jar</type>
         </dependency>
         
+        <!--the EntitySystem-->
+        <dependency>
+            <groupId>com.realityshard</groupId>
+            <artifactId>entitysystem</artifactId>
+            <version>${project.version}</version>
+            <type>jar</type>
+        </dependency>
+        
         <!--the network manager-->
         <dependency>
             <groupId>com.realityshard</groupId>
