@@ -4,8 +4,10 @@
 
 package com.realityshard.container.gameapp.builder;
 
+import com.realityshard.container.DevelopmentEnvironment;
 import com.realityshard.container.NetworkAdapter;
 import com.realityshard.container.gameapp.ContextManager;
+import com.realityshard.container.gameapp.GameAppInfo;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.Build;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildGameAppSchemaFile;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildGameAppStartup;
@@ -13,7 +15,7 @@ import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildNetworkAdapter;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildProtocolSchemaFile;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildProtocols;
-import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildServerConfig;
+import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.DetermineEnvironment;
 import com.realityshard.container.utils.ClassLoaderFactory;
 import com.realityshard.container.utils.ConfigFactory;
 import com.realityshard.container.utils.JaxbUtils;
@@ -44,7 +46,7 @@ import org.xml.sax.SAXException;
  */
 public class ContextManagerFluentBuilder extends ContextManager implements
         BuildNetworkAdapter,
-        BuildServerConfig,
+        DetermineEnvironment,
         BuildProtocolSchemaFile,
         BuildGameAppSchemaFile,
         BuildProtocols,
@@ -85,7 +87,7 @@ public class ContextManagerFluentBuilder extends ContextManager implements
      * @return 
      */
     @Override
-    public BuildServerConfig useAdapter(NetworkAdapter adapter) 
+    public DetermineEnvironment useAdapter(NetworkAdapter adapter) 
     {
         this.adapter = adapter;
         return this;
@@ -93,13 +95,25 @@ public class ContextManagerFluentBuilder extends ContextManager implements
 
     
     /**
-     * Step.
+     * Step. (Choice: Development Environment)
+     * 
+     * @return 
+     */
+    @Override
+    public Build useDevelopmentEnvironment(DevelopmentEnvironment devel)
+    {
+        return this;
+    }
+    
+    
+    /**
+     * Step. (Choice: Production Environment)
      * 
      * @param       config 
      * @return 
      */
     @Override
-    public BuildProtocolSchemaFile useServerConfig(ServerConfig config) 
+    public BuildProtocolSchemaFile useProductionEnvironment(ServerConfig config) 
     {
         this.serverConfig = config;
         return this;
@@ -329,7 +343,7 @@ public class ContextManagerFluentBuilder extends ContextManager implements
 
                         // ok we could parse that DD, so
                         // lets add this game app to our list
-                        gameAppsInfo.add(new ContextManager.GameAppInfo(gameConfig.getAppInfo().getDisplayName(), gameInfPath, gameConfig));
+                        gameAppsInfo.add(new GameAppInfo(gameConfig.getAppInfo().getDisplayName(), gameInfPath, gameConfig));
                         
                         // Also, we might want to log our findings
                         LOGGER.debug("Found a new game app [name: " + gameConfig.getAppInfo().getDisplayName() + "]");

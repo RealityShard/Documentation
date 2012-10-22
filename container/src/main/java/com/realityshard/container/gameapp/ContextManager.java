@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ScheduledExecutorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,37 +40,6 @@ import org.slf4j.LoggerFactory;
  */
 public class ContextManager
 {
-   
-    /**
-     * Used for data storage only, and therefore left uncommented
-     * This class stores data uased to create a game app.
-     * It does not store an already created game app!
-     */
-    protected final class GameAppInfo
-    {
-        private final String name;
-        private final File path;
-        private final GameApp config;
-        
-        public GameAppInfo(String name, File path, GameApp config)
-        {
-            this.name = name;
-            this.path = path;
-            this.config = config;
-        }
-        
-        public GameApp getConfig() { return config; }
-
-        public String getName() { return name; }
-
-        /**
-         * Getter.
-         * 
-         * @return The path to the GAME-INF of this game app
-         */
-        public File getPath() { return path; }
-    }
-    
     
     private final static Logger LOGGER = LoggerFactory.getLogger(ContextManager.class);
     
@@ -108,6 +76,8 @@ public class ContextManager
      * 
      * @param       name                    The name of the game app that we'll try to load
      * @param       additionalParams        Any additional init parameters that will be globally available for the app
+     * @param       parent                  A reference to the Game-App context that acted as a parent (if there is any)
+     * @return      The reference to the newly created Game-App context
      * @throws      Exception               If aynthing went wrong with the creation of the game app
      */
     public GameAppContext createNewGameApp(String name, Map<String, String> additionalParams, ShardletContext parent)

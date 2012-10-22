@@ -4,6 +4,7 @@
 
 package com.realityshard.container.gameapp.builder;
 
+import com.realityshard.container.DevelopmentEnvironment;
 import com.realityshard.container.NetworkAdapter;
 import com.realityshard.container.gameapp.ContextManager;
 import com.realityshard.schemas.serverconfig.ServerConfig;
@@ -25,16 +26,24 @@ public interface ContextManagerBuildDescriptors
      */
     public interface BuildNetworkAdapter
     {
-        public BuildServerConfig useAdapter(NetworkAdapter adapter);
+        public DetermineEnvironment useAdapter(NetworkAdapter adapter);
     }
     
     
     /**
-     * Build step: set server config
+     * Build step: 
+     * setup development environment
+     * or set server config of the production environment
+     * 
+     * Note:
+     * The development env was introduced to be able to run the container 
+     * without the need of deploying class files. 
+     * This feature should not be used within the final remote server environment.
      */
-    public interface BuildServerConfig
+    public interface DetermineEnvironment
     {
-        public BuildProtocolSchemaFile useServerConfig(ServerConfig config);
+        public Build useDevelopmentEnvironment(DevelopmentEnvironment devel);
+        public BuildProtocolSchemaFile useProductionEnvironment(ServerConfig config);
     }
     
     

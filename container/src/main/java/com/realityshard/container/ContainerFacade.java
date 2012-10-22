@@ -45,15 +45,17 @@ public final class ContainerFacade
     private final static Logger LOGGER = LoggerFactory.getLogger(ContainerFacade.class);
     
     private final NetworkLayer network;
-    
     private final ScheduledExecutorService executor;
-    private final ContextManager contextManager;
-    
     private final Map<UUID, GameSession> sessions;
+    
+    private ContextManager contextManager;
     
     
     /**
      * Constructor.
+     * This constructor should be used when running the container as its own
+     * application, using dynamic class loading and depending on the deployment
+     * off class files.
      * 
      * @param       network                 The network manager of this application
      * @param       configPath              The path to the server config file
@@ -64,19 +66,16 @@ public final class ContainerFacade
      * @throws      Exception               If there was any fatal error that keeps this
      *                                      container from being able to be executed
      */
-    public ContainerFacade(NetworkLayer network, File configPath, File schemaPath, File protocolsPath, File gameAppsPath) 
+    public ContainerFacade(
+            NetworkLayer network, 
+            File configPath, 
+            File schemaPath, 
+            File protocolsPath, 
+            File gameAppsPath) 
             throws Exception
     {
-        // the network manager will handle the networking stuff,
-        // like sending and recieving data.
-        this.network = network;
-        this.network.setPacketHandler(this);
-        
-        // the executor is responsible for multithreading of this server
-        // every internal event listener below will automatically be running parallel
-        // depending on the executors decision, because when an event is triggered,
-        // the event-aggregator will direct the event-handler invocations to the executor
-        this.executor = GlobalExecutor.get();
+        // execute the common constructor
+        this(network);
         
         // try to load the server config
         // as this is usually where the most errors come from,
@@ -99,7 +98,7 @@ public final class ContainerFacade
         contextManager = ContextManagerFluentBuilder
                 .start()
                 .useAdapter(this)          // can this be avoided?
-                .useServerConfig(serverConfig)
+                .useProductionEnvironment(serverConfig)
                 .useProtocolSchema(concreteProtocolSchema)
                 .useGameAppSchema(concreteGameAppSchema)
                 .setupProtocolsFromPath(protocolsPath)
@@ -107,10 +106,52 @@ public final class ContainerFacade
                 .startupGameApps()
                 .build();
 
-        
-        sessions = new ConcurrentHashMap<>();
         // we'r done now. relax and wait for stuff coming from outside or
         // from the shardlets
+    }
+    
+    
+    /**
+     * Constructor.
+     * This constructor should be used when running the container within the development
+     * environment of a game app. Some features may be disabled or left uninitialized
+     * (If the latter part seems to happen, please report it)
+     * 
+     * @param       network                 The network manager of this application
+     * @param       devel                   The development environment class. This
+     *                                      is used as a data holder for the protocols
+     *                                      and Game-Apps that would normally be deployed
+     *                                      within the folder-structure of R:S.
+     */
+    public ContainerFacade(NetworkLayer network, DevelopmentEnvironment devel)
+    {
+        // execute the common constructor
+        this(network);
+        
+        // TODO: needs to be implemented.
+    }
+    
+    
+    /**
+     * Constructor.
+     * This is executed by all constructors.
+     * 
+     * @param       network                 The network manager of this application
+     */
+    private ContainerFacade(NetworkLayer network)
+    {
+        // the network manager will handle the networking stuff,
+        // like sending and recieving data.
+        this.network = network;
+        this.network.setPacketHandler(this);
+        
+        // the executor is responsible for multithreading of this server
+        // every internal event listener below will automatically be running parallel
+        // depending on the executors decision, because when an event is triggered,
+        // the event-aggregator will direct the event-handler invocations to the executor
+        this.executor = GlobalExecutor.get();
+        
+        this.sessions = new ConcurrentHashMap<>();
     }
     
     
