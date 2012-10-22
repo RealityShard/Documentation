@@ -48,4 +48,17 @@ public interface Shardlet
      * Called by the container when the shardlet is destroyed/disposed
      */
     public void destroy();
+    
+    
+    /**
+     * Called by the development-environment, when not using dynamic
+     * Shardlet creation. (Meaning when using hardcoded classes instead of
+     * dynamically loaded java class files, within the context of the
+     * development environment)
+     * 
+     * @return      A clone of this shardlet. The clone does not need to be
+     *              initialized. You can expect the container to call init() on
+     *              the clone again.
+     */
+    public Shardlet clone();
 }

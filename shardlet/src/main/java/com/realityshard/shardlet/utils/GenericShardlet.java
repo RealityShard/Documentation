@@ -42,6 +42,19 @@ public abstract  class GenericShardlet implements Shardlet, ConfigShardlet
     
     
     /**
+     * Called when this is used within the development environment.
+     */
+    @Override
+    public Shardlet clone()
+    {
+        // yep, this is actually needed, because we specified it within the
+        // interface (which was done because interfaces in general dont 
+        // specify "clone()" ... w/e)
+        return this.clone();
+    }
+    
+    
+    /**
      * Extracts the event-aggregator from the context.
      * 
      * When using this class, make sure to override the init() method,
