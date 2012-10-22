@@ -90,6 +90,19 @@ public class ConfigFactory implements
     
     
     /**
+     * Factory method. (Choice)
+     * 
+     * @param       name                    Name of the filter
+     * @param       params                  InitParams of the filter
+     * @return      The config 
+     */
+    public static ConfigProtocolFilter produceConfigProtocolFilter(String name, Map<String, String> params)
+    {
+        return new ConfigFactory(name, null, params);
+    }
+    
+    
+    /**
      * Factory method.
      * 
      * @param       name                    Name of the shardlet
