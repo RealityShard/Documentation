@@ -124,11 +124,22 @@ public final class ContainerFacade
      *                                      within the folder-structure of R:S.
      */
     public ContainerFacade(NetworkLayer network, DevelopmentEnvironment devel)
+            throws Exception
     {
         // execute the common constructor
         this(network);
         
-        // TODO: needs to be implemented.
+        // ok, next we simply create the context manager using
+        // the development environment in a certain build step...
+        contextManager = ContextManagerFluentBuilder
+                .start()
+                .useAdapter(this)          // can this be avoided?
+                .useDevelopmentEnvironment(devel)
+                .startupGameApps()
+                .build();
+        
+        // yes this is it. we'r done as the development stuff simplifies
+        // a lot of steps.
     }
     
     

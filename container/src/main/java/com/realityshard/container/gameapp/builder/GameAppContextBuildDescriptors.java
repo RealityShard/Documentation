@@ -6,6 +6,7 @@ package com.realityshard.container.gameapp.builder;
 
 import com.realityshard.container.gameapp.ContextManager;
 import com.realityshard.container.gameapp.GameAppContext;
+import com.realityshard.container.utils.ConfigFactory;
 import com.realityshard.container.utils.Pacemaker;
 import com.realityshard.schemas.gameapp.AppInfo;
 import com.realityshard.schemas.gameapp.InitParam;
@@ -105,6 +106,7 @@ public interface GameAppContextBuildDescriptors
     {
         public BuildShardlets useInitParams(List<InitParam> mandatoryParams);
         public BuildShardlets useInitParams(List<InitParam> mandatoryParams, Map<String, String> additionalParams);
+        public BuildShardlets useInitParams(Map<String, String> mandatoryParams, Map<String, String> additionalParams);
     }
     
     
@@ -118,7 +120,7 @@ public interface GameAppContextBuildDescriptors
                 InstantiationException,
                 IllegalAccessException,
                 Exception;
-        public Build useShardlets(Shardlet[] shardlets);
+        public Build useShardlets(Map<Shardlet, ConfigFactory.DataContainer> shardlets);
     }
     
     

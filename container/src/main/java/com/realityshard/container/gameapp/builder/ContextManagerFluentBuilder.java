@@ -7,7 +7,8 @@ package com.realityshard.container.gameapp.builder;
 import com.realityshard.container.DevelopmentEnvironment;
 import com.realityshard.container.NetworkAdapter;
 import com.realityshard.container.gameapp.ContextManager;
-import com.realityshard.container.gameapp.GameAppInfo;
+import com.realityshard.container.gameapp.GameAppFactory;
+import com.realityshard.container.gameapp.GameAppFactoryProdEnv;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.Build;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildGameAppSchemaFile;
 import com.realityshard.container.gameapp.builder.ContextManagerBuildDescriptors.BuildGameAppStartup;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
 import javax.xml.bind.JAXBException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,11 +99,45 @@ public class ContextManagerFluentBuilder extends ContextManager implements
     /**
      * Step. (Choice: Development Environment)
      * 
+     * @param       devel 
      * @return 
      */
     @Override
-    public Build useDevelopmentEnvironment(DevelopmentEnvironment devel)
+    public BuildGameAppStartup useDevelopmentEnvironment(DevelopmentEnvironment devel)
     {
+        // add the protocols
+        for (DevelopmentEnvironment.ProtocolDataContainer protCont : devel.getProtocolDataContainers()) 
+        {
+            // lets create the protocolchain:
+            // note that we have a mapping for ProtocolName -> ProtocolChain
+            this.protocols.put(protCont.getName(), new ProtocolChain(protCont.getInFilters(), protCont.getOutfilters()));
+            
+            // CAUTION! DONT FORGET TO REGISTER THE PROTOCOLS WITH THE NETWORK ADAPTER:
+            try 
+            {
+                adapter.tryCreateProtocolListener(protCont.getName(), protCont.getPort());
+            } 
+            catch (IOException ex) 
+            {
+                LOGGER.error("Failed to register a protocol with the network adapter [name: " + protCont.getName() + " | port: " + protCont.getPort() + "]", ex);
+            }
+
+            // Also, we might want to log our findings
+            LOGGER.debug("Found a new protocol [name: " + protCont.getName() + " | port: " + protCont.getPort() + "]");
+        }
+        
+        // add the game apps
+        for (GameAppFactory gAFactory : devel.getGameAppFactories()) 
+        {
+            // ok we could parse that DD, so
+            // lets add this game app to our list
+            gameAppFactories.add(gAFactory);
+
+            // Also, we might want to log our findings
+            LOGGER.debug("Found a new game app [name: " + gAFactory.getName() + "]");
+        }
+        
+        // yes, we are skipping a -few- steps with this method ;D
         return this;
     }
     
@@ -343,7 +379,7 @@ public class ContextManagerFluentBuilder extends ContextManager implements
 
                         // ok we could parse that DD, so
                         // lets add this game app to our list
-                        gameAppsInfo.add(new GameAppInfo(gameConfig.getAppInfo().getDisplayName(), gameInfPath, gameConfig));
+                        gameAppFactories.add(new GameAppFactoryProdEnv(gameConfig.getAppInfo().getDisplayName(), gameInfPath, gameConfig));
                         
                         // Also, we might want to log our findings
                         LOGGER.debug("Found a new game app [name: " + gameConfig.getAppInfo().getDisplayName() + "]");
@@ -374,16 +410,16 @@ public class ContextManagerFluentBuilder extends ContextManager implements
         // ok, we've added all game app infos now
         // its time to start those game apps that contain the
         // startup option
-        for (GameAppInfo gameAppInfo : gameAppsInfo) 
+        for (GameAppFactory gameAppFactory : gameAppFactories) 
         {
-            if (gameAppInfo.getConfig().getAppInfo().getStartup() != Start.WHEN_CONTAINER_STARTUP_FINISHED)
+            if (!gameAppFactory.isStartup())
             {
                 continue;
             }
             
             // we've inherited a nice method for starting game apps, so lets use that instead of 
             // creating redundant stuff here.
-            createNewGameApp(gameAppInfo.getName(), new HashMap<String, String>(), null);
+            createNewGameApp(gameAppFactory.getName(), new HashMap<String, String>(), null);
         }
         
         // we'r done, return the updated object

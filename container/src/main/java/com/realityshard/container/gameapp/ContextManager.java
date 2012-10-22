@@ -48,7 +48,7 @@ public class ContextManager
     protected File protocolSchema;
     protected File gameAppSchema;
     
-    protected List<GameAppInfo> gameAppsInfo;
+    protected List<GameAppFactory> gameAppFactories;
     
     protected ServerConfig serverConfig = null;
     
@@ -64,7 +64,7 @@ public class ContextManager
      */
     protected ContextManager() 
     {
-        gameAppsInfo = new ArrayList<>();
+        gameAppFactories = new ArrayList<>();
         gameAppGeneral = new ArrayList<>();
         gameAppBySession = new ConcurrentHashMap<>();
     }
@@ -84,45 +84,26 @@ public class ContextManager
             throws Exception
     {
         // lets try to find the app with the "name"
-        for (GameAppInfo gameAppInfo : gameAppsInfo) 
+        for (GameAppFactory gameAppFactory : gameAppFactories) 
         {
             // skip this app if it hasnt the right name
-            if (!gameAppInfo.getName().equals(name))
+            if (!gameAppFactory.getName().equals(name))
             {
                 continue;
             }
             
             try 
             {
-                // we need to create a new setClassloader for it first
-                // because the class loader depends on the path to the classes that it needs to load
-                // so we create a new one with the path to our game app
-                ClassLoader cl = ClassLoaderFactory.produceGameAppClassLoader(gameAppInfo.getPath(), ClassLoader.getSystemClassLoader());
-
-                // now lets create the context
-                // we need the config first...
-                GameApp gaConf = gameAppInfo.getConfig();
-                // ...so that we can keep this clean:
-                // although it still is quite verbose
-                GameAppContext context = GameAppContextFluentBuilder
-                        .start()
-                        .useManager(this)
-                        .useAggregator(new ConcurrentEventAggregator())
-                        .useClassloader(cl)
-                        .useName(gaConf.getAppInfo().getDisplayName())
-                        .useDescription(gaConf.getAppInfo().getDescription())
-                        .useHeartBeat(gaConf.getAppInfo().getHeartBeat().intValue())
-                        .useInitParams(gaConf.getAppInfo().getInitParam(), additionalParams)
-                        .useShardlets(gaConf.getShardlet())
-                        .build();
+                // let the factory do its work...
+                GameAppContext context = gameAppFactory.produceGameApp(this, additionalParams);
 
                 // add the context to our general context list
                 // because we do not yet know it's sessions
                 gameAppGeneral.add(context);
                 
                 // let the game app know that it's been started and initialized
-                // note that this could also be done by the fluent builder...
-                // but as this is the place where we create the game app, we'll simply add it here
+                // note that this could also be done by the fluent builder, but
+                // as this is the place where we create the game app, we'll simply add it here
                 context.handleIncomingAction(new GameAppCreatedEvent(parent));
                 
                 // log that we'r staring a game app

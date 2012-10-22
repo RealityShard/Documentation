@@ -20,6 +20,29 @@ public class ConfigFactory implements
         ConfigProtocolFilter
 {
     
+    /**
+     * This class is used as a dataholder when creating a new config.
+     */
+    public static class DataContainer
+    {
+        private final String name;
+        private final Map<String, String> params;
+        
+        public DataContainer(String name, Map<String, String> params)
+        {
+            this.name = name;
+            this.params = params;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Map<String, String> getParams() {
+            return params;
+        }
+    }
+    
     private final String name;
     private final Map<String, String> initParams;
     private final ShardletContext context;
@@ -87,6 +110,24 @@ public class ConfigFactory implements
         }
         
         return new ConfigFactory(name, context, tmp);
+    }
+    
+    
+    /**
+     * Factory method. (Choice)
+     * 
+     * @param       cont                    The data holder for name and init params
+     * @param       context                 The context of this shardlet
+     * @return      The config. 
+     */
+    public static ConfigShardlet produceConfigShardlet(ShardletContext context, DataContainer cont)
+    {
+        // try to add the init parameters
+        Map<String, String> tmp = new HashMap<>();
+        
+        tmp.putAll(cont.getParams());
+        
+        return new ConfigFactory(cont.getName(), context, tmp);
     }
 
     

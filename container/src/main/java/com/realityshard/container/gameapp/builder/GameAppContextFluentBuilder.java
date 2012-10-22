@@ -29,6 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -49,6 +51,9 @@ public final class GameAppContextFluentBuilder extends GameAppContext implements
         Build
 {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(GameAppContext.class);
+    
+    
     /**
      * Constructor.
      */
@@ -228,6 +233,30 @@ public final class GameAppContextFluentBuilder extends GameAppContext implements
         // we'r done, return the updated object
         return this;
     }
+    
+    
+    /**
+     * Step. (Choice)
+     * 
+     * @param       mandatoryParams 
+     * @param       additionalParams
+     * @return 
+     */
+    @Override
+    public BuildShardlets useInitParams(Map<String, String> mandatoryParams, Map<String, String> additionalParams) 
+    {
+        // create a new map so we can mess with it
+        initParams = new HashMap<>();
+        
+        // add the additional stuff first
+        initParams.putAll(additionalParams);
+        
+        // then add the mandatory 
+        initParams.putAll(mandatoryParams);
+        
+        // we'r done, return the updated object
+        return this;
+    }
 
  
     /**
@@ -295,10 +324,27 @@ public final class GameAppContextFluentBuilder extends GameAppContext implements
      * @return 
      */
     @Override
-    public Build useShardlets(Shardlet[] shardlets) 
+    public Build useShardlets(Map<Shardlet, ConfigFactory.DataContainer> shardlets) 
     {
-        for (Shardlet shardlet : shardlets) 
+        for (Map.Entry<Shardlet, ConfigFactory.DataContainer> entry : shardlets.entrySet()) 
         {
+            // just for convenience
+            Shardlet shardlet = entry.getKey();
+            ConfigFactory.DataContainer container = entry.getValue();
+            
+            // create a new generic config 
+            ConfigShardlet shardletConf = ConfigFactory.produceConfigShardlet(this, container);
+            
+            // finally initialize the shardlet
+            try 
+            {
+                shardlet.init(shardletConf);
+            } 
+            catch (Exception ex) 
+            {
+                LOGGER.error("Failed to initialize a shardlet.", ex);
+            }
+            
             // add it to our list
             this.shardlets.add(shardlet);
 

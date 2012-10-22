@@ -42,7 +42,7 @@ public interface ContextManagerBuildDescriptors
      */
     public interface DetermineEnvironment
     {
-        public Build useDevelopmentEnvironment(DevelopmentEnvironment devel);
+        public BuildGameAppStartup useDevelopmentEnvironment(DevelopmentEnvironment devel);
         public BuildProtocolSchemaFile useProductionEnvironment(ServerConfig config);
     }
     
