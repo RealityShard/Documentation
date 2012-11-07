@@ -365,6 +365,10 @@ public final class GameAppContextFluentBuilder extends GameAppContext implements
     public GameAppContext build() 
     {
         // TODO: check if we got some cleanup to do here
+
+        // i figured we should also start the pacemaker, all shardlets and stuff should be ready by now
+        this.pacemaker.start();
+
         return this;
     }
 }
