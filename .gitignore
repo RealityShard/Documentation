@@ -5,6 +5,9 @@
 *.lock
 *.out
 *.swp
+*.jar
+*.war
+*.ear
 .directory
 .project
 

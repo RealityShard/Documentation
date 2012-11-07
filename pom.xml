@@ -1,30 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.realityshard</groupId>
     <artifactId>reality-shard</artifactId>
     <version>0.1.1</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
-    
-    
+
+
     <description>Reality:Shard is a container for online game-servers that comes with a javax.servlets styled API and an Attribute/Behaviour based Entity-System.</description>
     <url>http://github.com/rusty-gr/Reality-Shard</url>
     <inceptionYear>2012</inceptionYear>
-    <organization>
-        <name>Game Revision</name>
-        <url>http://www.gamerevision.com</url>
-    </organization>
-    
-    
+
+
     <modules>
-        <module>shardlet</module>
-        <module>entitysystem</module>
         <module>schemas</module>
         <module>network</module>
         <module>container</module>
-        <module>host</module>
     </modules>
 
 
@@ -35,9 +28,16 @@
         <java.optimize>true</java.optimize>
         <java.verbose>true</java.verbose>
     </properties>
-    
-    
+
+
     <dependencies>
+        <!--the Shardlet API-->
+        <dependency>
+            <groupId>com.realityshard</groupId>
+            <artifactId>shardlet</artifactId>
+            <version>0.1.1</version>
+        </dependency>
+
         <!-- JUnit for testing -->
         <dependency>
             <groupId>junit</groupId>
@@ -45,7 +45,7 @@
             <version>4.8.2</version>
             <scope>test</scope>
         </dependency>
-        
+
         <!-- LOGBack for logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -87,4 +87,4 @@
         </plugins>
     </build>
 
-</project> 
+</project>
