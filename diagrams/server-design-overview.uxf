@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="11.5.1">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>680</x>
+      <y>530</y>
+      <w>180</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>bg=blue
+ContainerFacade</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>680</x>
+      <y>810</y>
+      <w>180</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>bg=orange
+NetworkFacade</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>980</x>
+      <y>440</y>
+      <w>180</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>bg=red
+ProtocolChain</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>680</x>
+      <y>440</y>
+      <w>180</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>bg=pink
+GameSession</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>530</x>
+      <y>330</y>
+      <w>180</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>bg=cyan
+GameAppContext</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>740</x>
+      <y>660</y>
+      <w>50</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-&gt;</panel_attributes>
+    <additional_attributes>30;80;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>680</x>
+      <y>740</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>bg=yellow
+&lt;&lt;interface&gt;&gt;
+NetworkLayer</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>740</x>
+      <y>760</y>
+      <w>50</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>30;30;30;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>680</x>
+      <y>640</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>bg=yellow
+&lt;&lt;interface&gt;&gt;
+ApplicationLayer</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>740</x>
+      <y>530</y>
+      <w>50</w>
+      <h>130</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>30;110;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>680</x>
+      <y>860</y>
+      <w>180</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>bg=orange
+MinaNetworkManager</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>740</x>
+      <y>810</y>
+      <w>50</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>30;50;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>610</x>
+      <y>600</y>
+      <w>510</w>
+      <h>320</h>
+    </coordinates>
+    <panel_attributes>network</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>670</x>
+      <y>440</y>
+      <w>108</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+receive
+Action</panel_attributes>
+    <additional_attributes>60;30;60;90</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>830</x>
+      <y>400</y>
+      <w>170</w>
+      <h>94</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-&gt;
+filter
+in/out</panel_attributes>
+    <additional_attributes>150;50;30;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>530</x>
+      <y>220</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>bg=green
+&lt;&lt;interface&gt;&gt;
+Shardlet</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>590</x>
+      <y>240</y>
+      <w>50</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=  *</panel_attributes>
+    <additional_attributes>30;30;30;60;30;90</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>680</x>
+      <y>210</y>
+      <w>172</w>
+      <h>250</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+send
+Action</panel_attributes>
+    <additional_attributes>130;230;130;170;130;30;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>670</x>
+      <y>310</y>
+      <w>104</w>
+      <h>150</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+ 
+ 
+handle
+Action</panel_attributes>
+    <additional_attributes>40;30;60;30;60;60;60;130</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Package</type>
+    <coordinates>
+      <x>460</x>
+      <y>180</y>
+      <w>770</w>
+      <h>400</h>
+    </coordinates>
+    <panel_attributes>container</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>780</x>
+      <y>440</y>
+      <w>150</w>
+      <h>320</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>30;30;30;60;130;60;130;300</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>880</x>
+      <y>740</y>
+      <w>180</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>bg=yellow
+&lt;&lt;interface&gt;&gt;
+NetworkSession</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>880</x>
+      <y>860</y>
+      <w>180</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>bg=orange
+MinaSessionAdapter</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>940</x>
+      <y>760</y>
+      <w>50</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>30;100;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>520</x>
+      <y>330</y>
+      <w>180</w>
+      <h>230</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+creates</panel_attributes>
+    <additional_attributes>60;30;60;90;60;210;160;210</additional_attributes>
+  </element>
+</diagram>
