@@ -1,5 +1,7 @@
 The developers guide: How to setup your dev-environment
-_Hint: I'm using Linux for this, if you've found out how to setup the project on another OS, pls add it below._
+
+_This will soon be updated._
+
 
 # The Linux guide:
 
