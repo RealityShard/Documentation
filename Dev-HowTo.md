@@ -19,11 +19,7 @@ _... and as usual: patience_
 
 2. Most of our project (the core ones) do employ the git-flow workflow - Read this: https://github.com/diaspora/diaspora/wiki/Git-Workflow (this is diaspora specific stuff, but it does cover the basics quite well)
 
-3. Maven may be new to you and imo you don't need to know it that well, because it's just a tool useful for managing the project. Yet, if you want to use its features, assure the following:
-
-   3.1. Java needs to be on your "PATH" for Maven to find it. Follow http://www.cyberciti.biz/faq/linux-unix-set-java_home-path-variable/ to do so
-
-   3.2. Do the same for "M2_HOME=/usr/maven/apache-maven-2.2.1" where M2_HOME points to the location of your extracted Maven download. Also add M2_HOME to your PATH variable.
+3. Maven may be new to you and imo you don't need to know it that well, because it's just a tool useful for managing the project. Yet, if you want to use its features, assure the following: http://stackoverflow.com/questions/5755137/maven-3-installation
 
 4. Set your IDE to work with your previously downloaded (and installed :D) JDK 1.7
 
